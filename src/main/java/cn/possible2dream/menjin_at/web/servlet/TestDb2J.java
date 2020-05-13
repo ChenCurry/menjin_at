@@ -14,6 +14,9 @@ public class TestDb2J extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.setCharacterEncoding("UTF-8");
+        response.setCharacterEncoding("UTF-8");
+        response.setHeader("Content-type", "text/html;charset=UTF-8");
         /*
 		System.out.println("request.getCharacterEncoding()"+"==="+request.getCharacterEncoding());
 		System.out.println("request.getContextPath()"+"==="+request.getContextPath());
@@ -33,11 +36,16 @@ public class TestDb2J extends HttpServlet {
             //String str2 = request.getParameter("SC_InOutStatus");
             //System.out.println((str1==null?"未知人员":str1)+"."+(str2!=null?(str2.equals("201")?"出来了.":"进去了."):"未知进出信息."));
             System.out.println((str1==null?"未知人员":str1));
+            response.getWriter().println(192);
         }else{
             System.out.println("非法访问.");
+            response.getWriter().println("非法访问.");
         }
 
-        //     http://172.30.34.126:8080/TestDb2J?SC_SerierNO=192
-
+        //      ?SC_SerierNO=192  本机用IP访问会执行两遍，用localhost正常
+        //http://172.30.34.126:8080/menjin_at/servlet/TestDb2J
+        //http://172.30.34.126:8080/menjin_at/TestDb2J
+        //http://172.30.34.126:8080/TestDb2J
+        //http://172.30.34.126:8080/servlet/TestDb2J
     }
 }
