@@ -1,4 +1,4 @@
-package cn.possible2dream.menjin_at.web;
+package cn.possible2dream.menjin_at.web.servlet;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -26,22 +26,18 @@ public class TestDb2J extends HttpServlet {
 		System.out.println("request.getServletPath()"+"==="+request.getServletPath());
 		 */
         //System.out.println("request.getRemoteAddr()"+"==="+request.getRemoteAddr());
-//        if("172.30.47.14".equals(request.getRemoteAddr())){
-//
-//        }else{
-//            //System.out.println("非法访问.");
-//        }
 
+        if("172.30.47.14".equals(request.getRemoteAddr())){
+            //String str = request.getParameter("SC_Name");
+            String str1 = request.getParameter("SC_SerierNO");
+            //String str2 = request.getParameter("SC_InOutStatus");
+            //System.out.println((str1==null?"未知人员":str1)+"."+(str2!=null?(str2.equals("201")?"出来了.":"进去了."):"未知进出信息."));
+            System.out.println((str1==null?"未知人员":str1));
+        }else{
+            System.out.println("非法访问.");
+        }
 
-        //http://localhost:8080/menjin_at/TestDb2J?SC_SerierNO=192
-
-
-        //String str = request.getParameter("SC_Name");
-        String str1 = request.getParameter("SC_SerierNO");
-        //String str2 = request.getParameter("SC_InOutStatus");
-        //System.out.println((str1==null?"未知人员":str1)+"."+(str2!=null?(str2.equals("201")?"出来了.":"进去了."):"未知进出信息."));
-        System.out.println((str1==null?"未知人员":str1));
-
+        //     http://172.30.34.126:8080/TestDb2J?SC_SerierNO=192
 
     }
 }

@@ -22,7 +22,7 @@ public class DbUtil {
         Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
         //3.操作数据库，实现增删改查
         Statement stmt = conn.createStatement();
-        ResultSet rs = stmt.executeQuery("SELECT SC_CardGuidNO FROM dbo.SC_AccessRecord");
+        ResultSet rs = stmt.executeQuery("SELECT top 10 SC_CardGuidNO FROM dbo.SC_AccessRecord where 1=1 order by SC_SerierNO desc");
         //如果有数据，rs.next()返回true
         while(rs.next()){
             System.out.println("卡号："+rs.getString("SC_CardGuidNO"));
