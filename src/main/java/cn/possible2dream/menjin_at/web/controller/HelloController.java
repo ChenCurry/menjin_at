@@ -1,4 +1,4 @@
-package cn.possible2dream.menjin_at.controller;
+package cn.possible2dream.menjin_at.web.controller;
 
 
 import org.springframework.web.bind.annotation.RequestMapping;
