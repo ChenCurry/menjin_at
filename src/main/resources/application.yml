@@ -2,6 +2,7 @@ server:
   port: 8080
   servlet:
     context-path: /menjin_at
+    #指定项目名称，即访问路径
 spring:
   http:
     encoding:

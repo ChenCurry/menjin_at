@@ -24,7 +24,7 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
-            <!-- 嘗試解決打war包后tomcat訪問404問題
+            <!-- 选择不将内置的tomcat一起打包
             <exclusions>
                 <exclusion>
                     <groupId>org.springframework.boot</groupId>
@@ -34,13 +34,13 @@
             -->
         </dependency>
 
-        <!--嘗試解決打war包后tomcat訪問404問題
+        <!--选择不将内置的tomcat一起打包
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-tomcat</artifactId>
             <scope>provided</scope>
-        </dependency>
-        -->
+        </dependency>-->
+
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -105,6 +105,14 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-thymeleaf</artifactId>
+        </dependency>
+
+        <!-- web资源也可以通过webjars的形式放到项目中来了
+         访问方式http://localhost:8080/menjin_at/webjars/jquery/3.5.1/jquery.js-->
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>jquery</artifactId>
+            <version>3.5.1</version>
         </dependency>
 
     </dependencies>
