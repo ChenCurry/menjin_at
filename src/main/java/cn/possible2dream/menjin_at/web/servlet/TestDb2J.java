@@ -43,9 +43,7 @@ public class TestDb2J extends HttpServlet {
         }
 
         //      ?SC_SerierNO=192  本机用IP访问会执行两遍，用localhost正常
-        //http://172.30.34.126:8080/menjin_at/servlet/TestDb2J
+        //http://localhost:8080/menjin_at/TestDb2J
         //http://172.30.34.126:8080/menjin_at/TestDb2J
-        //http://172.30.34.126:8080/TestDb2J
-        //http://172.30.34.126:8080/servlet/TestDb2J
     }
 }
