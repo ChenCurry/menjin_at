@@ -22,6 +22,10 @@ import java.util.concurrent.ConcurrentHashMap;
  * WebSocketServer
  * @author zhengkai.blog.csdn.net
  */
+
+    //http://localhost:8080/menjin_at/websocket.html
+    //ws://localhost:8080/menjin_at/imserver/10
+
 @ServerEndpoint("/imserver/{userId}")
 @Component
 public class WebSocketServer {
