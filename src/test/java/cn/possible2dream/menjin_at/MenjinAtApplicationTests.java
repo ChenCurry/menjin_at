@@ -8,6 +8,7 @@ class MenjinAtApplicationTests {
 
     @Test
     void contextLoads() {
+
     }
 
 }
