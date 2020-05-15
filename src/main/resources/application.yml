@@ -12,7 +12,6 @@ spring:
     name: spring-cloud-study-websocket-reids
   freemarker:
     request-context-attribute: request
-    #prefix: /templates/
     suffix: .html
     content-type: text/html
     enabled: true
@@ -22,7 +21,6 @@ spring:
     expose-request-attributes: true
     expose-session-attributes: true
     expose-spring-macro-helpers: true
-#    template-loader-path: classpath:/templates/
   resources:
     static-locations: classpath:templates/
 mybatis:
