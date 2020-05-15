@@ -25,3 +25,7 @@ spring:
 #    template-loader-path: classpath:/templates/
   resources:
     static-locations: classpath:templates/
+
+mybatis:
+  typeAliasesPackage: cn.possible2dream.menjin_at.entity
+  mapperLocations: classpath:mapper/*.xml

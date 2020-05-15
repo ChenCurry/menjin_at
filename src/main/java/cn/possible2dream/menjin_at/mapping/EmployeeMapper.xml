@@ -1,0 +1,363 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.possible2dream.menjin_at.dao.EmployeeMapper" >
+  <resultMap id="BaseResultMap" type="cn.possible2dream.menjin_at.entity.Employee" >
+    <id column="SC_WorkerNO" property="scWorkerno" jdbcType="NVARCHAR" />
+    <result column="SC_EmpNO" property="scEmpno" jdbcType="BIGINT" />
+    <result column="SC_SerierNO" property="scSerierno" jdbcType="BIGINT" />
+    <result column="SC_AccountNO" property="scAccountno" jdbcType="BIGINT" />
+    <result column="SC_Name" property="scName" jdbcType="NVARCHAR" />
+    <result column="SC_SexID" property="scSexid" jdbcType="TINYINT" />
+    <result column="SC_MobileNO" property="scMobileno" jdbcType="NVARCHAR" />
+    <result column="SC_OfficeTelNO" property="scOfficetelno" jdbcType="NVARCHAR" />
+    <result column="SC_ActualAddr" property="scActualaddr" jdbcType="NVARCHAR" />
+    <result column="SC_RegisterAddr" property="scRegisteraddr" jdbcType="NVARCHAR" />
+    <result column="SC_Birthday" property="scBirthday" jdbcType="TIMESTAMP" />
+    <result column="SC_IDTypeID" property="scIdtypeid" jdbcType="INTEGER" />
+    <result column="SC_IDNO" property="scIdno" jdbcType="NVARCHAR" />
+    <result column="SC_NativeID" property="scNativeid" jdbcType="NVARCHAR" />
+    <result column="SC_PoliticsStatusID" property="scPoliticsstatusid" jdbcType="INTEGER" />
+    <result column="SC_WorkerTypeID" property="scWorkertypeid" jdbcType="INTEGER" />
+    <result column="SC_JobTypeID" property="scJobtypeid" jdbcType="INTEGER" />
+    <result column="SC_DepartmentID" property="scDepartmentid" jdbcType="INTEGER" />
+    <result column="SC_WorkerStatusID" property="scWorkerstatusid" jdbcType="INTEGER" />
+    <result column="SC_CardStatusID" property="scCardstatusid" jdbcType="INTEGER" />
+    <result column="SC_WorkBeginTime" property="scWorkbegintime" jdbcType="TIMESTAMP" />
+    <result column="SC_WorkEndTime" property="scWorkendtime" jdbcType="TIMESTAMP" />
+    <result column="SC_Power" property="scPower" jdbcType="INTEGER" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="cn.possible2dream.menjin_at.entity.EmployeeWithBLOBs" extends="BaseResultMap" >
+    <result column="SC_Photo" property="scPhoto" jdbcType="LONGVARBINARY" />
+    <result column="SC_TimeStamp" property="scTimestamp" jdbcType="BINARY" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    SC_WorkerNO, SC_EmpNO, SC_SerierNO, SC_AccountNO, SC_Name, SC_SexID, SC_MobileNO, 
+    SC_OfficeTelNO, SC_ActualAddr, SC_RegisterAddr, SC_Birthday, SC_IDTypeID, SC_IDNO, 
+    SC_NativeID, SC_PoliticsStatusID, SC_WorkerTypeID, SC_JobTypeID, SC_DepartmentID, 
+    SC_WorkerStatusID, SC_CardStatusID, SC_WorkBeginTime, SC_WorkEndTime, SC_Power
+  </sql>
+  <sql id="Blob_Column_List" >
+    SC_Photo, SC_TimeStamp
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from SC_Employee
+    where SC_WorkerNO = #{scWorkerno,jdbcType=NVARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from SC_Employee
+    where SC_WorkerNO = #{scWorkerno,jdbcType=NVARCHAR}
+  </delete>
+  <insert id="insert" parameterType="cn.possible2dream.menjin_at.entity.EmployeeWithBLOBs" >
+    insert into SC_Employee (SC_WorkerNO, SC_EmpNO, SC_SerierNO, 
+      SC_AccountNO, SC_Name, SC_SexID, 
+      SC_MobileNO, SC_OfficeTelNO, SC_ActualAddr, 
+      SC_RegisterAddr, SC_Birthday, SC_IDTypeID, 
+      SC_IDNO, SC_NativeID, SC_PoliticsStatusID, 
+      SC_WorkerTypeID, SC_JobTypeID, SC_DepartmentID, 
+      SC_WorkerStatusID, SC_CardStatusID, SC_WorkBeginTime, 
+      SC_WorkEndTime, SC_Power, SC_Photo, 
+      SC_TimeStamp)
+    values (#{scWorkerno,jdbcType=NVARCHAR}, #{scEmpno,jdbcType=BIGINT}, #{scSerierno,jdbcType=BIGINT}, 
+      #{scAccountno,jdbcType=BIGINT}, #{scName,jdbcType=NVARCHAR}, #{scSexid,jdbcType=TINYINT}, 
+      #{scMobileno,jdbcType=NVARCHAR}, #{scOfficetelno,jdbcType=NVARCHAR}, #{scActualaddr,jdbcType=NVARCHAR}, 
+      #{scRegisteraddr,jdbcType=NVARCHAR}, #{scBirthday,jdbcType=TIMESTAMP}, #{scIdtypeid,jdbcType=INTEGER}, 
+      #{scIdno,jdbcType=NVARCHAR}, #{scNativeid,jdbcType=NVARCHAR}, #{scPoliticsstatusid,jdbcType=INTEGER}, 
+      #{scWorkertypeid,jdbcType=INTEGER}, #{scJobtypeid,jdbcType=INTEGER}, #{scDepartmentid,jdbcType=INTEGER}, 
+      #{scWorkerstatusid,jdbcType=INTEGER}, #{scCardstatusid,jdbcType=INTEGER}, #{scWorkbegintime,jdbcType=TIMESTAMP}, 
+      #{scWorkendtime,jdbcType=TIMESTAMP}, #{scPower,jdbcType=INTEGER}, #{scPhoto,jdbcType=LONGVARBINARY}, 
+      #{scTimestamp,jdbcType=BINARY})
+  </insert>
+  <insert id="insertSelective" parameterType="cn.possible2dream.menjin_at.entity.EmployeeWithBLOBs" >
+    insert into SC_Employee
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="scWorkerno != null" >
+        SC_WorkerNO,
+      </if>
+      <if test="scEmpno != null" >
+        SC_EmpNO,
+      </if>
+      <if test="scSerierno != null" >
+        SC_SerierNO,
+      </if>
+      <if test="scAccountno != null" >
+        SC_AccountNO,
+      </if>
+      <if test="scName != null" >
+        SC_Name,
+      </if>
+      <if test="scSexid != null" >
+        SC_SexID,
+      </if>
+      <if test="scMobileno != null" >
+        SC_MobileNO,
+      </if>
+      <if test="scOfficetelno != null" >
+        SC_OfficeTelNO,
+      </if>
+      <if test="scActualaddr != null" >
+        SC_ActualAddr,
+      </if>
+      <if test="scRegisteraddr != null" >
+        SC_RegisterAddr,
+      </if>
+      <if test="scBirthday != null" >
+        SC_Birthday,
+      </if>
+      <if test="scIdtypeid != null" >
+        SC_IDTypeID,
+      </if>
+      <if test="scIdno != null" >
+        SC_IDNO,
+      </if>
+      <if test="scNativeid != null" >
+        SC_NativeID,
+      </if>
+      <if test="scPoliticsstatusid != null" >
+        SC_PoliticsStatusID,
+      </if>
+      <if test="scWorkertypeid != null" >
+        SC_WorkerTypeID,
+      </if>
+      <if test="scJobtypeid != null" >
+        SC_JobTypeID,
+      </if>
+      <if test="scDepartmentid != null" >
+        SC_DepartmentID,
+      </if>
+      <if test="scWorkerstatusid != null" >
+        SC_WorkerStatusID,
+      </if>
+      <if test="scCardstatusid != null" >
+        SC_CardStatusID,
+      </if>
+      <if test="scWorkbegintime != null" >
+        SC_WorkBeginTime,
+      </if>
+      <if test="scWorkendtime != null" >
+        SC_WorkEndTime,
+      </if>
+      <if test="scPower != null" >
+        SC_Power,
+      </if>
+      <if test="scPhoto != null" >
+        SC_Photo,
+      </if>
+      <if test="scTimestamp != null" >
+        SC_TimeStamp,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="scWorkerno != null" >
+        #{scWorkerno,jdbcType=NVARCHAR},
+      </if>
+      <if test="scEmpno != null" >
+        #{scEmpno,jdbcType=BIGINT},
+      </if>
+      <if test="scSerierno != null" >
+        #{scSerierno,jdbcType=BIGINT},
+      </if>
+      <if test="scAccountno != null" >
+        #{scAccountno,jdbcType=BIGINT},
+      </if>
+      <if test="scName != null" >
+        #{scName,jdbcType=NVARCHAR},
+      </if>
+      <if test="scSexid != null" >
+        #{scSexid,jdbcType=TINYINT},
+      </if>
+      <if test="scMobileno != null" >
+        #{scMobileno,jdbcType=NVARCHAR},
+      </if>
+      <if test="scOfficetelno != null" >
+        #{scOfficetelno,jdbcType=NVARCHAR},
+      </if>
+      <if test="scActualaddr != null" >
+        #{scActualaddr,jdbcType=NVARCHAR},
+      </if>
+      <if test="scRegisteraddr != null" >
+        #{scRegisteraddr,jdbcType=NVARCHAR},
+      </if>
+      <if test="scBirthday != null" >
+        #{scBirthday,jdbcType=TIMESTAMP},
+      </if>
+      <if test="scIdtypeid != null" >
+        #{scIdtypeid,jdbcType=INTEGER},
+      </if>
+      <if test="scIdno != null" >
+        #{scIdno,jdbcType=NVARCHAR},
+      </if>
+      <if test="scNativeid != null" >
+        #{scNativeid,jdbcType=NVARCHAR},
+      </if>
+      <if test="scPoliticsstatusid != null" >
+        #{scPoliticsstatusid,jdbcType=INTEGER},
+      </if>
+      <if test="scWorkertypeid != null" >
+        #{scWorkertypeid,jdbcType=INTEGER},
+      </if>
+      <if test="scJobtypeid != null" >
+        #{scJobtypeid,jdbcType=INTEGER},
+      </if>
+      <if test="scDepartmentid != null" >
+        #{scDepartmentid,jdbcType=INTEGER},
+      </if>
+      <if test="scWorkerstatusid != null" >
+        #{scWorkerstatusid,jdbcType=INTEGER},
+      </if>
+      <if test="scCardstatusid != null" >
+        #{scCardstatusid,jdbcType=INTEGER},
+      </if>
+      <if test="scWorkbegintime != null" >
+        #{scWorkbegintime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="scWorkendtime != null" >
+        #{scWorkendtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="scPower != null" >
+        #{scPower,jdbcType=INTEGER},
+      </if>
+      <if test="scPhoto != null" >
+        #{scPhoto,jdbcType=LONGVARBINARY},
+      </if>
+      <if test="scTimestamp != null" >
+        #{scTimestamp,jdbcType=BINARY},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.possible2dream.menjin_at.entity.EmployeeWithBLOBs" >
+    update SC_Employee
+    <set >
+      <if test="scEmpno != null" >
+        SC_EmpNO = #{scEmpno,jdbcType=BIGINT},
+      </if>
+      <if test="scSerierno != null" >
+        SC_SerierNO = #{scSerierno,jdbcType=BIGINT},
+      </if>
+      <if test="scAccountno != null" >
+        SC_AccountNO = #{scAccountno,jdbcType=BIGINT},
+      </if>
+      <if test="scName != null" >
+        SC_Name = #{scName,jdbcType=NVARCHAR},
+      </if>
+      <if test="scSexid != null" >
+        SC_SexID = #{scSexid,jdbcType=TINYINT},
+      </if>
+      <if test="scMobileno != null" >
+        SC_MobileNO = #{scMobileno,jdbcType=NVARCHAR},
+      </if>
+      <if test="scOfficetelno != null" >
+        SC_OfficeTelNO = #{scOfficetelno,jdbcType=NVARCHAR},
+      </if>
+      <if test="scActualaddr != null" >
+        SC_ActualAddr = #{scActualaddr,jdbcType=NVARCHAR},
+      </if>
+      <if test="scRegisteraddr != null" >
+        SC_RegisterAddr = #{scRegisteraddr,jdbcType=NVARCHAR},
+      </if>
+      <if test="scBirthday != null" >
+        SC_Birthday = #{scBirthday,jdbcType=TIMESTAMP},
+      </if>
+      <if test="scIdtypeid != null" >
+        SC_IDTypeID = #{scIdtypeid,jdbcType=INTEGER},
+      </if>
+      <if test="scIdno != null" >
+        SC_IDNO = #{scIdno,jdbcType=NVARCHAR},
+      </if>
+      <if test="scNativeid != null" >
+        SC_NativeID = #{scNativeid,jdbcType=NVARCHAR},
+      </if>
+      <if test="scPoliticsstatusid != null" >
+        SC_PoliticsStatusID = #{scPoliticsstatusid,jdbcType=INTEGER},
+      </if>
+      <if test="scWorkertypeid != null" >
+        SC_WorkerTypeID = #{scWorkertypeid,jdbcType=INTEGER},
+      </if>
+      <if test="scJobtypeid != null" >
+        SC_JobTypeID = #{scJobtypeid,jdbcType=INTEGER},
+      </if>
+      <if test="scDepartmentid != null" >
+        SC_DepartmentID = #{scDepartmentid,jdbcType=INTEGER},
+      </if>
+      <if test="scWorkerstatusid != null" >
+        SC_WorkerStatusID = #{scWorkerstatusid,jdbcType=INTEGER},
+      </if>
+      <if test="scCardstatusid != null" >
+        SC_CardStatusID = #{scCardstatusid,jdbcType=INTEGER},
+      </if>
+      <if test="scWorkbegintime != null" >
+        SC_WorkBeginTime = #{scWorkbegintime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="scWorkendtime != null" >
+        SC_WorkEndTime = #{scWorkendtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="scPower != null" >
+        SC_Power = #{scPower,jdbcType=INTEGER},
+      </if>
+      <if test="scPhoto != null" >
+        SC_Photo = #{scPhoto,jdbcType=LONGVARBINARY},
+      </if>
+      <if test="scTimestamp != null" >
+        SC_TimeStamp = #{scTimestamp,jdbcType=BINARY},
+      </if>
+    </set>
+    where SC_WorkerNO = #{scWorkerno,jdbcType=NVARCHAR}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="cn.possible2dream.menjin_at.entity.EmployeeWithBLOBs" >
+    update SC_Employee
+    set SC_EmpNO = #{scEmpno,jdbcType=BIGINT},
+      SC_SerierNO = #{scSerierno,jdbcType=BIGINT},
+      SC_AccountNO = #{scAccountno,jdbcType=BIGINT},
+      SC_Name = #{scName,jdbcType=NVARCHAR},
+      SC_SexID = #{scSexid,jdbcType=TINYINT},
+      SC_MobileNO = #{scMobileno,jdbcType=NVARCHAR},
+      SC_OfficeTelNO = #{scOfficetelno,jdbcType=NVARCHAR},
+      SC_ActualAddr = #{scActualaddr,jdbcType=NVARCHAR},
+      SC_RegisterAddr = #{scRegisteraddr,jdbcType=NVARCHAR},
+      SC_Birthday = #{scBirthday,jdbcType=TIMESTAMP},
+      SC_IDTypeID = #{scIdtypeid,jdbcType=INTEGER},
+      SC_IDNO = #{scIdno,jdbcType=NVARCHAR},
+      SC_NativeID = #{scNativeid,jdbcType=NVARCHAR},
+      SC_PoliticsStatusID = #{scPoliticsstatusid,jdbcType=INTEGER},
+      SC_WorkerTypeID = #{scWorkertypeid,jdbcType=INTEGER},
+      SC_JobTypeID = #{scJobtypeid,jdbcType=INTEGER},
+      SC_DepartmentID = #{scDepartmentid,jdbcType=INTEGER},
+      SC_WorkerStatusID = #{scWorkerstatusid,jdbcType=INTEGER},
+      SC_CardStatusID = #{scCardstatusid,jdbcType=INTEGER},
+      SC_WorkBeginTime = #{scWorkbegintime,jdbcType=TIMESTAMP},
+      SC_WorkEndTime = #{scWorkendtime,jdbcType=TIMESTAMP},
+      SC_Power = #{scPower,jdbcType=INTEGER},
+      SC_Photo = #{scPhoto,jdbcType=LONGVARBINARY},
+      SC_TimeStamp = #{scTimestamp,jdbcType=BINARY}
+    where SC_WorkerNO = #{scWorkerno,jdbcType=NVARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.possible2dream.menjin_at.entity.Employee" >
+    update SC_Employee
+    set SC_EmpNO = #{scEmpno,jdbcType=BIGINT},
+      SC_SerierNO = #{scSerierno,jdbcType=BIGINT},
+      SC_AccountNO = #{scAccountno,jdbcType=BIGINT},
+      SC_Name = #{scName,jdbcType=NVARCHAR},
+      SC_SexID = #{scSexid,jdbcType=TINYINT},
+      SC_MobileNO = #{scMobileno,jdbcType=NVARCHAR},
+      SC_OfficeTelNO = #{scOfficetelno,jdbcType=NVARCHAR},
+      SC_ActualAddr = #{scActualaddr,jdbcType=NVARCHAR},
+      SC_RegisterAddr = #{scRegisteraddr,jdbcType=NVARCHAR},
+      SC_Birthday = #{scBirthday,jdbcType=TIMESTAMP},
+      SC_IDTypeID = #{scIdtypeid,jdbcType=INTEGER},
+      SC_IDNO = #{scIdno,jdbcType=NVARCHAR},
+      SC_NativeID = #{scNativeid,jdbcType=NVARCHAR},
+      SC_PoliticsStatusID = #{scPoliticsstatusid,jdbcType=INTEGER},
+      SC_WorkerTypeID = #{scWorkertypeid,jdbcType=INTEGER},
+      SC_JobTypeID = #{scJobtypeid,jdbcType=INTEGER},
+      SC_DepartmentID = #{scDepartmentid,jdbcType=INTEGER},
+      SC_WorkerStatusID = #{scWorkerstatusid,jdbcType=INTEGER},
+      SC_CardStatusID = #{scCardstatusid,jdbcType=INTEGER},
+      SC_WorkBeginTime = #{scWorkbegintime,jdbcType=TIMESTAMP},
+      SC_WorkEndTime = #{scWorkendtime,jdbcType=TIMESTAMP},
+      SC_Power = #{scPower,jdbcType=INTEGER}
+    where SC_WorkerNO = #{scWorkerno,jdbcType=NVARCHAR}
+  </update>
+</mapper>

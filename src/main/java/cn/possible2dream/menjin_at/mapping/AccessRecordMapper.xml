@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.possible2dream.menjin_at.dao.AccessRecordMapper" >
+  <resultMap id="BaseResultMap" type="cn.possible2dream.menjin_at.entity.AccessRecord" >
+    <id column="SC_SerierNO" property="scSerierno" jdbcType="BIGINT" />
+    <result column="SC_DoorNO" property="scDoorno" jdbcType="INTEGER" />
+    <result column="SC_UserDefineCardNO" property="scUserdefinecardno" jdbcType="BIGINT" />
+    <result column="SC_CardGuidNO" property="scCardguidno" jdbcType="BIGINT" />
+    <result column="SC_EmpID" property="scEmpid" jdbcType="BIGINT" />
+    <result column="SC_OpenDoorTypeID" property="scOpendoortypeid" jdbcType="TINYINT" />
+    <result column="SC_EventTypeID" property="scEventtypeid" jdbcType="TINYINT" />
+    <result column="SC_InOutStatus" property="scInoutstatus" jdbcType="TINYINT" />
+    <result column="SC_RecordTime" property="scRecordtime" jdbcType="TIMESTAMP" />
+    <result column="SC_Reserve" property="scReserve" jdbcType="NVARCHAR" />
+    <result column="SC_DeviceRecNO" property="scDevicerecno" jdbcType="INTEGER" />
+    <result column="SC_AddTime" property="scAddtime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="cn.possible2dream.menjin_at.entity.AccessRecord" extends="BaseResultMap" >
+    <result column="SC_TimeStamp" property="scTimestamp" jdbcType="BINARY" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    SC_SerierNO, SC_DoorNO, SC_UserDefineCardNO, SC_CardGuidNO, SC_EmpID, SC_OpenDoorTypeID, 
+    SC_EventTypeID, SC_InOutStatus, SC_RecordTime, SC_Reserve, SC_DeviceRecNO, SC_AddTime
+  </sql>
+  <sql id="Blob_Column_List" >
+    SC_TimeStamp
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from SC_AccessRecord
+    where SC_SerierNO = #{scSerierno,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from SC_AccessRecord
+    where SC_SerierNO = #{scSerierno,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="cn.possible2dream.menjin_at.entity.AccessRecord" >
+    insert into SC_AccessRecord (SC_SerierNO, SC_DoorNO, SC_UserDefineCardNO, 
+      SC_CardGuidNO, SC_EmpID, SC_OpenDoorTypeID, 
+      SC_EventTypeID, SC_InOutStatus, SC_RecordTime, 
+      SC_Reserve, SC_DeviceRecNO, SC_AddTime, 
+      SC_TimeStamp)
+    values (#{scSerierno,jdbcType=BIGINT}, #{scDoorno,jdbcType=INTEGER}, #{scUserdefinecardno,jdbcType=BIGINT}, 
+      #{scCardguidno,jdbcType=BIGINT}, #{scEmpid,jdbcType=BIGINT}, #{scOpendoortypeid,jdbcType=TINYINT}, 
+      #{scEventtypeid,jdbcType=TINYINT}, #{scInoutstatus,jdbcType=TINYINT}, #{scRecordtime,jdbcType=TIMESTAMP}, 
+      #{scReserve,jdbcType=NVARCHAR}, #{scDevicerecno,jdbcType=INTEGER}, #{scAddtime,jdbcType=TIMESTAMP}, 
+      #{scTimestamp,jdbcType=BINARY})
+  </insert>
+  <insert id="insertSelective" parameterType="cn.possible2dream.menjin_at.entity.AccessRecord" >
+    insert into SC_AccessRecord
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="scSerierno != null" >
+        SC_SerierNO,
+      </if>
+      <if test="scDoorno != null" >
+        SC_DoorNO,
+      </if>
+      <if test="scUserdefinecardno != null" >
+        SC_UserDefineCardNO,
+      </if>
+      <if test="scCardguidno != null" >
+        SC_CardGuidNO,
+      </if>
+      <if test="scEmpid != null" >
+        SC_EmpID,
+      </if>
+      <if test="scOpendoortypeid != null" >
+        SC_OpenDoorTypeID,
+      </if>
+      <if test="scEventtypeid != null" >
+        SC_EventTypeID,
+      </if>
+      <if test="scInoutstatus != null" >
+        SC_InOutStatus,
+      </if>
+      <if test="scRecordtime != null" >
+        SC_RecordTime,
+      </if>
+      <if test="scReserve != null" >
+        SC_Reserve,
+      </if>
+      <if test="scDevicerecno != null" >
+        SC_DeviceRecNO,
+      </if>
+      <if test="scAddtime != null" >
+        SC_AddTime,
+      </if>
+      <if test="scTimestamp != null" >
+        SC_TimeStamp,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="scSerierno != null" >
+        #{scSerierno,jdbcType=BIGINT},
+      </if>
+      <if test="scDoorno != null" >
+        #{scDoorno,jdbcType=INTEGER},
+      </if>
+      <if test="scUserdefinecardno != null" >
+        #{scUserdefinecardno,jdbcType=BIGINT},
+      </if>
+      <if test="scCardguidno != null" >
+        #{scCardguidno,jdbcType=BIGINT},
+      </if>
+      <if test="scEmpid != null" >
+        #{scEmpid,jdbcType=BIGINT},
+      </if>
+      <if test="scOpendoortypeid != null" >
+        #{scOpendoortypeid,jdbcType=TINYINT},
+      </if>
+      <if test="scEventtypeid != null" >
+        #{scEventtypeid,jdbcType=TINYINT},
+      </if>
+      <if test="scInoutstatus != null" >
+        #{scInoutstatus,jdbcType=TINYINT},
+      </if>
+      <if test="scRecordtime != null" >
+        #{scRecordtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="scReserve != null" >
+        #{scReserve,jdbcType=NVARCHAR},
+      </if>
+      <if test="scDevicerecno != null" >
+        #{scDevicerecno,jdbcType=INTEGER},
+      </if>
+      <if test="scAddtime != null" >
+        #{scAddtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="scTimestamp != null" >
+        #{scTimestamp,jdbcType=BINARY},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.possible2dream.menjin_at.entity.AccessRecord" >
+    update SC_AccessRecord
+    <set >
+      <if test="scDoorno != null" >
+        SC_DoorNO = #{scDoorno,jdbcType=INTEGER},
+      </if>
+      <if test="scUserdefinecardno != null" >
+        SC_UserDefineCardNO = #{scUserdefinecardno,jdbcType=BIGINT},
+      </if>
+      <if test="scCardguidno != null" >
+        SC_CardGuidNO = #{scCardguidno,jdbcType=BIGINT},
+      </if>
+      <if test="scEmpid != null" >
+        SC_EmpID = #{scEmpid,jdbcType=BIGINT},
+      </if>
+      <if test="scOpendoortypeid != null" >
+        SC_OpenDoorTypeID = #{scOpendoortypeid,jdbcType=TINYINT},
+      </if>
+      <if test="scEventtypeid != null" >
+        SC_EventTypeID = #{scEventtypeid,jdbcType=TINYINT},
+      </if>
+      <if test="scInoutstatus != null" >
+        SC_InOutStatus = #{scInoutstatus,jdbcType=TINYINT},
+      </if>
+      <if test="scRecordtime != null" >
+        SC_RecordTime = #{scRecordtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="scReserve != null" >
+        SC_Reserve = #{scReserve,jdbcType=NVARCHAR},
+      </if>
+      <if test="scDevicerecno != null" >
+        SC_DeviceRecNO = #{scDevicerecno,jdbcType=INTEGER},
+      </if>
+      <if test="scAddtime != null" >
+        SC_AddTime = #{scAddtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="scTimestamp != null" >
+        SC_TimeStamp = #{scTimestamp,jdbcType=BINARY},
+      </if>
+    </set>
+    where SC_SerierNO = #{scSerierno,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="cn.possible2dream.menjin_at.entity.AccessRecord" >
+    update SC_AccessRecord
+    set SC_DoorNO = #{scDoorno,jdbcType=INTEGER},
+      SC_UserDefineCardNO = #{scUserdefinecardno,jdbcType=BIGINT},
+      SC_CardGuidNO = #{scCardguidno,jdbcType=BIGINT},
+      SC_EmpID = #{scEmpid,jdbcType=BIGINT},
+      SC_OpenDoorTypeID = #{scOpendoortypeid,jdbcType=TINYINT},
+      SC_EventTypeID = #{scEventtypeid,jdbcType=TINYINT},
+      SC_InOutStatus = #{scInoutstatus,jdbcType=TINYINT},
+      SC_RecordTime = #{scRecordtime,jdbcType=TIMESTAMP},
+      SC_Reserve = #{scReserve,jdbcType=NVARCHAR},
+      SC_DeviceRecNO = #{scDevicerecno,jdbcType=INTEGER},
+      SC_AddTime = #{scAddtime,jdbcType=TIMESTAMP},
+      SC_TimeStamp = #{scTimestamp,jdbcType=BINARY}
+    where SC_SerierNO = #{scSerierno,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.possible2dream.menjin_at.entity.AccessRecord" >
+    update SC_AccessRecord
+    set SC_DoorNO = #{scDoorno,jdbcType=INTEGER},
+      SC_UserDefineCardNO = #{scUserdefinecardno,jdbcType=BIGINT},
+      SC_CardGuidNO = #{scCardguidno,jdbcType=BIGINT},
+      SC_EmpID = #{scEmpid,jdbcType=BIGINT},
+      SC_OpenDoorTypeID = #{scOpendoortypeid,jdbcType=TINYINT},
+      SC_EventTypeID = #{scEventtypeid,jdbcType=TINYINT},
+      SC_InOutStatus = #{scInoutstatus,jdbcType=TINYINT},
+      SC_RecordTime = #{scRecordtime,jdbcType=TIMESTAMP},
+      SC_Reserve = #{scReserve,jdbcType=NVARCHAR},
+      SC_DeviceRecNO = #{scDevicerecno,jdbcType=INTEGER},
+      SC_AddTime = #{scAddtime,jdbcType=TIMESTAMP}
+    where SC_SerierNO = #{scSerierno,jdbcType=BIGINT}
+  </update>
+</mapper>
