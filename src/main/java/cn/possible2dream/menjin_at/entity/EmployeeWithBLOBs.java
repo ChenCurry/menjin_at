@@ -20,4 +20,5 @@ public class EmployeeWithBLOBs extends Employee {
     public void setScTimestamp(byte[] scTimestamp) {
         this.scTimestamp = scTimestamp;
     }
+
 }

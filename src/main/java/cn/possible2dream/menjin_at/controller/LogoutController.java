@@ -17,6 +17,7 @@ public class LogoutController {
         Cookie[] cookies = request.getCookies();
         if(null != cookies && 0 != cookies.length){
             for(int i=0; i<cookies.length; i++){
+                System.out.println("客户端带上来的cookies："+cookies[i].getName());
                 if(cookies[i].getName().equals("username")){
                     cookies[i].setMaxAge(-1);
                     cookies[i].setValue(null);

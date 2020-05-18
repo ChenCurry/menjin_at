@@ -66,6 +66,13 @@
     where SC_WorkerNO = #{scWorkerno,jdbcType=NVARCHAR}
   </select>
 
+  <select id="selectByScWorkerno2" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from SC_Employee
+    where SC_WorkerNO = #{scWorkerno,jdbcType=NVARCHAR}
+  </select>
+
 
 
 

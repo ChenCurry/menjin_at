@@ -39,9 +39,13 @@ function startWebSocket() {
         }
 
         ws.onmessage = function(evt) {
-            // if("1" == evt.data){
-            //     logout("othersLogin");
-            // }else if("kick" == evt.data){
+            if("1" == evt.data){
+                logout();//"othersLogin"
+            }else{
+                //alert(evt.data);
+                console.log(evt.data);
+            }
+            // else if("kick" == evt.data){
             //     logout("kick");
             // }else if("silence" == evt.data){
             //     state = "X";
@@ -56,8 +60,8 @@ function startWebSocket() {
         };
 
         ws.onclose = function(evt) {
-            //alert("服务器已断开!");
-            //window.location.href = "logout.html";
+            alert("服务器已断开!");
+            window.location.href = "/menjin_at/login.html";
         };
         ws.onopen = function(evt) {
             onOpen(evt);
@@ -65,7 +69,7 @@ function startWebSocket() {
 
     }
     else{
-        logout("logout");
+        logout();
     }
 }
 
@@ -366,7 +370,7 @@ function keySend(event) {
 }
 
 //退出登录
-function logout(reason){
+function logout(){
     url = "logout";
     window.location.href = url;
 }
@@ -550,17 +554,17 @@ function changeState(state, personId){
 }
 
 //显示聊天表情
-$(function (){
-    $jq("a.face").smohanfacebox({
-        Event : "click",
-        divid : "Smohan_FaceBox",
-        textid : "newmessage"
-    });
-
-    $("#choose_image").change(function(){
-        sendImage();
-    });
-});
+// $(function (){
+//     $jq("a.face").smohanfacebox({
+//         Event : "click",
+//         divid : "Smohan_FaceBox",
+//         textid : "newmessage"
+//     });
+//
+//     $("#choose_image").change(function(){
+//         sendImage();
+//     });
+// });
 
 //转换时间格式
 /**

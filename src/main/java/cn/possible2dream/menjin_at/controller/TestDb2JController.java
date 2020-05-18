@@ -31,7 +31,7 @@ public class TestDb2JController {
             //System.out.println((str1==null?"未知人员":str1));
 
             AccessRecord accessRecord = originalRecordService.getAccessRecordByScSerierno(scSerierno);
-            WebSocketServer.listAccessRecord.add(accessRecord);
+            //WebSocketServer.listAccessRecord.add(accessRecord);
 
             WebSocketServer.broadCast(accessRecord.toString());
             //System.out.println(accessRecord);

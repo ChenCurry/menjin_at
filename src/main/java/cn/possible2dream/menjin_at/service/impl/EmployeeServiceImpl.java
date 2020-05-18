@@ -21,6 +21,10 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public EmployeeWithBLOBs getEmployee(String scWorkerno) {
-        return employeeMapper.selectByScWorkerno(scWorkerno);
+        System.out.println("scWorkerno:"+scWorkerno);
+        EmployeeWithBLOBs employeeWithBLOBs = employeeMapper.selectByScWorkerno(scWorkerno);
+        System.out.println("employeeWithBLOBs:"+employeeWithBLOBs);
+        return employeeWithBLOBs;
     }
+
 }

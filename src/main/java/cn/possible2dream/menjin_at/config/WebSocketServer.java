@@ -7,7 +7,6 @@ import cn.possible2dream.menjin_at.entity.AccessRecord;
 import cn.possible2dream.menjin_at.entity.EmployeeWithBLOBs;
 import cn.possible2dream.menjin_at.service.EmployeeService;
 import cn.possible2dream.menjin_at.service.impl.EmployeeServiceImpl;
-import com.alibaba.fastjson.JSON;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpSession;
@@ -37,7 +36,7 @@ public class WebSocketServer {
     //private static ConcurrentHashMap<String,WebSocketServer> webSocketMap = new ConcurrentHashMap<>();
     private static Hashtable<Long, WebSocketServer> connections = new Hashtable<>();
     //
-    public static List<AccessRecord> listAccessRecord = new ArrayList<AccessRecord>();
+    public static List<AccessRecord> listAccessRecord = new ArrayList<AccessRecord>();//只用来记在里边的人，这样才有意义
     /**与某个客户端的连接会话，需要通过它来给客户端发送数据*/
     private Session session;
     private HttpSession httpSession;
@@ -54,8 +53,7 @@ public class WebSocketServer {
         System.out.println("登陆进页面，进入WebSocketTest的start方法，session="+session.toString()+",config="+config.toString());
         this.session = session;
         System.out.println("获取完session:"+session.toString());
-        this.httpSession = (HttpSession) config.getUserProperties()
-                .get(HttpSession.class.getName());
+        this.httpSession = (HttpSession) config.getUserProperties().get(HttpSession.class.getName());
         System.out.println("获取完httpSession:"+httpSession.toString());
 
         this.nickname = this.httpSession.getAttribute("name").toString();
@@ -84,11 +82,11 @@ public class WebSocketServer {
 //        }
 
 
-        try {
-            this.session.getBasicRemote().sendText(JSON.toJSONString(this.employee));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            this.session.getBasicRemote().sendText(JSON.toJSONString(this.employee));
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
 //        StaffToFore initMsg = new StaffToFore(this.staff.getId(), this.staff.getName(), this.staff.getHeadUrl(), this.staff.getPower(),this.staff.getState(), Constant.MESSAGE_SIGNAL);
 //        try {
 //            //将用户信息和用户列表传给前台

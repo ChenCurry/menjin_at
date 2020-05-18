@@ -232,4 +232,16 @@ public class Employee {
     public void setScPower(Integer scPower) {
         this.scPower = scPower;
     }
+
+    @Override
+    public String toString() {
+        return "Employee{" +
+                "scWorkerno='" + scWorkerno + '\'' +
+                ", scEmpno=" + scEmpno +
+                ", scName='" + scName + '\'' +
+                ", scMobileno='" + scMobileno + '\'' +
+                ", scOfficetelno='" + scOfficetelno + '\'' +
+                ", scDepartmentid=" + scDepartmentid +
+                '}';
+    }
 }

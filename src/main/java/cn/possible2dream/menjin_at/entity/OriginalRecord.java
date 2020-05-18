@@ -24,6 +24,8 @@ public class OriginalRecord {
     //SC_Department 表
     private String SC_DepartmentName;
 
+    //private int messageType;//后台传给前台的消息类型
+
     //SC_Card 表
 //    private Integer SC_Lever;
 //    private Integer SC_Group;

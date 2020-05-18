@@ -16,8 +16,11 @@ public interface EmployeeMapper {
     //根据 scEmpno 数字查询
     EmployeeWithBLOBs selectByScEmpno(Long scEmpno);
 
-    //根据工号查询
+    //根据工号查询 EmployeeWithBLOBs
     EmployeeWithBLOBs selectByScWorkerno(String scWorkerno);
+
+    //根据工号查询 Employee   忘记注解了
+    Employee selectByScWorkerno2(String scWorkerno);
 
     int updateByPrimaryKeySelective(EmployeeWithBLOBs record);
 

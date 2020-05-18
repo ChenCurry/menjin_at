@@ -7,7 +7,7 @@ function getCookie(name)
 }
 
 if(null != getCookie("username")  && "\"\"" != getCookie("username")){
-	window.location.href = "chat.html";
+	window.location.href = "login.html";
 };
 
 function login(){
@@ -23,7 +23,7 @@ function login(){
 
 function ajaxLogin(username, password){
 	var xmlhttp;
-	var url = "LoginServlet?username="+username+"&password="+password;
+	var url = "login?username="+username+"&password="+password;
 	
 	if(window.XMLHttpRequest){
 		xmlhttp = new XMLHttpRequest();
@@ -37,7 +37,7 @@ function ajaxLogin(username, password){
 			if(200 == xmlhttp.status){
 				if(xmlhttp.responseText == "ok"){
 					if(null != getCookie("username")){
-						var url = "/SmartChat/chat.html";
+						var url = "/menjin_at/index.html";
 						window.location.href = url;
 					}else{
 						$("#div_errormsg").html("<div class='alert alert-error' onclick='reset()'>请不要禁用Cookie，否则无法登陆哦亲！</div>");
