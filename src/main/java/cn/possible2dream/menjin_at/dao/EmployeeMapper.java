@@ -12,6 +12,13 @@ public interface EmployeeMapper {
 
     EmployeeWithBLOBs selectByPrimaryKey(String scWorkerno);
 
+    //员工对象需要放到 WebSocketServer 中
+    //根据 scEmpno 数字查询
+    EmployeeWithBLOBs selectByScEmpno(Long scEmpno);
+
+    //根据工号查询
+    EmployeeWithBLOBs selectByScWorkerno(String scWorkerno);
+
     int updateByPrimaryKeySelective(EmployeeWithBLOBs record);
 
     int updateByPrimaryKeyWithBLOBs(EmployeeWithBLOBs record);

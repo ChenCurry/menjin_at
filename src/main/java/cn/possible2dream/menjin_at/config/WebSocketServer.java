@@ -3,80 +3,113 @@ package cn.possible2dream.menjin_at.config;
 
 import cn.hutool.log.Log;
 import cn.hutool.log.LogFactory;
+import cn.possible2dream.menjin_at.entity.AccessRecord;
+import cn.possible2dream.menjin_at.entity.EmployeeWithBLOBs;
+import cn.possible2dream.menjin_at.service.EmployeeService;
+import cn.possible2dream.menjin_at.service.impl.EmployeeServiceImpl;
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
-import javax.websocket.OnClose;
-import javax.websocket.OnError;
-import javax.websocket.OnMessage;
-import javax.websocket.Session;
-import javax.websocket.OnOpen;
-import javax.websocket.server.PathParam;
+import javax.servlet.http.HttpSession;
+import javax.websocket.*;
 import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.Hashtable;
+import java.util.List;
 
 /**
  * WebSocketServer
- * @author zhengkai.blog.csdn.net
  */
 
     //http://localhost:8080/menjin_at/websocket.html
     //ws://localhost:8080/menjin_at/imserver/10
 
-@ServerEndpoint("/imserver/{userId}")
+@ServerEndpoint("/websocket")
 @Component
 public class WebSocketServer {
 
     static Log log= LogFactory.get(WebSocketServer.class);
     /**静态变量，用来记录当前在线连接数。应该把它设计成线程安全的。*/
-    private static int onlineCount = 0;
+    //private static int onlineCount = 0;
     /**concurrent包的线程安全Set，用来存放每个客户端对应的MyWebSocket对象。*/
-    private static ConcurrentHashMap<String,WebSocketServer> webSocketMap = new ConcurrentHashMap<>();
+    //private static ConcurrentHashMap<String,WebSocketServer> webSocketMap = new ConcurrentHashMap<>();
+    private static Hashtable<Long, WebSocketServer> connections = new Hashtable<>();
+    //
+    public static List<AccessRecord> listAccessRecord = new ArrayList<AccessRecord>();
     /**与某个客户端的连接会话，需要通过它来给客户端发送数据*/
     private Session session;
-    /**接收userId*/
-    private String userId="";
+    private HttpSession httpSession;
+    private String nickname;
+    /*连接时唯一对应一个员工*/
+    private EmployeeWithBLOBs employee;
+    private static EmployeeService employeeService = EmployeeServiceImpl.getInstance();
+
 
     /**
      * 连接建立成功调用的方法*/
     @OnOpen
-    public void onOpen(Session session,@PathParam("userId") String userId) {
+    public void onOpen(Session session, EndpointConfig config) {
+        System.out.println("登陆进页面，进入WebSocketTest的start方法，session="+session.toString()+",config="+config.toString());
         this.session = session;
-        this.userId=userId;
-        if(webSocketMap.containsKey(userId)){
-            webSocketMap.remove(userId);
-            webSocketMap.put(userId,this);
-            //加入set中
-        }else{
-            webSocketMap.put(userId,this);
-            //加入set中
-            addOnlineCount();
-            //在线数加1
-        }
+        System.out.println("获取完session:"+session.toString());
+        this.httpSession = (HttpSession) config.getUserProperties()
+                .get(HttpSession.class.getName());
+        System.out.println("获取完httpSession:"+httpSession.toString());
 
-        log.info("用户连接:"+userId+",当前在线人数为:" + getOnlineCount());
+        this.nickname = this.httpSession.getAttribute("name").toString();
+        String staffId = this.httpSession.getAttribute("staffId").toString();
+
+        System.out.println("nickname："+this.nickname+",staffId:"+staffId);
+        EmployeeWithBLOBs employeeWithBLOBs = employeeService.getEmployee(staffId);
+        this.employee = employeeWithBLOBs;
+
+        checkLogin(this.employee.getScEmpno());
+        System.out.println("校验登陆 完成");
+        connections.put(this.employee.getScEmpno(), this);
+        System.out.println("创建连接 完成");
+        //List<MessageToFore> msgs = msgQue.getMessages();
+        //将消息缓存传给前台
+//        for(int i=0; i<msgs.size(); i++){
+//            msgs.get(i).setMessageType(Constant.MESSAGE_HISTORY);
+//        }
+//        try {
+//            this.session.getBasicRemote().sendText(JSON.toJSONString(msgs));
+//            System.out.println("已将消息缓存传给前台");
+//        } catch (IOException e) {
+//            // TODO Auto-generated catch block
+//            //e.printStackTrace();
+//            LogManager.getLogger(getClass()).log(Level.SEVERE, "客户端打开时消息缓存发送至客户端失败", e);
+//        }
+
 
         try {
-            sendMessage("连接成功");
+            this.session.getBasicRemote().sendText(JSON.toJSONString(this.employee));
         } catch (IOException e) {
-            log.error("用户:"+userId+",网络异常!!!!!!");
+            e.printStackTrace();
         }
+//        StaffToFore initMsg = new StaffToFore(this.staff.getId(), this.staff.getName(), this.staff.getHeadUrl(), this.staff.getPower(),this.staff.getState(), Constant.MESSAGE_SIGNAL);
+//        try {
+//            //将用户信息和用户列表传给前台
+//            this.session.getBasicRemote().sendText(jsonUtil.toJson(initMsg));
+//            System.out.println("已将用户信息传给前台");
+//            this.session.getBasicRemote().sendText(jsonUtil.toJson(getConnectionStaff(Constant.MESSAGE_OPEN)));
+//            System.out.println("已将用户列表传给前台");
+//        } catch (IOException e) {
+//            //e.printStackTrace();
+//            LogManager.getLogger(getClass()).log(Level.SEVERE, "用户信息或用户列表发送至客户端失败", e);
+//        }
     }
 
     /**
      * 连接关闭调用的方法
      */
     @OnClose
-    public void onClose() {
-        if(webSocketMap.containsKey(userId)){
-            webSocketMap.remove(userId);
-            //从set中删除
-            subOnlineCount();
-        }
-        log.info("用户退出:"+userId+",当前在线人数为:" + getOnlineCount());
+    public void end() {
+        //this.isOpen = false;
+        connections.remove(this.employee.getScEmpno(),this);
+        System.out.println("连接已断开");
     }
 
     /**
@@ -85,38 +118,35 @@ public class WebSocketServer {
      * @param message 客户端发送过来的消息*/
     @OnMessage
     public void onMessage(String message, Session session) {
-        log.info("用户消息:"+userId+",报文:"+message);
-        //可以群发消息
-        //消息保存到数据库、redis
-        if(StringUtils.isNotBlank(message)){
-            try {
-                //解析发送的报文
-                JSONObject jsonObject = JSON.parseObject(message);
-                //追加发送人(防止串改)
-                jsonObject.put("fromUserId",this.userId);
-                String toUserId=jsonObject.getString("toUserId");
-                //传送给对应toUserId用户的websocket
-                if(StringUtils.isNotBlank(toUserId)&&webSocketMap.containsKey(toUserId)){
-                    webSocketMap.get(toUserId).sendMessage(jsonObject.toJSONString());
-                }else{
-                    log.error("请求的userId:"+toUserId+"不在该服务器上");
-                    //否则不在这个服务器上，发送到mysql或者redis
-                }
-            }catch (Exception e){
-                e.printStackTrace();
-            }
-        }
+//        log.info("用户消息:"+userId+",报文:"+message);
+//        //可以群发消息
+//        //消息保存到数据库、redis
+//        if(StringUtils.isNotBlank(message)){
+//            try {
+//                //解析发送的报文
+//                JSONObject jsonObject = JSON.parseObject(message);
+//                //追加发送人(防止串改)
+//                jsonObject.put("fromUserId",this.userId);
+//                String toUserId=jsonObject.getString("toUserId");
+//                //传送给对应toUserId用户的websocket
+//                if(StringUtils.isNotBlank(toUserId)&&webSocketMap.containsKey(toUserId)){
+//                    webSocketMap.get(toUserId).sendMessage(jsonObject.toJSONString());
+//                }else{
+//                    log.error("请求的userId:"+toUserId+"不在该服务器上");
+//                    //否则不在这个服务器上，发送到mysql或者redis
+//                }
+//            }catch (Exception e){
+//                e.printStackTrace();
+//            }
+//        }
     }
 
-    /**
-     *
-     * @param session
-     * @param error
-     */
     @OnError
-    public void onError(Session session, Throwable error) {
-        log.error("用户错误:"+this.userId+",原因:"+error.getMessage());
-        error.printStackTrace();
+    public void onError(Throwable t) throws Throwable {
+        //System.out.println("Chat Error: " );
+        connections.remove(this.employee.getScEmpno(),this);
+        //t.printStackTrace();
+        //LogManager.getLogger(getClass()).log(Level.SEVERE, "id为"+this.employee.getScEmpno()+"的WebSocket对象出错，服务器严重错误", t);
     }
 
     /**
@@ -127,26 +157,40 @@ public class WebSocketServer {
     }
 
     /**
-     * 发送自定义消息
-     * */
-    public static void sendInfo(String message,@PathParam("userId") String userId) throws IOException {
-        log.info("发送消息到:"+userId+"，报文:"+message);
-        if(StringUtils.isNotBlank(userId)&&webSocketMap.containsKey(userId)){
-            webSocketMap.get(userId).sendMessage(message);
-        }else{
-            log.error("用户"+userId+",不在线！");
+     * 广播消息
+     * @param jsonString
+     */
+    public static void broadCast(String jsonString){
+        Enumeration<WebSocketServer> enSocket = connections.elements();
+        while(enSocket.hasMoreElements()){
+            WebSocketServer client = enSocket.nextElement();
+            try {
+                synchronized (client) {
+                    if(client.session.isOpen()){
+                        client.session.getBasicRemote().sendText(jsonString);
+                    }
+                }
+            } catch (IOException e) {
+                //LogManager.getLogger(getClass()).log(Level.SEVERE, "广播消息发送至id为"+client.staff.getId()+"的前台失败", e);
+                System.out.println("Chat Error: Failed to send message to client");
+                connections.remove(client.employee.getScEmpno(), client);
+            }
         }
     }
 
-    public static synchronized int getOnlineCount() {
-        return onlineCount;
-    }
-
-    public static synchronized void addOnlineCount() {
-        WebSocketServer.onlineCount++;
-    }
-
-    public static synchronized void subOnlineCount() {
-        WebSocketServer.onlineCount--;
+    /**
+     *   检查用户是否重复登录
+     */
+    private void checkLogin(Long stfId){
+        if(connections.containsKey(stfId)){
+            try {
+                connections.get(stfId).session.getBasicRemote().sendText("1");
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                //e.printStackTrace();
+                //LogManager.getLogger(getClass()).log(Level.WARNING,"用户重复登录时通知先前登录的用户下线失败",e);
+            }
+            connections.remove(stfId);
+        }
     }
 }

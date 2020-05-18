@@ -1,5 +1,6 @@
 package cn.possible2dream.menjin_at.entity;
 
+import java.util.Arrays;
 import java.util.Date;
 
 public class AccessRecord {
@@ -131,5 +132,25 @@ public class AccessRecord {
 
     public void setScTimestamp(byte[] scTimestamp) {
         this.scTimestamp = scTimestamp;
+    }
+
+
+    @Override
+    public String toString() {
+        return "AccessRecord{" +
+                "scSerierno=" + scSerierno +
+                ", scDoorno=" + scDoorno +
+                ", scUserdefinecardno=" + scUserdefinecardno +
+                ", scCardguidno=" + scCardguidno +
+                ", scEmpid=" + scEmpid +
+                ", scOpendoortypeid=" + scOpendoortypeid +
+                ", scEventtypeid=" + scEventtypeid +
+                ", scInoutstatus=" + scInoutstatus +
+                ", scRecordtime=" + scRecordtime +
+                ", scReserve='" + scReserve + '\'' +
+                ", scDevicerecno=" + scDevicerecno +
+                ", scAddtime=" + scAddtime +
+                ", scTimestamp=" + Arrays.toString(scTimestamp) +
+                '}';
     }
 }

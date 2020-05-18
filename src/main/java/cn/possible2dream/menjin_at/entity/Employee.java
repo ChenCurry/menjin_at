@@ -5,7 +5,7 @@ import java.util.Date;
 public class Employee {
     private String scWorkerno;
 
-    private Long scEmpno;
+    private Long scEmpno;//id 数字
 
     private Long scSerierno;
 
