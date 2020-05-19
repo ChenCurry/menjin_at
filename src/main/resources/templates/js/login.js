@@ -7,8 +7,8 @@ function getCookie(name)
 }
 
 if(null != getCookie("username")  && "\"\"" != getCookie("username")){
-    alert("什么时候去进行的判断，然后前端强制跳转到chat.html");
-	window.location.href = "webSocket.html";
+    //alert("什么时候去进行的判断，然后前端强制跳转到chat.html");
+	//window.location.href = "webSocket.html";
 };
 
 function login(){

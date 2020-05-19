@@ -6,7 +6,8 @@ import cn.hutool.log.LogFactory;
 import cn.possible2dream.menjin_at.entity.AccessRecord;
 import cn.possible2dream.menjin_at.entity.EmployeeWithBLOBs;
 import cn.possible2dream.menjin_at.service.EmployeeService;
-import cn.possible2dream.menjin_at.service.impl.EmployeeServiceImpl;
+import com.alibaba.fastjson.JSON;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpSession;
@@ -21,12 +22,12 @@ import java.util.List;
 
 /**
  * WebSocketServer
+ * https://blog.csdn.net/qq_33171970/article/details/55001587
  */
 
     //http://localhost:8080/menjin_at/websocket.html
     //ws://localhost:8080/menjin_at/imserver/10
-
-@ServerEndpoint("/websocket")//     /websocket/{sid}
+@ServerEndpoint(value="/webSocket",configurator=GetHttpSessionConfigurator.class)//     /websocket/{sid}   ,configurator=GetHttpSessionConfigurator.class
 @Component
 public class WebSocketServer {
 
@@ -45,27 +46,41 @@ public class WebSocketServer {
     private String nickname;
     /*连接时唯一对应一个员工*/
     private EmployeeWithBLOBs employee;
-    private static EmployeeService employeeService = EmployeeServiceImpl.getInstance();
+    //private static EmployeeService employeeService = EmployeeServiceImpl.getInstance();
+    //@Resource
+    //  这里使用静态，让 service 属于类
+    private static EmployeeService employeeService;
+    // 注入的时候，给类的 service 注入
+    @Autowired
+    public void setChatService(EmployeeService employeeService) {
+        WebSocketServer.employeeService = employeeService;
+    }
 
     /**
      * 连接建立成功调用的方法*/
     @OnOpen
-    public void onOpen(Session session, @PathParam(value = "sid") String userName) {
+    public void onOpen(Session session, EndpointConfig config) {//, @PathParam(value = "sid") String userName
         this.session = session;
-//        this.httpSession = (HttpSession) config.getUserProperties().get(HttpSession.class.getName());
-        //System.out.println("获取完httpSession:"+httpSession);
+        this.httpSession = (HttpSession) config.getUserProperties().get(HttpSession.class.getName());
+        System.out.println("获取完httpSession:"+httpSession);
 
-//        this.nickname = this.httpSession.getAttribute("name").toString();
-//        String staffId = this.httpSession.getAttribute("staffId").toString();
+        this.nickname = this.httpSession.getAttribute("name").toString();
+        String staffId = this.httpSession.getAttribute("staffId").toString();
 
-//        System.out.println("nickname："+this.nickname+",staffId:"+staffId);
-//        EmployeeWithBLOBs employeeWithBLOBs = employeeService.getEmployee(staffId);
-//        this.employee = employeeWithBLOBs;
+        System.out.println("nickname："+this.nickname+",staffId:"+staffId);
+//        EmployeeService employeeService = new EmployeeServiceImpl();
+        EmployeeWithBLOBs employeeWithBLOBs = employeeService.getEmployee(staffId);
+        this.employee = employeeWithBLOBs;
 
-//        checkLogin(this.employee.getScEmpno());
+        checkLogin(this.employee.getScEmpno());
 //        System.out.println("校验登陆 完成");
-//        connections.put(this.employee.getScEmpno(), this);
+        connections.put(this.employee.getScEmpno(), this);
 //        System.out.println("创建连接 完成");
+        try {
+            this.session.getBasicRemote().sendText(JSON.toJSONString("websocket连接已经建立成功了，现在可以准备业务的事情了"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         //List<MessageToFore> msgs = msgQue.getMessages();
         //将消息缓存传给前台
 //        for(int i=0; i<msgs.size(); i++){
@@ -101,7 +116,7 @@ public class WebSocketServer {
 
     @OnError
     public void onError(Session session, Throwable t) {
-        //System.out.println("Chat Error: " );
+        System.out.println("websocket Error: " );
         connections.remove(this.employee.getScEmpno(),this);
         //t.printStackTrace();
         //LogManager.getLogger(getClass()).log(Level.SEVERE, "id为"+this.employee.getScEmpno()+"的WebSocket对象出错，服务器严重错误", t);

@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 @Controller
 @RequestMapping("/accessRecord")
 public class OriginalRecordController {
+
     @Resource
     private OriginalRecordService originalRecordService;
 
@@ -21,7 +22,7 @@ public class OriginalRecordController {
     @ResponseBody
     public AccessRecord toIndex(HttpServletRequest request){
         long scSerierno = Integer.parseInt(request.getParameter("scSerierno"));
-        AccessRecord accessRecord = this.originalRecordService.getAccessRecordByScSerierno(scSerierno);
+        AccessRecord accessRecord = originalRecordService.getAccessRecordByScSerierno(scSerierno);
         return accessRecord;
     }
 

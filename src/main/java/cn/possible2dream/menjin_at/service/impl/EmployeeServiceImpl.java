@@ -13,11 +13,11 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Resource
     private EmployeeMapper employeeMapper;
 
-    private static final EmployeeServiceImpl single = new EmployeeServiceImpl();
-    //静态工厂方法
-    public static EmployeeServiceImpl getInstance() {
-        return single;
-    }
+//    private static final EmployeeServiceImpl single = new EmployeeServiceImpl();
+//    //静态工厂方法
+//    public static EmployeeServiceImpl getInstance() {
+//        return single;
+//    }
 
     @Override
     public EmployeeWithBLOBs getEmployee(String scWorkerno) {

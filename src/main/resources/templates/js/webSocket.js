@@ -19,30 +19,30 @@ var flag = 0;		//检查微信面板开闭状态
 //初始化方法
 function startWebSocket() {
     var usercookie = getCookie("username");
-    alert(usercookie);
+    //alert("usercookie为"+usercookie);
     if(null != usercookie && "\"\"" != usercookie){
 		var localhost = "localhost:8080";
 //         var localhost = "possible2dream.cn";//nginx
         if ('WebSocket' in window) {
             try {
-                ws = new WebSocket("ws://"+localhost+"/menjin_at/websocket");
+                ws = new WebSocket("ws://"+localhost+"/menjin_at/webSocket");
             } catch (e) {
                 $("#tipsContent").text("建立连接失败");
                 $("#tips").modal('show');
             }
         } else if ('MozWebSocket' in window) {
-            ws = new MozWebSocket("ws://"+localhost+"/menjin_at/websocket");
+            ws = new MozWebSocket("ws://"+localhost+"/menjin_at/webSocket");
         } else {
             $("#tipsContent").text("抱歉，您的浏览器不支持WebSocket");
             $("#tips").modal('show');
         }
 
         ws.onmessage = function(evt) {
-            if("1" == evt.data){
-                logout();//"othersLogin"
+            if("1" == evt.data){//被顶掉了
+                logout("othersLogin");
             }else{
                 //alert(evt.data);
-                console.log(evt.data);
+                console.log("后台传来的消息："+evt.data);
             }
             // else if("kick" == evt.data){
             //     logout("kick");
