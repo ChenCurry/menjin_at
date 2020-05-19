@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpSession;
 import javax.websocket.*;
+import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -25,7 +26,7 @@ import java.util.List;
     //http://localhost:8080/menjin_at/websocket.html
     //ws://localhost:8080/menjin_at/imserver/10
 
-@ServerEndpoint("/websocket")
+@ServerEndpoint("/websocket")//     /websocket/{sid}
 @Component
 public class WebSocketServer {
 
@@ -34,6 +35,7 @@ public class WebSocketServer {
     //private static int onlineCount = 0;
     /**concurrent包的线程安全Set，用来存放每个客户端对应的MyWebSocket对象。*/
     //private static ConcurrentHashMap<String,WebSocketServer> webSocketMap = new ConcurrentHashMap<>();
+    //private static ConcurrentHashMap<String, Session> sessionPools = new ConcurrentHashMap<>();
     private static Hashtable<Long, WebSocketServer> connections = new Hashtable<>();
     //
     public static List<AccessRecord> listAccessRecord = new ArrayList<AccessRecord>();//只用来记在里边的人，这样才有意义
@@ -45,28 +47,25 @@ public class WebSocketServer {
     private EmployeeWithBLOBs employee;
     private static EmployeeService employeeService = EmployeeServiceImpl.getInstance();
 
-
     /**
      * 连接建立成功调用的方法*/
     @OnOpen
-    public void onOpen(Session session, EndpointConfig config) {
-        System.out.println("登陆进页面，进入WebSocketTest的start方法，session="+session.toString()+",config="+config.toString());
+    public void onOpen(Session session, @PathParam(value = "sid") String userName) {
         this.session = session;
-        System.out.println("获取完session:"+session.toString());
-        this.httpSession = (HttpSession) config.getUserProperties().get(HttpSession.class.getName());
-        System.out.println("获取完httpSession:"+httpSession.toString());
+//        this.httpSession = (HttpSession) config.getUserProperties().get(HttpSession.class.getName());
+        //System.out.println("获取完httpSession:"+httpSession);
 
-        this.nickname = this.httpSession.getAttribute("name").toString();
-        String staffId = this.httpSession.getAttribute("staffId").toString();
+//        this.nickname = this.httpSession.getAttribute("name").toString();
+//        String staffId = this.httpSession.getAttribute("staffId").toString();
 
-        System.out.println("nickname："+this.nickname+",staffId:"+staffId);
-        EmployeeWithBLOBs employeeWithBLOBs = employeeService.getEmployee(staffId);
-        this.employee = employeeWithBLOBs;
+//        System.out.println("nickname："+this.nickname+",staffId:"+staffId);
+//        EmployeeWithBLOBs employeeWithBLOBs = employeeService.getEmployee(staffId);
+//        this.employee = employeeWithBLOBs;
 
-        checkLogin(this.employee.getScEmpno());
-        System.out.println("校验登陆 完成");
-        connections.put(this.employee.getScEmpno(), this);
-        System.out.println("创建连接 完成");
+//        checkLogin(this.employee.getScEmpno());
+//        System.out.println("校验登陆 完成");
+//        connections.put(this.employee.getScEmpno(), this);
+//        System.out.println("创建连接 完成");
         //List<MessageToFore> msgs = msgQue.getMessages();
         //将消息缓存传给前台
 //        for(int i=0; i<msgs.size(); i++){
@@ -100,13 +99,21 @@ public class WebSocketServer {
 //        }
     }
 
+    @OnError
+    public void onError(Session session, Throwable t) {
+        //System.out.println("Chat Error: " );
+        connections.remove(this.employee.getScEmpno(),this);
+        //t.printStackTrace();
+        //LogManager.getLogger(getClass()).log(Level.SEVERE, "id为"+this.employee.getScEmpno()+"的WebSocket对象出错，服务器严重错误", t);
+    }
+
     /**
      * 连接关闭调用的方法
      */
     @OnClose
-    public void end() {
+    public void end(@PathParam(value = "sid") String userName) {
         //this.isOpen = false;
-        connections.remove(this.employee.getScEmpno(),this);
+//        connections.remove(this.employee.getScEmpno(),this);
         System.out.println("连接已断开");
     }
 
@@ -139,13 +146,7 @@ public class WebSocketServer {
 //        }
     }
 
-    @OnError
-    public void onError(Throwable t) throws Throwable {
-        //System.out.println("Chat Error: " );
-        connections.remove(this.employee.getScEmpno(),this);
-        //t.printStackTrace();
-        //LogManager.getLogger(getClass()).log(Level.SEVERE, "id为"+this.employee.getScEmpno()+"的WebSocket对象出错，服务器严重错误", t);
-    }
+
 
     /**
      * 实现服务器主动推送
@@ -177,7 +178,7 @@ public class WebSocketServer {
     }
 
     /**
-     *   检查用户是否重复登录
+     *   检查用户是否重复登录,把之前登录的顶掉
      */
     private void checkLogin(Long stfId){
         if(connections.containsKey(stfId)){

@@ -7,7 +7,8 @@ function getCookie(name)
 }
 
 if(null != getCookie("username")  && "\"\"" != getCookie("username")){
-	window.location.href = "login.html";
+    alert("什么时候去进行的判断，然后前端强制跳转到chat.html");
+	window.location.href = "webSocket.html";
 };
 
 function login(){
@@ -37,7 +38,7 @@ function ajaxLogin(username, password){
 			if(200 == xmlhttp.status){
 				if(xmlhttp.responseText == "ok"){
 					if(null != getCookie("username")){
-						var url = "/menjin_at/index.html";
+						var url = "/menjin_at/webSocket.html";
 						window.location.href = url;
 					}else{
 						$("#div_errormsg").html("<div class='alert alert-error' onclick='reset()'>请不要禁用Cookie，否则无法登陆哦亲！</div>");

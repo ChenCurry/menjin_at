@@ -14,6 +14,7 @@ public class LogoutController {
     @RequestMapping("/logout")
     @ResponseBody
     public void logout(HttpServletRequest request, HttpServletResponse response){
+        System.out.println("进入登出后台（这里只是做一个转发，到登录页面）");
         Cookie[] cookies = request.getCookies();
         if(null != cookies && 0 != cookies.length){
             for(int i=0; i<cookies.length; i++){
@@ -28,7 +29,14 @@ public class LogoutController {
             }
         }
         try {
-            response.sendRedirect("login.html");
+            String reason = request.getParameter("reason");
+            if(null == reason || reason.equalsIgnoreCase("logout")){
+                response.sendRedirect("login.html");
+            }else if(reason.equalsIgnoreCase("othersLogin")){
+                response.sendRedirect("othersLogin.html");
+            }else{
+                response.sendRedirect("login.html");
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
