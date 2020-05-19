@@ -18,11 +18,12 @@ var flag = 0;		//检查微信面板开闭状态
 
 //初始化方法
 function startWebSocket() {
-    initTable();
+    //initTable();
     var usercookie = getCookie("username");
     //alert("usercookie为"+usercookie);
     if(null != usercookie && "\"\"" != usercookie){
-		var localhost = "localhost:8080";
+		// var localhost = "localhost:8080";
+		var localhost = "106.75.32.166:8080";
 //         var localhost = "possible2dream.cn";//nginx
         if ('WebSocket' in window) {
             try {
@@ -122,8 +123,9 @@ var TableInit = function () {
 
 function appendTable(dataSS){
     //alert("准备追加到表格："+dataSS);
-    var zTreeDoorData = [];
+    //var zTreeDoorData = [];
     var doorIdArr = JSON.parse(dataSS)
+    /*
     for( var i = 0; i < 1; i++) {
         var treedoor = {
             scCardguidno    : doorIdArr.scCardguidno ,//doorIdArr[i].scCardguidno ,
@@ -138,6 +140,13 @@ function appendTable(dataSS){
         var dataTree2 = zTreeDoorData[j];
         $('#tab1').bootstrapTable('append', dataTree2);
     }
+    */
+
+    var tdArr = document.getElementById('#tab1').firstElementChild;
+    var tr = document.createElement("tr");
+    tr.innerHTML = '<td>' + doorIdArr.scCardguidno + '</td><td  >' + doorIdArr.scDoorno+ '</td><td  >'
+        + doorIdArr.scDoorno+ '</td><td  >' + doorIdArr.scInoutstatus + '</td><td  >' + doorIdArr.scRecordtime + '</td>';
+    tdArr.appendChild(tr);
 }
 
 //建立webSocket连接时的方法
