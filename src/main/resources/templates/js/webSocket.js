@@ -18,6 +18,7 @@ var flag = 0;		//检查微信面板开闭状态
 
 //初始化方法
 function startWebSocket() {
+    initTable();
     var usercookie = getCookie("username");
     //alert("usercookie为"+usercookie);
     if(null != usercookie && "\"\"" != usercookie){
@@ -43,6 +44,8 @@ function startWebSocket() {
             }else{
                 //alert(evt.data);
                 console.log("后台传来的消息："+evt.data);
+                //向表格中追加实时内容
+                appendTable(evt.data);
             }
             // else if("kick" == evt.data){
             //     logout("kick");
@@ -76,6 +79,66 @@ function startWebSocket() {
 window.onbeforeunload = function(){
     ws.close();
 };
+
+function initTable(){
+    var table1_div = document.getElementById("table1_div");
+
+    //1.初始化Table
+    var oTable = new TableInit();
+    oTable.Init();
+
+    table1_div.appendChild(oTable);
+}
+
+var TableInit = function () {
+    var oTableInit = new Object();
+    //初始化Table
+    oTableInit.Init = function () {
+        $('#tab1').bootstrapTable({
+            striped: true,   //是否显示行间隔色
+            cache: false,   //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+            clickToSelect: true,  //是否启用点击选中行
+            columns: [
+                {
+                    field: 'scCardguidno',
+                    title: '员工卡号'
+                }, {
+                    field: 'scDoorno',
+                    title: '哪个门'
+                }, {
+                    field: 'scDoorno',
+                    title: '闸机号'
+                }, {
+                    field: 'scInoutstatus',
+                    title: '进出'
+                }, {
+                    field: 'scRecordtime',
+                    title: '时间'
+                }]
+        });
+    };
+    return oTableInit;
+};
+
+function appendTable(dataSS){
+    //alert("准备追加到表格："+dataSS);
+    var zTreeDoorData = [];
+    var doorIdArr = JSON.parse(dataSS)
+    for( var i = 0; i < 1; i++) {
+        var treedoor = {
+            scCardguidno    : doorIdArr.scCardguidno ,//doorIdArr[i].scCardguidno ,
+            scDoorno    : doorIdArr.scDoorno ,
+            scDoorno        : doorIdArr.scDoorno,
+            scInoutstatus  : doorIdArr.scInoutstatus,
+            scRecordtime     : doorIdArr.scRecordtime
+        }
+        zTreeDoorData.push(treedoor);
+    }
+    for(var j = 0; j < zTreeDoorData.length; j++) {
+        var dataTree2 = zTreeDoorData[j];
+        $('#tab1').bootstrapTable('append', dataTree2);
+    }
+}
 
 //建立webSocket连接时的方法
 function onOpen(evt) {

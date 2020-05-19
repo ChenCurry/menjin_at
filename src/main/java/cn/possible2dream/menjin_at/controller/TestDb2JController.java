@@ -3,6 +3,7 @@ package cn.possible2dream.menjin_at.controller;
 import cn.possible2dream.menjin_at.config.WebSocketServer;
 import cn.possible2dream.menjin_at.entity.AccessRecord;
 import cn.possible2dream.menjin_at.service.OriginalRecordService;
+import com.alibaba.fastjson.JSON;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -33,7 +34,8 @@ public class TestDb2JController {
             AccessRecord accessRecord = originalRecordService.getAccessRecordByScSerierno(scSerierno);
             //WebSocketServer.listAccessRecord.add(accessRecord);
 
-            WebSocketServer.broadCast(accessRecord.toString());
+            WebSocketServer.broadCast(JSON.toJSONString(accessRecord));
+
             //System.out.println(accessRecord);
             try {
                 response.getWriter().println(192);

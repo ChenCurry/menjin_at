@@ -6,7 +6,6 @@ import cn.hutool.log.LogFactory;
 import cn.possible2dream.menjin_at.entity.AccessRecord;
 import cn.possible2dream.menjin_at.entity.EmployeeWithBLOBs;
 import cn.possible2dream.menjin_at.service.EmployeeService;
-import com.alibaba.fastjson.JSON;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -22,7 +21,9 @@ import java.util.List;
 
 /**
  * WebSocketServer
+ * https://www.cnblogs.com/JohanChan/p/12522001.html
  * https://blog.csdn.net/qq_33171970/article/details/55001587
+ * https://blog.csdn.net/m0_37202351/article/details/86255132
  */
 
     //http://localhost:8080/menjin_at/websocket.html
@@ -76,11 +77,11 @@ public class WebSocketServer {
 //        System.out.println("校验登陆 完成");
         connections.put(this.employee.getScEmpno(), this);
 //        System.out.println("创建连接 完成");
-        try {
-            this.session.getBasicRemote().sendText(JSON.toJSONString("websocket连接已经建立成功了，现在可以准备业务的事情了"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            this.session.getBasicRemote().sendText(JSON.toJSONString("websocket连接已经建立成功了，现在可以准备业务的事情了"));
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
         //List<MessageToFore> msgs = msgQue.getMessages();
         //将消息缓存传给前台
 //        for(int i=0; i<msgs.size(); i++){
