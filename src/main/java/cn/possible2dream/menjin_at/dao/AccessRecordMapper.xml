@@ -18,6 +18,27 @@
   <resultMap id="ResultMapWithBLOBs" type="cn.possible2dream.menjin_at.entity.AccessRecord" extends="BaseResultMap" >
     <result column="SC_TimeStamp" property="scTimestamp" jdbcType="BINARY" />
   </resultMap>
+
+  <!--自定义查询 结果集-->
+  <resultMap id="MyResultMap" type="cn.possible2dream.menjin_at.entity.OriginalRecord" >
+    <id column="SC_SerierNO" property="scSerierno" jdbcType="BIGINT" />
+    <result column="SC_DoorNO" property="scDoorno" jdbcType="INTEGER" />
+    <result column="SC_CardGuidNO" property="scCardguidno" jdbcType="BIGINT" />
+    <result column="SC_EventTypeID" property="scEventtypeid" jdbcType="TINYINT" />
+    <result column="SC_InOutStatus" property="scInoutstatus" jdbcType="TINYINT" />
+    <result column="SC_DeviceRecNO" property="scDevicerecno" jdbcType="INTEGER" />
+    <result column="SC_RecordTime" property="scRecordtime" jdbcType="TIMESTAMP" />
+    <result column="SC_AddTime" property="scAddtime" jdbcType="TIMESTAMP" />
+    <!--SC_Employee 表-->
+    <result column="SC_WorkerNO" property="scWorkerno" jdbcType="NVARCHAR" />
+    <result column="SC_Name" property="scName" jdbcType="NVARCHAR" />
+    <result column="SC_MobileNO" property="scMobileno" jdbcType="NVARCHAR" />
+    <result column="SC_IDTypeID" property="scIdtypeid" jdbcType="INTEGER" />
+    <result column="SC_DepartmentID" property="scDepartmentid" jdbcType="INTEGER" />
+    <!--SC_Department 表-->
+    <result column="SC_DepartmentName" property="scDepartmentname" jdbcType="NVARCHAR" />
+  </resultMap>
+
   <sql id="Base_Column_List" >
     SC_SerierNO, SC_DoorNO, SC_UserDefineCardNO, SC_CardGuidNO, SC_EmpID, SC_OpenDoorTypeID, 
     SC_EventTypeID, SC_InOutStatus, SC_RecordTime, SC_Reserve, SC_DeviceRecNO, SC_AddTime
@@ -33,6 +54,24 @@
     from SC_AccessRecord
     where SC_SerierNO = #{scSerierno,jdbcType=BIGINT}
   </select>
+
+  <select id="selectAllByMaxId" resultMap="MyResultMap" parameterType="java.lang.Long" >
+    select a.SC_SerierNO,a.SC_DoorNO,a.SC_CardGuidNO,a.SC_EventTypeID
+    ,a.SC_InOutStatus,a.SC_DeviceRecNO,a.SC_RecordTime,a.SC_AddTime
+
+    ,b.SC_WorkerNO,b.SC_Name,b.SC_MobileNO,b.SC_IDTypeID,b.SC_DepartmentID
+
+    ,c.SC_DepartmentName
+
+    from SC_AccessRecord a,SC_Employee b,SC_Department c
+    where a.SC_SerierNO > #{scSerierno,jdbcType=BIGINT}
+    and b.SC_DepartmentID=c.SC_DepartmentID
+    and b.SC_MobileNO like '%'+convert(varchar(20),a.SC_CardGuidNO)
+    order by a.SC_SerierNO desc;
+  </select>
+
+
+
 
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
     delete from SC_AccessRecord
