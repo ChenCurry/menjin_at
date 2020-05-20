@@ -1,5 +1,5 @@
 /**
- * 聊天前台
+ *
  */
 
 var ws = null;	//websocket对象
@@ -15,15 +15,44 @@ var recentMsg = new Array("","");	//最近微信消息
 var state = "A";	//用户状态
 var flag = 0;		//检查微信面板开闭状态
 
+//设置需要显示的列
+var columns = [
+    {
+        field: 'scCardguidno',
+        title: '员工卡号'
+    }, {
+        field: 'scDoorno',
+        title: '哪个门'
+        // .align: 'center'
+    }, {
+        field: 'scInoutstatus',
+        title: '进出'
+    }, {
+        field: 'scRecordtime',
+        title: '时间'
+    }];
+
+var data= [{
+    scCardguidno: '110',
+    scDoorno: 'xxx',
+    scInoutstatus: '201',
+    scRecordtime: '2018-04-23 17:16:13.413'
+}, {
+    scCardguidno: '112',
+    scDoorno: 'xxx',
+    scInoutstatus: '201',
+    scRecordtime: '2018-04-23 17:16:13.413'
+} ];
+
 
 //初始化方法
 function startWebSocket() {
-    //initTable();
+    initTable();
     var usercookie = getCookie("username");
     //alert("usercookie为"+usercookie);
     if(null != usercookie && "\"\"" != usercookie){
-		// var localhost = "localhost:8080";
-		var localhost = "106.75.32.166:8080";
+		var localhost = "localhost:8080";
+		// var localhost = "106.75.32.166:8080";
 //         var localhost = "possible2dream.cn";//nginx
         if ('WebSocket' in window) {
             try {
@@ -82,55 +111,78 @@ window.onbeforeunload = function(){
 };
 
 function initTable(){
-    var table1_div = document.getElementById("table1_div");
+    //初始化数据
+    $('#tab1').bootstrapTable({
+        //toolbar:"#toolbar",
+        data:data,
+        columns: columns,
+        pagination:false
+    });
 
-    //1.初始化Table
-    var oTable = new TableInit();
-    oTable.Init();
-
-    table1_div.appendChild(oTable);
+    /*var t = $("#tab1").bootstrapTable({
+        striped: true,//设置为 true 会有隔行变色效果
+        data_local: "zh-US",//表格汉化
+        columns: [
+            {
+                field: 'scCardguidno',
+                title: '员工卡号'
+            }, {
+                field: 'scDoorno',
+                title: '哪个门'
+                // .align: 'center'
+            }, {
+                field: 'scInoutstatus',
+                title: '进出'
+            }, {
+                field: 'scRecordtime',
+                title: '时间'
+            }]
+    });*/
 }
 
-var TableInit = function () {
-    var oTableInit = new Object();
-    //初始化Table
-    oTableInit.Init = function () {
-        $('#tab1').bootstrapTable({
-            striped: true,   //是否显示行间隔色
-            cache: false,   //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
-            clickToSelect: true,  //是否启用点击选中行
-            columns: [
-                {
-                    field: 'scCardguidno',
-                    title: '员工卡号'
-                }, {
-                    field: 'scDoorno',
-                    title: '哪个门'
-                }, {
-                    field: 'scDoorno',
-                    title: '闸机号'
-                }, {
-                    field: 'scInoutstatus',
-                    title: '进出'
-                }, {
-                    field: 'scRecordtime',
-                    title: '时间'
-                }]
-        });
-    };
-    return oTableInit;
-};
+function loadData()
+{
+    //newData需要追加的新数据
+    var newData = [{
+        scCardguidno: '110',
+        scDoorno: 'xxx',
+        scInoutstatus: '201',
+        scRecordtime: '2018-04-23 17:16:13.413'
+    }, {
+        scCardguidno: '112',
+        scDoorno: 'xxx',
+        scInoutstatus: '201',
+        scRecordtime: '2018-04-23 17:16:13.413'
+    } ];
+
+    $('#tab1').bootstrapTable('append', newData);
+}
 
 function appendTable(dataSS){
     //alert("准备追加到表格："+dataSS);
-    //var zTreeDoorData = [];
-    var doorIdArr = JSON.parse(dataSS)
+    var zTreeDoorData = [];
+    var doorIdArr = JSON.parse(dataSS);
+    // $('#tab1').bootstrapTable('removeAll');
+    // zTreeDoorData.splice(0,zTreeDoorData.length);
+
+
+
+    var newData = [{
+        scCardguidno: doorIdArr.scCardguidno,
+        scDoorno: doorIdArr.scDoorno,
+        scInoutstatus: doorIdArr.scInoutstatus,
+        scRecordtime: doorIdArr.scRecordtime
+    } ];
+
+    $('#tab1').bootstrapTable('append', newData);
+
+
+
     /*
     for( var i = 0; i < 1; i++) {
         var treedoor = {
             scCardguidno    : doorIdArr.scCardguidno ,//doorIdArr[i].scCardguidno ,
             scDoorno    : doorIdArr.scDoorno ,
-            scDoorno        : doorIdArr.scDoorno,
             scInoutstatus  : doorIdArr.scInoutstatus,
             scRecordtime     : doorIdArr.scRecordtime
         }
@@ -139,14 +191,15 @@ function appendTable(dataSS){
     for(var j = 0; j < zTreeDoorData.length; j++) {
         var dataTree2 = zTreeDoorData[j];
         $('#tab1').bootstrapTable('append', dataTree2);
-    }
-    */
+    }*/
 
-    var tdArr = document.getElementById('#tab1').firstElementChild;
+    /*
+    var tdArr = $('#tab1').lastElementChild;//lastChild lastElementChild  firstElementChild
     var tr = document.createElement("tr");
     tr.innerHTML = '<td>' + doorIdArr.scCardguidno + '</td><td  >' + doorIdArr.scDoorno+ '</td><td  >'
         + doorIdArr.scDoorno+ '</td><td  >' + doorIdArr.scInoutstatus + '</td><td  >' + doorIdArr.scRecordtime + '</td>';
-    tdArr.appendChild(tr);
+    tdArr.appendChild(tr);//append
+*/
 }
 
 //建立webSocket连接时的方法

@@ -129,7 +129,7 @@ public class WebSocketServer {
     @OnClose
     public void end(@PathParam(value = "sid") String userName) {
         //this.isOpen = false;
-//        connections.remove(this.employee.getScEmpno(),this);
+        connections.remove(this.employee.getScEmpno(),this);
         System.out.println("连接已断开");
     }
 

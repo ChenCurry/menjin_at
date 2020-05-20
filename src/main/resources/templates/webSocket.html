@@ -8,20 +8,15 @@
     <title>实时统计</title>
     <link rel="shortcut icon" href="img/favicon.ico">
     <!--
-    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
-    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
-    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    -->
-    <!--
     <link rel="stylesheet" href="cljsjs/bootstrap/3.3.6-1/css/bootstrap.min.css">
     <script type='text/javascript' src='cljsjs/jquery/1.9.1-0/jquery.min.js'></script>
     <script type='text/javascript' src="cljsjs/bootstrap/3.3.6-1/js/bootstrap.min.js"></script>
      -->
     <link rel="stylesheet" href="bootstrap/css/bootstrap.css">
-    <script src="js/jquery-1.4.min.js"></script>
+    <script src="js/jquery.min.js"></script>
     <script type="text/javascript" src="bootstrap/js/bootstrap.min.js"></script>
     <script src="1.15.5/bootstrap-table.js"></script>
-    <script src="bootstrap/js/bootstrap.js"></script>
+    <!--<script src="bootstrap/js/bootstrap.js"></script>-->
     <script src="js/webSocket.js"></script>
 </head>
 <body onLoad="startWebSocket()">
@@ -42,38 +37,42 @@
 
 <div>
 
-    <div id="table1_div" class="table-responsive">
+    <div id="toolbar">
+        <!--<button onclick="loadData()">append追加数据到最后</button>-->
+    </div>
+    <div class="table-demo">
+        <table id="tab1" ></table>
+    </div>
+
+    <!--<div id="table1_div" class="table-responsive">
         <table id="tab1" class="table">
             <caption>进出记录</caption>
             <thead>
             <tr>
-                <th>员工卡号</th>
-                <th>哪个门</th>
-                <th>闸机号</th>
-                <th>进出</th>
-                <th>时间</th>
+                <th data-field="scCardguidno">员工卡号</th>
+                <th data-field="scDoorno">哪个门</th>
+                <th data-field="scInoutstatus">进出</th>
+                <th data-field="scRecordtime">时间</th>
             </tr>
             </thead>
             <tbody>
             <tr>
                 <td>110</td>
                 <td>xxx</td>
-                <td>111</td>
                 <td>201</td>
                 <td>2018-04-23 17:16:13.413</td>
             </tr>
             </tbody>
         </table>
-    </div>
+    </div>-->
 
-    <div class="table-responsive">
+    <!--<div class="table-responsive">
         <table id="tab2" class="table">
             <caption>室内人员</caption>
             <thead>
             <tr>
                 <th>员工卡号</th>
                 <th>哪个门</th>
-                <th>闸机号</th>
                 <th>进出</th>
                 <th>时间</th>
             </tr>
@@ -82,13 +81,12 @@
             <tr>
                 <td>110</td>
                 <td>xxx</td>
-                <td>111</td>
                 <td>201</td>
                 <td>2018-04-23 17:16:13.413</td>
             </tr>
             </tbody>
         </table>
-    </div>
+    </div>-->
 
 
 </div>

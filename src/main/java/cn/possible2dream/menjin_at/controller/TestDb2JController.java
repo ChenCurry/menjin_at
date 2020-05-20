@@ -36,7 +36,7 @@ public class TestDb2JController {
 
             WebSocketServer.broadCast(JSON.toJSONString(accessRecord));
 
-            //System.out.println(accessRecord);
+            System.out.println("已经进行了广播");
             try {
                 response.getWriter().println(192);
             } catch (IOException e) {
