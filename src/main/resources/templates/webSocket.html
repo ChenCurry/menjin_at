@@ -7,16 +7,11 @@
     <meta charset="utf-8">
     <title>实时统计</title>
     <link rel="shortcut icon" href="img/favicon.ico">
-    <!--
-    <link rel="stylesheet" href="cljsjs/bootstrap/3.3.6-1/css/bootstrap.min.css">
-    <script type='text/javascript' src='cljsjs/jquery/1.9.1-0/jquery.min.js'></script>
-    <script type='text/javascript' src="cljsjs/bootstrap/3.3.6-1/js/bootstrap.min.js"></script>
-     -->
     <link rel="stylesheet" href="bootstrap/css/bootstrap.css">
+    <!--<link rel="stylesheet" href="css/webSocket.css">-->
     <script src="js/jquery.min.js"></script>
     <script type="text/javascript" src="bootstrap/js/bootstrap.min.js"></script>
     <script src="1.15.5/bootstrap-table.js"></script>
-    <!--<script src="bootstrap/js/bootstrap.js"></script>-->
     <script src="js/webSocket.js"></script>
 </head>
 <body onLoad="startWebSocket()">
@@ -27,67 +22,50 @@
 
 <!--<p>AT门禁闸机实时数据统计</p>-->
 <ul class="nav nav-pills">
-    <li class="active"><a href="#">实时</a></li>
-    <li><a href="#">进出记录</a></li>
-    <li><a href="#">室内时长</a></li>
-    <li><a href="#">班别</a></li>
-    <li><a href="#">迟到情况</a></li>
-    <li><a href="#">早退情况</a></li>
+    <li id="li01" class="active" onclick="loadK(1)"><a href="#">实时</a></li>
+    <li id="li02" onclick="loadK(2)"><a href="#">进出记录</a></li>
+    <li id="li03" onclick="loadK(3)"><a href="#">室内时长</a></li>
+    <li id="li04" onclick="loadK(4)"><a href="#">班别</a></li>
+    <li id="li05" onclick="loadK(5)"><a href="#">迟到情况</a></li>
+    <li id="li06" onclick="loadK(6)"><a href="#">早退情况</a></li>
 </ul>
 
 <div>
-
-    <div id="toolbar">
-        <!--<button onclick="loadData()">append追加数据到最后</button>-->
+    <div id="div1">
+        <div  style="width:49%;float:left;">
+            <p>实时进出</p>
+            <table id="tab1" ></table>
+        </div>
+        <div  style="width:49%;float:right;">
+            <p>室内人员</p>
+            <table id="tab2" ></table>
+        </div>
     </div>
-    <div class="table-demo">
-        <table id="tab1" ></table>
+
+    <div id="div2" style="display:none;">
+        <p>第二个页面</p>
+        <table id="tab3" ></table>
     </div>
 
-    <!--<div id="table1_div" class="table-responsive">
-        <table id="tab1" class="table">
-            <caption>进出记录</caption>
-            <thead>
-            <tr>
-                <th data-field="scCardguidno">员工卡号</th>
-                <th data-field="scDoorno">哪个门</th>
-                <th data-field="scInoutstatus">进出</th>
-                <th data-field="scRecordtime">时间</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td>110</td>
-                <td>xxx</td>
-                <td>201</td>
-                <td>2018-04-23 17:16:13.413</td>
-            </tr>
-            </tbody>
-        </table>
-    </div>-->
+    <div id="div3" style="display:none;">
+        <p>第三个页面</p>
+        <table id="tab4" ></table>
+    </div>
 
-    <!--<div class="table-responsive">
-        <table id="tab2" class="table">
-            <caption>室内人员</caption>
-            <thead>
-            <tr>
-                <th>员工卡号</th>
-                <th>哪个门</th>
-                <th>进出</th>
-                <th>时间</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td>110</td>
-                <td>xxx</td>
-                <td>201</td>
-                <td>2018-04-23 17:16:13.413</td>
-            </tr>
-            </tbody>
-        </table>
-    </div>-->
+    <div id="div4" style="display:none;">
+        <p>第四个页面</p>
+        <table id="tab5" ></table>
+    </div>
 
+    <div id="div5" style="display:none;">
+        <p>第五个页面</p>
+        <table id="tab6" ></table>
+    </div>
+
+    <div id="div6" style="display:none;">
+        <p>第六个页面</p>
+        <table id="tab7" ></table>
+    </div>
 
 </div>
 
