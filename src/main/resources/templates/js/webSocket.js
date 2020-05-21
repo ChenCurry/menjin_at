@@ -127,13 +127,13 @@ function startWebSocket() {
                 logout("othersLogin");
             } else {
                 //alert(evt.data);
-                console.log("后台传来的消息：" + evt.data);
+                //console.log("后台传来的消息：" + evt.data);
                 //向表格中追加实时内容
                 appendTable(evt.data);
             }
         };
         ws.onclose = function (evt) {
-            alert("服务器已断开!");
+            //alert("服务器已断开!");
             window.location.href = "/menjin_at/login.html";
         };
         ws.onopen = function (evt) {
@@ -144,7 +144,6 @@ function startWebSocket() {
         logout("logout");
     }
 }
-
 
 /**
  * 导航切换
@@ -192,23 +191,10 @@ function initTable() {
     $('#tab2').bootstrapTable('hideLoading');
 }
 
-function loadData() {
-    //newData需要追加的新数据
-    var newData = [{
-        scCardguidno: '110',
-        scDoorno: 'xxx',
-        scInoutstatus: '201',
-        scRecordtime: '2018-04-23 17:16:13.413'
-    }, {
-        scCardguidno: '112',
-        scDoorno: 'xxx',
-        scInoutstatus: '201',
-        scRecordtime: '2018-04-23 17:16:13.413'
-    }];
-
-    $('#tab1').bootstrapTable('append', newData);
-}
-
+/**
+ * 更新表格数据
+ * @param dataSS
+ */
 function appendTable(dataSS) {
     // alert("准备追加到表格："+dataSS);
     var zTreeDoorData = [];
@@ -235,32 +221,6 @@ function appendTable(dataSS) {
 
         $('#tab1').bootstrapTable('append', newData);
     }
-
-
-
-
-    /*
-    for( var i = 0; i < 1; i++) {
-        var treedoor = {
-            scCardguidno    : doorIdArr.scCardguidno ,//doorIdArr[i].scCardguidno ,
-            scDoorno    : doorIdArr.scDoorno ,
-            scInoutstatus  : doorIdArr.scInoutstatus,
-            scRecordtime     : doorIdArr.scRecordtime
-        }
-        zTreeDoorData.push(treedoor);
-    }
-    for(var j = 0; j < zTreeDoorData.length; j++) {
-        var dataTree2 = zTreeDoorData[j];
-        $('#tab1').bootstrapTable('append', dataTree2);
-    }*/
-
-    /*
-    var tdArr = $('#tab1').lastElementChild;//lastChild lastElementChild  firstElementChild
-    var tr = document.createElement("tr");
-    tr.innerHTML = '<td>' + doorIdArr.scCardguidno + '</td><td  >' + doorIdArr.scDoorno+ '</td><td  >'
-        + doorIdArr.scDoorno+ '</td><td  >' + doorIdArr.scInoutstatus + '</td><td  >' + doorIdArr.scRecordtime + '</td>';
-    tdArr.appendChild(tr);//append
-*/
 }
 
 //建立webSocket连接时的方法
@@ -272,34 +232,12 @@ function onOpen(evt) {
     };*/
 }
 
-//
+//获取到cookie
 function getCookie(name) {
     var arr, reg = new RegExp("(^| )" + name + "=([^;]*)(;|$)");
     if (arr = document.cookie.match(reg))
         return unescape(arr[2]);
     else return null;
-}
-
-//发送消息
-function sendMessage() {
-    var message = $.trim($("#newmessage").val());
-    if ("" == message) {
-        $("#newmessage").val("");
-        $("#newmessage").attr("placeholder", "说点什么再点发送吧~");
-        $("#newmessage").focus();
-    }
-    else {
-        recentMsg[targetId] = "";
-        var jsonMsg = {
-            "targetType": "send",
-            "message": message,
-            "type": "N",
-            "targetId": targetId
-        };
-        ws.send(JSON.stringify(jsonMsg));
-        $("#newmessage").attr("placeholder", "快来冒个泡吧~");
-        document.getElementById("newmessage").value = "";
-    }
 }
 
 //监听键盘Ctry+Enter发送消息
@@ -315,164 +253,6 @@ function logout(reason) {
     window.location.href = url;
 }
 
-//关闭最右侧面板
-function closeSpan() {
-    $(".span4").remove();
-    $(".span7").attr("class", "span7");
-    $(".span1").attr("class", "span2 offset1");
-    $("#li2").attr("class", " ");
-    $("#li1").attr("class", "active");
-    flag = 0;
-}
-
-//显示群共享面板
-function groupFile() {
-    $(".span4").remove();
-    $(".span7").attr("class", "span7");
-    $(".span2").attr("class", "span1");
-    $("#li1").attr("class", " ");
-    $("#li2").attr("class", "active");
-    $(".maincontent").append("<div class=\"span4\"><legend>共享文件</legend><div id=\"form\"><div id=\"fileList\"></div></div></div>");
-    $('.span4').append("<div id=\"test\"><input type=\"file\" id=\"file\" name=\"file\"></div><button class='btn' onclick=\"uploadFile()\">上传文件</button>");
-    $('.span4').append("<button class='btn' onclick='closeSpan()'>关闭</button>");
-    getFileList();
-}
-
-//查询在线用户
-function search() {
-    var names = new Array();
-    for (var i = 3; i <= userCount + 2; i++) {
-        $("#userlist").children().eq(i).children().show();
-    }
-    for (var i = 3; i <= userCount + 2; i++) {
-        names[names.length] = $("#userlist").children().eq(i).children().eq(1).text();
-    }
-    var searchValue = $("#search").val();
-    if (searchValue != "") {
-        var pos;
-        var result = [];
-        for (var i = 0; i < names.length; i++) {
-            var srch = names[i] || '';
-            pos = find(searchValue, srch);
-            if (pos >= 0) {
-                result[result.length] = i + 3;
-            }
-        }
-        for (var i = 3; i <= userCount + 2; i++) {
-            $("#userlist").children().eq(i).children().hide();
-            for (var j = 0; j < result.length; j++) {
-                if (result[j] == i) {
-                    $("#userlist").children().eq(i).children().show();
-                }
-            }
-        }
-    }
-}
-
-//用户输入的值和当前在线用户姓名做比较返回匹配位置
-function find(searchValue, srch) {
-    var nSize = searchValue.length;
-    var nLen = srch.length;
-    var sCompare;
-    if (nSize <= nLen) {
-        for (var i = 0; i <= nLen - nSize + 1; i++) {
-            sCompare = srch.substring(i, i + nSize);
-            if (sCompare == searchValue) {
-                return i;
-            }
-        }
-    }
-    return -1;
-}
-
-//发送图片
-function sendImage() {
-    var file = $("#choose_image");
-    if (isImage(file) != -1) {
-        uploadImage();
-    } else {
-        $("#tipsContent").text("请选择图片");
-        $("#tips").modal('show');
-    }
-}
-
-//通过文件判断是否为图片
-function isImage(file) {
-    var filename = file[0].value;
-    var fileType = filename.substring(filename.lastIndexOf("."));
-    var imageType = [".jpg", ".png", ".gif", ".jpeg", ".PNG", ".JPG", ".GIF", ".JPEG"];
-    return $.inArray(fileType, imageType);
-}
-
-function uploadImage() {
-    // 开始上传文件时显示一个图片
-    $.ajaxFileUpload({
-        url: "upload?action_type=sendImage",
-        secureuri: false, //一般设置为false
-        fileElementId: 'choose_image', // 上传文件的id、name属性名
-        dataType: 'json', //返回值类型
-        success: function (data, status) {
-            var image_url = data.url;
-            var obj = {
-                "targetType": "send",
-                "type": "I",
-                "message": image_url,
-                "targetId": targetId,
-            };
-            ws.send(JSON.stringify(obj));
-        },
-        error: function (data, status, e) {
-            $("#tipsContent").text("发送消息失败");
-            $("#tips").modal('show');
-        }
-    });
-    $("#choose_image").change(function () {
-        sendImage();
-    });
-}
-
-//超级管理员登录
-function superman() {
-    if ("S" == power) {
-        $('.userHead').attr('onmousedown', 'kickPerson(event)');
-    }
-}
-
-//管理员操作
-function kickPerson(event) {
-    if (event.button == 2) {
-        personId = event.target.parentNode.parentNode.getAttribute('id').substring(9);
-        alert(event.target.parentNode.parentNode.getAttribute('id').substring(9));
-        $("#superHeader").text("超级管理");
-        $("#superContent").html("<div class='alert'><p><strong>警告</strong> 你要禁言他了，这样不太好吧！<button class='btn btn-danger' data-dismiss='alert' onclick=\"changeState('X'," + personId + ");\" style='float:right'>禁言</button></p></div>" +
-            "<div class='alert alert-error'><p><strong>警告</strong> 你要停用他了，这样真的不太好吧！<button class='btn btn-danger' data-dismiss='alert' onclick=\"changeState('I'," + personId + ");\" style='float:right'>停用</button></p></div>");
-        $("#supertips").modal('show');
-    }
-}
-
-//改变用户状态
-function changeState(state, personId) {
-    var obj = {
-        "targetType": "changeState",
-        "message": state,
-        "targetId": personId,
-    };
-    ws.send(JSON.stringify(obj));
-    $("#supertips").modal('hide');
-}
-
-//显示聊天表情
-// $(function (){
-//     $jq("a.face").smohanfacebox({
-//         Event : "click",
-//         divid : "Smohan_FaceBox",
-//         textid : "newmessage"
-//     });
-//
-//     $("#choose_image").change(function(){
-//         sendImage();
-//     });
-// });
 
 //转换时间格式
 /**
