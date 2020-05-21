@@ -1,5 +1,8 @@
 package cn.possible2dream.menjin_at.util;
 
+import cn.possible2dream.menjin_at.config.ApplicationContextUtil;
+import cn.possible2dream.menjin_at.config.WebSocketServer;
+import cn.possible2dream.menjin_at.service.EmployeeService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -11,12 +14,16 @@ import java.util.Timer;
  */
 @Configuration
 public class MyTimer {
+
+    EmployeeService employeeService = (EmployeeService) ApplicationContextUtil.getBean("employeeService");
+
     @Bean
     public void testQuartzTrigger1() {
         //1.创建一个timer实例
         Timer timer = new Timer();
         //2.创建一个MyTimerTask实例
         MyTimeTask myTimeTask = new MyTimeTask("No.1");
+        WebSocketServer.scSeriernoMax = employeeService.selectMaxScSerierno();
 
         //3.通过timer定时定频率调用myTimerTask的业务逻辑
         // 即 第一次执行是在当前时间的两秒之后，之后每隔一秒钟执行一次\
