@@ -1,4 +1,4 @@
-package cn.possible2dream.menjin_at.dao;
+package cn.possible2dream.menjin_at.mapper;
 
 import cn.possible2dream.menjin_at.entity.Department;
 

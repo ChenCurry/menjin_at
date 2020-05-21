@@ -26,7 +26,7 @@
             <property name="enableSubPackages" value="true"/>
         </sqlMapGenerator>
         <!--生成Dao类存放位置-->
-        <javaClientGenerator type="XMLMAPPER" targetPackage="cn.possible2dream.menjin_at.dao" targetProject="src">
+        <javaClientGenerator type="XMLMAPPER" targetPackage="cn.possible2dream.menjin_at.mapper" targetProject="src">
             <property name="enableSubPackages" value="true"/>
         </javaClientGenerator>
         <!--对应的数据库表及model中生成的类名-->

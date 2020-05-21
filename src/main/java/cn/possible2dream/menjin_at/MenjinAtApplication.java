@@ -6,7 +6,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-@MapperScan("cn.possible2dream.menjin_at.dao")
+@MapperScan("cn.possible2dream.menjin_at.mapper")
 public class MenjinAtApplication {
 
     public static void main(String[] args) {

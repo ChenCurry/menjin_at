@@ -1,4 +1,4 @@
-package cn.possible2dream.menjin_at.dao;
+package cn.possible2dream.menjin_at.mapper;
 
 import cn.possible2dream.menjin_at.entity.AccessRecord;
 import cn.possible2dream.menjin_at.entity.OriginalRecord;
@@ -20,6 +20,12 @@ public interface AccessRecordMapper {
      * @return
      */
     List<OriginalRecord> selectAllByMaxId(Long scSerierno);
+
+    /**
+     * 查询当前最大的 scSerierno
+     * @return
+     */
+    Long selectMaxScSerierno();
 
     int updateByPrimaryKeySelective(AccessRecord record);
 

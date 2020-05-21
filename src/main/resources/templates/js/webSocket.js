@@ -15,35 +15,88 @@ var recentMsg = new Array("", "");	//最近微信消息
 var state = "A";	//用户状态
 var flag = 0;		//检查微信面板开闭状态
 
+/*
+* {
+"scAddtime":1590040984477,
+"scCardguidno":1411969022,
+"scDepartmentid":39,
+"scDepartmentname":"封装生产部",
+"scDoorno":10,
+"scEventtypeid":0,
+"scIdtypeid":1,
+"scInoutstatus":-55,
+"scMobileno":"1411969022",
+"scName":"任显浩",
+"scRecordtime":1590040982000,
+"scSerierno":2976369,
+"scWorkerno":"CQ04661"
+}
+* */
 //设置需要显示的列
 var columns = [
     {
-        field: 'scCardguidno',
-        title: '员工卡号'
+        field: 'scRecordtime',
+        title: '记录时间'
     }, {
         field: 'scDoorno',
-        title: '哪个门'
-        // .align: 'center'
+        title: '门号'
+    }, {
+        field: 'scName',
+        title: '姓名'
     }, {
         field: 'scInoutstatus',
         title: '进出'
     }, {
-        field: 'scRecordtime',
+        field: 'scWorkerno',
+        title: '工号'
+    }, {
+        field: 'scDepartmentname',
+        title: '部门'
+    }, {
+        field: 'scMobileno',
+        title: '卡号'
+    }, {
+        field: 'scEventtypeid',
+        title: '事件类型'
+    }, {
+        field: 'scAddtime',
+        visible: false,
         title: '时间'
+    }, {
+        field: 'scCardguidno',
+        visible: false,
+        title: '卡号'
+        // .align: 'center'
+    }, {
+        field: 'scDepartmentid',
+        visible: false,
+        title: '部门号'
+    }, {
+        field: 'scIdtypeid',
+        visible: false,
+        title: 'scIdtypeid'
+    }, {
+        field: 'scSerierno',
+        visible: false,
+        title: 'ID'
     }];
 //初始化表格数据
 var data = [
-    {
-        scCardguidno: '110',
-        scDoorno: 'xxx',
-        scInoutstatus: '201',
-        scRecordtime: '2018-04-23 17:16:13.413'
-    }, {
-        scCardguidno: '112',
-        scDoorno: 'xxx',
-        scInoutstatus: '201',
-        scRecordtime: '2018-04-23 17:16:13.413'
-    }
+    /*{
+        scAddtime:'1590040984477',
+        scCardguidno:'1411969022',
+        scDepartmentid:'39',
+        scDepartmentname:'封装生产部',
+        scDoorno:'10',
+        scEventtypeid:'0',
+        scIdtypeid:'1',
+        scInoutstatus:'-55',
+        scMobileno:'1411969022',
+        scName:'任显浩',
+        scRecordtime:'1590040982000',
+        scSerierno:'2976369',
+        scWorkerno:'CQ04661'
+    }*/
 ];
 
 
@@ -157,21 +210,33 @@ function loadData() {
 }
 
 function appendTable(dataSS) {
-    //alert("准备追加到表格："+dataSS);
+    // alert("准备追加到表格："+dataSS);
     var zTreeDoorData = [];
     var doorIdArr = JSON.parse(dataSS);
     // $('#tab1').bootstrapTable('removeAll');
     // zTreeDoorData.splice(0,zTreeDoorData.length);
 
+    for(var i=0;i<doorIdArr.length;i++){
+        var newData = [{
+            scAddtime:doorIdArr[i].scAddtime,
+            scCardguidno:doorIdArr[i].scCardguidno,
+            scDepartmentid:doorIdArr[i].scDepartmentid,
+            scDepartmentname:doorIdArr[i].scDepartmentname,
+            scDoorno:doorIdArr[i].scDoorno,
+            scEventtypeid:doorIdArr[i].scEventtypeid,
+            scIdtypeid:doorIdArr[i].scIdtypeid,
+            scInoutstatus:doorIdArr[i].scInoutstatus,
+            scMobileno:doorIdArr[i].scMobileno,
+            scName:doorIdArr[i].scName,
+            scRecordtime:doorIdArr[i].scRecordtime,
+            scSerierno:doorIdArr[i].scSerierno,
+            scWorkerno:doorIdArr[i].scWorkerno
+        }];
 
-    var newData = [{
-        scCardguidno: doorIdArr.scCardguidno,
-        scDoorno: doorIdArr.scDoorno,
-        scInoutstatus: doorIdArr.scInoutstatus,
-        scRecordtime: doorIdArr.scRecordtime
-    }];
+        $('#tab1').bootstrapTable('append', newData);
+    }
 
-    $('#tab1').bootstrapTable('append', newData);
+
 
 
     /*

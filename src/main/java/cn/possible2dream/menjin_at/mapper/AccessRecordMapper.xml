@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="cn.possible2dream.menjin_at.dao.AccessRecordMapper" >
+<mapper namespace="cn.possible2dream.menjin_at.mapper.AccessRecordMapper" >
   <resultMap id="BaseResultMap" type="cn.possible2dream.menjin_at.entity.AccessRecord" >
     <id column="SC_SerierNO" property="scSerierno" jdbcType="BIGINT" />
     <result column="SC_DoorNO" property="scDoorno" jdbcType="INTEGER" />
@@ -26,7 +26,6 @@
     <result column="SC_CardGuidNO" property="scCardguidno" jdbcType="BIGINT" />
     <result column="SC_EventTypeID" property="scEventtypeid" jdbcType="TINYINT" />
     <result column="SC_InOutStatus" property="scInoutstatus" jdbcType="TINYINT" />
-    <result column="SC_DeviceRecNO" property="scDevicerecno" jdbcType="INTEGER" />
     <result column="SC_RecordTime" property="scRecordtime" jdbcType="TIMESTAMP" />
     <result column="SC_AddTime" property="scAddtime" jdbcType="TIMESTAMP" />
     <!--SC_Employee 表-->
@@ -57,7 +56,7 @@
 
   <select id="selectAllByMaxId" resultMap="MyResultMap" parameterType="java.lang.Long" >
     select a.SC_SerierNO,a.SC_DoorNO,a.SC_CardGuidNO,a.SC_EventTypeID
-    ,a.SC_InOutStatus,a.SC_DeviceRecNO,a.SC_RecordTime,a.SC_AddTime
+    ,a.SC_InOutStatus,a.SC_RecordTime,a.SC_AddTime
 
     ,b.SC_WorkerNO,b.SC_Name,b.SC_MobileNO,b.SC_IDTypeID,b.SC_DepartmentID
 
@@ -66,8 +65,15 @@
     from SC_AccessRecord a,SC_Employee b,SC_Department c
     where a.SC_SerierNO > #{scSerierno,jdbcType=BIGINT}
     and b.SC_DepartmentID=c.SC_DepartmentID
+    /*  测试处理而注释and b.SC_MobileNO like '%'+convert(varchar(20),a.SC_CardGuidNO)*/
     and b.SC_MobileNO like '%'+convert(varchar(20),a.SC_CardGuidNO)
-    order by a.SC_SerierNO desc;
+    /*and b.SC_MobileNO=convert(varchar(20),a.SC_CardGuidNO)*/
+    order by a.SC_SerierNO desc
+  </select>
+
+  <select id="selectMaxScSerierno" resultType="java.lang.Long"  >
+      /*  比较一下效率 select top 1 SC_SerierNO from SC_AccessRecord order by SC_SerierNO desc  */
+      select MAX(SC_SerierNO) from SC_AccessRecord
   </select>
 
 

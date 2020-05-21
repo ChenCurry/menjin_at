@@ -1,7 +1,8 @@
 package cn.possible2dream.menjin_at.controller;
 
 import cn.possible2dream.menjin_at.config.WebSocketServer;
-import cn.possible2dream.menjin_at.entity.AccessRecord;
+import cn.possible2dream.menjin_at.entity.OriginalRecord;
+import cn.possible2dream.menjin_at.service.EmployeeService;
 import cn.possible2dream.menjin_at.service.OriginalRecordService;
 import com.alibaba.fastjson.JSON;
 import org.springframework.stereotype.Controller;
@@ -12,6 +13,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.List;
 
 @Controller
 @RequestMapping("/test")
@@ -19,6 +21,8 @@ public class TestDb2JController {
 
     @Resource   //(name="originalRecordService")
     OriginalRecordService originalRecordService;
+    @Resource   //(name="originalRecordService")
+    EmployeeService employeeService;
 
     @RequestMapping("/TestDb2J")
     @ResponseBody
@@ -27,16 +31,25 @@ public class TestDb2JController {
         response.setHeader("Content-type", "text/html;charset=UTF-8");
 
         if("172.30.47.14".equals(request.getRemoteAddr())){
-            Long scSerierno = Long.valueOf(request.getParameter("SC_SerierNO"));
-            //System.out.println((str1==null?"未知人员":str1)+"."+(str2!=null?(str2.equals("201")?"出来了.":"进去了."):"未知进出信息."));
-            //System.out.println((str1==null?"未知人员":str1));
+//            Long scSerierno = Long.valueOf(request.getParameter("SC_SerierNO"));
+//            AccessRecord accessRecord = originalRecordService.getAccessRecordByScSerierno(scSerierno);
+//            WebSocketServer.broadCast(JSON.toJSONString(accessRecord));
 
-            AccessRecord accessRecord = originalRecordService.getAccessRecordByScSerierno(scSerierno);
-            //WebSocketServer.listAccessRecord.add(accessRecord);
+            //scSeriernoMax
+            if(2976180L==WebSocketServer.scSeriernoMax){
+                WebSocketServer.scSeriernoMax = employeeService.selectMaxScSerierno();
+                System.out.println("如果是第一次赋值，则专门查库，为"+WebSocketServer.scSeriernoMax);
+            }
+            System.out.println("WebSocketServer.scSeriernoMax当前值为"+WebSocketServer.scSeriernoMax);
+            List<OriginalRecord> list = originalRecordService.getOriginalRecordListByMaxId(WebSocketServer.scSeriernoMax);
+            int iSize = list.size();
+            if(0!=iSize){
+                WebSocketServer.scSeriernoMax = list.get(iSize-1).getScSerierno();
+                WebSocketServer.broadCast(JSON.toJSONString(list));
+                System.out.println("已经进行了广播");
+            }
+            System.out.println("list长度为0，不需要进行广播");
 
-            WebSocketServer.broadCast(JSON.toJSONString(accessRecord));
-
-            System.out.println("已经进行了广播");
             try {
                 response.getWriter().println(192);
             } catch (IOException e) {

@@ -6,4 +6,10 @@ public interface EmployeeService {
 
     EmployeeWithBLOBs getEmployee(String scWorkerno);
 
+    /**
+     * 借用一下这个service 免得去WebSocketServer中注入新的service
+     * @return
+     */
+    Long selectMaxScSerierno();
+
 }

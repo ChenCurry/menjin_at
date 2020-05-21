@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="cn.possible2dream.menjin_at.dao.DepartmentMapper" >
+<mapper namespace="cn.possible2dream.menjin_at.mapper.DepartmentMapper" >
   <resultMap id="BaseResultMap" type="cn.possible2dream.menjin_at.entity.Department" >
     <id column="SC_DepartmentID" property="scDepartmentid" jdbcType="INTEGER" />
     <result column="SC_DepartmentName" property="scDepartmentname" jdbcType="NVARCHAR" />
