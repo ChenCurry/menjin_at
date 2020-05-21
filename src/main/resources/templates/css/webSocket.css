@@ -7,3 +7,27 @@ html,body{
     overflow-x:hidden;
     /*overflow-y:hidden;*/
 }
+
+#tab1_div{
+    position:absolute;
+    bottom:0;
+    left:0;
+    background-color:#88D6E9;
+    height:50px;
+    width:100%;
+    z-index:100;
+}
+
+#tab2_div{
+    position:absolute;
+    width:100%;
+    overflow:auto;
+    background-color:#F0E6A2;
+    bottom:50px;
+    top:50px;
+    _height:100%;
+    _border-top:50px solid #eee;
+    _border-bottom:50px solid #eee;
+    _top:0px;
+    z-index:90;
+}
