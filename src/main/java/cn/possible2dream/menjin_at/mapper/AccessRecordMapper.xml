@@ -76,6 +76,25 @@
       select MAX(SC_SerierNO) from SC_AccessRecord
   </select>
 
+  <select id="selectTop25" resultMap="MyResultMap" >
+    select top 25 a.SC_SerierNO,a.SC_DoorNO,a.SC_CardGuidNO,a.SC_EventTypeID
+    ,a.SC_InOutStatus,a.SC_RecordTime,a.SC_AddTime
+
+    ,b.SC_WorkerNO,b.SC_Name,b.SC_MobileNO,b.SC_IDTypeID,b.SC_DepartmentID
+
+    ,c.SC_DepartmentName
+
+    from SC_AccessRecord a,SC_Employee b,SC_Department c
+    where b.SC_DepartmentID=c.SC_DepartmentID
+    /*  测试处理而注释and b.SC_MobileNO like '%'+convert(varchar(20),a.SC_CardGuidNO)*/
+    and b.SC_MobileNO like '%'+convert(varchar(20),a.SC_CardGuidNO)
+    /*and b.SC_MobileNO=convert(varchar(20),a.SC_CardGuidNO)*/
+    order by a.SC_SerierNO desc
+  </select>
+
+
+
+
 
 
 

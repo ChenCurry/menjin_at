@@ -213,7 +213,7 @@ function appendTable(dataSS) {
     // alert("准备追加到表格："+dataSS);
     var zTreeDoorData = [];
     var doorIdArr = JSON.parse(dataSS);
-    // $('#tab1').bootstrapTable('removeAll');
+    $('#tab1').bootstrapTable('removeAll');
     // zTreeDoorData.splice(0,zTreeDoorData.length);
 
     for(var i=0;i<doorIdArr.length;i++){

@@ -8,4 +8,5 @@ import java.util.List;
 public interface OriginalRecordService {
     public AccessRecord getAccessRecordByScSerierno(Long scSerierno);
     public List<OriginalRecord> getOriginalRecordListByMaxId(Long scSerierno);
+    public List<OriginalRecord> getTop25();
 }

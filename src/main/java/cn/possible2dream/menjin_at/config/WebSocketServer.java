@@ -42,7 +42,7 @@ public class WebSocketServer {
     //
     public static List<AccessRecord> listAccessRecord = new ArrayList<AccessRecord>();//只用来记在里边的人，这样才有意义
     //用来记录当前查到的最大的id值
-    public static Long scSeriernoMax = 2976180L;
+    public static long scSeriernoMax;
     /**与某个客户端的连接会话，需要通过它来给客户端发送数据*/
     private Session session;
     private HttpSession httpSession;

@@ -24,4 +24,9 @@ public class OriginalRecordServiceImpl implements OriginalRecordService {
     public List<OriginalRecord> getOriginalRecordListByMaxId(Long scSerierno) {
         return accessRecordMapper.selectAllByMaxId(scSerierno);
     }
+
+    @Override
+    public List<OriginalRecord> getTop25() {
+        return accessRecordMapper.selectTop25();
+    }
 }

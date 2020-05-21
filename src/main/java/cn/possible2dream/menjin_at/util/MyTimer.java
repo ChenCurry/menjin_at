@@ -24,10 +24,11 @@ public class MyTimer {
         //2.创建一个MyTimerTask实例
         MyTimeTask myTimeTask = new MyTimeTask("No.1");
         WebSocketServer.scSeriernoMax = employeeService.selectMaxScSerierno();
+        System.out.println("这里不是时刻执行吧");
 
         //3.通过timer定时定频率调用myTimerTask的业务逻辑
         // 即 第一次执行是在当前时间的两秒之后，之后每隔一秒钟执行一次\
-        timer.schedule(myTimeTask,6000L,6000L);
+        timer.schedule(myTimeTask,5000L,1000L);
 
     }
 }

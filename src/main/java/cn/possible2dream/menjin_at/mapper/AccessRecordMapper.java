@@ -27,6 +27,12 @@ public interface AccessRecordMapper {
      */
     Long selectMaxScSerierno();
 
+    /**
+     * 固定查询25条  定时任务的形式
+     * @return
+     */
+    List<OriginalRecord> selectTop25();
+
     int updateByPrimaryKeySelective(AccessRecord record);
 
     int updateByPrimaryKeyWithBLOBs(AccessRecord record);
