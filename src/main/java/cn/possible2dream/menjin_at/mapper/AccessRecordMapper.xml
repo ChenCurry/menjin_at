@@ -116,21 +116,62 @@
   </select>
 
 
-  <!--存储过程
-  <select id="selectRealTimeInner" resultMap="MyResultMap" >
-    SELECT a.* FROM SC_AccessRecord a where a.SC_AddTime>dateadd(hour,-12,GETDATE()) order by a.SC_CardGuidNO desc,a.SC_AddTime desc
+  <!-- 两种方式，未筛选SC_InOutStatus=1 -->
+  <!--方式一-->
+  <select id="selectRealTimeInner1" resultMap="MyResultMap" >
+select s.SC_SerierNO,s.SC_DoorNO,s.SC_CardGuidNO,s.SC_EventTypeID
+    ,s.SC_InOutStatus,s.SC_AddTime
+    ,b.SC_WorkerNO,b.SC_Name,b.SC_MobileNO,b.SC_IDTypeID,b.SC_DepartmentID
+    ,c.SC_DepartmentName
+	,d.SC_CheckResultName
+    ,e.SC_DeviceAreaID
+	,f.SC_DeviceAreaName
+from SC_AccessRecord s ,SC_Employee b ,SC_Department c ,SC_ESDCheckResult d,SC_Device e,SC_DeviceArea f
+where s.SC_AddTime=(
+SELECT max(SC_AddTime) 
+FROM SC_AccessRecord
+where SC_AddTime>dateadd(hour,-8,GETDATE())
+and s.SC_CardGuidNO=SC_CardGuidNO
+) 
+and b.SC_MobileNO like '%'+convert(varchar(20),s.SC_CardGuidNO)
+    and b.SC_DepartmentID=c.SC_DepartmentID
+    and s.SC_DoorNO=e.SC_SerierNO
+	and e.SC_DeviceAreaID=f.SC_DeviceAreaID
+	and s.SC_EventTypeID = d.SC_CheckResultID
 
-    SELECT a.* FROM PongeeESD6806_CN.dbo.SC_AccessRecord a
-    where a.SC_AddTime between dateadd(hour,-12,GETDATE()) and dateadd(hour,-11,GETDATE())
+  </select>
 
-    -- h.SC_AddTime
-    select h.SC_SerierNO,h.SC_DoorNO,h.SC_CardGuidNO,h.SC_InOutStatus,h.SC_EventTypeID,h.SC_RecordTime,max(h.SC_AddTime) from (
-    SELECT a.* FROM PongeeESD6806_CN.dbo.SC_AccessRecord a
-    where a.SC_AddTime between dateadd(hour,-12,GETDATE()) and dateadd(hour,-11,GETDATE())
-    ) h
-    group by h.SC_CardGuidNO
+  <!--方式二-->
+  <select id="selectRealTimeInner2" resultMap="MyResultMap" >
 
-  </select>-->
+select a.SC_SerierNO,a.SC_DoorNO,a.SC_CardGuidNO,a.SC_EventTypeID
+    ,a.SC_InOutStatus,a.SC_AddTime
+    ,b.SC_WorkerNO,b.SC_Name,b.SC_MobileNO,b.SC_IDTypeID,b.SC_DepartmentID
+    ,c.SC_DepartmentName
+	,d.SC_CheckResultName
+    ,e.SC_DeviceAreaID
+	,f.SC_DeviceAreaName
+from (
+
+SELECT t.SC_SerierNO,t.SC_DoorNO,t.SC_CardGuidNO,t.SC_EventTypeID
+,t.SC_InOutStatus,t.SC_AddTime
+FROM (
+      SELECT SC_CardGuidNO, MAX(SC_AddTime) as SC_AddTime
+      FROM SC_AccessRecord
+	  where SC_AddTime>dateadd(hour,-8,GETDATE())
+      GROUP BY SC_CardGuidNO
+) r
+INNER JOIN SC_AccessRecord t
+ON t.SC_CardGuidNO = r.SC_CardGuidNO AND t.SC_AddTime = r.SC_AddTime
+
+) a,SC_Employee b ,SC_Department c ,SC_ESDCheckResult d,SC_Device e,SC_DeviceArea f
+where b.SC_MobileNO like '%'+convert(varchar(20),a.SC_CardGuidNO)
+    and b.SC_DepartmentID=c.SC_DepartmentID
+    and a.SC_DoorNO=e.SC_SerierNO
+	and e.SC_DeviceAreaID=f.SC_DeviceAreaID
+	and a.SC_EventTypeID = d.SC_CheckResultID
+
+  </select>
 
 
 

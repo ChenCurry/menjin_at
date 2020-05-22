@@ -33,6 +33,19 @@ public interface AccessRecordMapper {
      */
     List<OriginalRecord> selectTop25();
 
+    /**
+     * 最近8小时 所有人的最后一条记录  方式1
+     * @return
+     */
+    List<OriginalRecord> selectRealTimeInner1();
+
+    /**
+     * 最近8小时 所有人的最后一条记录  方式2
+     * @return
+     */
+    List<OriginalRecord> selectRealTimeInner2();
+
+
     int updateByPrimaryKeySelective(AccessRecord record);
 
     int updateByPrimaryKeyWithBLOBs(AccessRecord record);

@@ -3,6 +3,7 @@ package cn.possible2dream.menjin_at.util;
 import cn.possible2dream.menjin_at.config.ApplicationContextUtil;
 import cn.possible2dream.menjin_at.config.WebSocketServer;
 import cn.possible2dream.menjin_at.entity.OriginalRecord;
+import cn.possible2dream.menjin_at.entity.OriginalRecordToFore;
 import cn.possible2dream.menjin_at.service.OriginalRecordService;
 import com.alibaba.fastjson.JSON;
 import org.slf4j.Logger;
@@ -59,7 +60,8 @@ public class MyTimeTask extends TimerTask {
         long ssss = list.get(0).getScSerierno();
         System.out.println("新最大值-->"+ssss+"<>"+WebSocketServer.scSeriernoMax+"<--原最大值");
         if(ssss!=WebSocketServer.scSeriernoMax){
-            String str = JSON.toJSONString(list);
+            OriginalRecordToFore rtf1 = new OriginalRecordToFore(2,list);
+            String str = JSON.toJSONString(rtf1);
             WebSocketServer.broadCast(str);
             System.out.println("不等，进行广播:"+str);
             WebSocketServer.scSeriernoMax = ssss;//iSize-1

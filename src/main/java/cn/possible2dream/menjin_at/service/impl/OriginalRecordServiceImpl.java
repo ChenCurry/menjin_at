@@ -16,6 +16,11 @@ public class OriginalRecordServiceImpl implements OriginalRecordService {
     private AccessRecordMapper accessRecordMapper;
 
     @Override
+    public Long selectMaxScSerierno() {
+        return accessRecordMapper.selectMaxScSerierno();
+    }
+
+    @Override
     public AccessRecord getAccessRecordByScSerierno(Long scSerierno) {
         return accessRecordMapper.selectByPrimaryKey(scSerierno);
     }
@@ -28,5 +33,16 @@ public class OriginalRecordServiceImpl implements OriginalRecordService {
     @Override
     public List<OriginalRecord> getTop25() {
         return accessRecordMapper.selectTop25();
+    }
+
+    @Override
+    public List<OriginalRecord> getMaxAddTime8h() {
+        List<OriginalRecord> list = accessRecordMapper.selectRealTimeInner1();//可以试试 selectRealTimeInner2
+        for(int i=list.size()-1;i>=0;i--){
+            if(1!=list.get(i).getScInoutstatus()){
+                list.remove(i);
+            }
+        }
+        return list;
     }
 }

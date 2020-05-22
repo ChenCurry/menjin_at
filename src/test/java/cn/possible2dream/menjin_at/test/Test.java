@@ -25,7 +25,7 @@ public class Test {
 
     @org.junit.Test
     public void test11(){
-        Long sss = employeeService.selectMaxScSerierno();
+        Long sss = originalRecordService.selectMaxScSerierno();
         System.out.println("sss:"+sss);
         /*List<OriginalRecord> cs = originalRecordService.getOriginalRecordListByMaxId(2964111l);
         for (OriginalRecord c : cs) {

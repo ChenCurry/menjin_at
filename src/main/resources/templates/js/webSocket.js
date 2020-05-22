@@ -15,25 +15,7 @@ var recentMsg = new Array("", "");	//最近微信消息
 var state = "A";	//用户状态
 var flag = 0;		//检查微信面板开闭状态
 
-/*
-* {
-"scAddtime":1590040984477,
-"scCardguidno":1411969022,
-"scDepartmentid":39,
-"scDepartmentname":"封装生产部",
-"scDoorno":10,
-"scEventtypeid":0,
-"scIdtypeid":1,
-"scInoutstatus":-55,
-"scMobileno":"1411969022",
-"scName":"任显浩",
-"scRecordtime":1590040982000,
-"scSerierno":2976369,
-"scWorkerno":"CQ04661"
-}
-* */
 //设置需要显示的列
-
 var columns = [
     {
         field: 'scAddtime',
@@ -74,7 +56,7 @@ var columns = [
     }, {
         field: 'scCheckResultName',
         title: '事件类型'
-    }, {
+    }/*, {
         field: 'scEventtypeid',
         visible: false,
         title: '事件类型'
@@ -99,25 +81,10 @@ var columns = [
         field: 'scSerierno',
         visible: false,
         title: 'ID'
-    }];
+    }*/];
+
 //初始化表格数据
-var data = [
-    /*{
-        scAddtime:'1590040984477',
-        scCardguidno:'1411969022',
-        scDepartmentid:'39',
-        scDepartmentname:'封装生产部',
-        scDoorno:'10',
-        scEventtypeid:'0',
-        scIdtypeid:'1',
-        scInoutstatus:'-55',
-        scMobileno:'1411969022',
-        scName:'任显浩',
-        scRecordtime:'1590040982000',
-        scSerierno:'2976369',
-        scWorkerno:'CQ04661'
-    }*/
-];
+var data = [];
 
 
 //初始化，建立websocket连接
@@ -147,9 +114,20 @@ function startWebSocket() {
                 logout("othersLogin");
             } else {
                 //alert(evt.data);
-                //console.log("后台传来的消息：" + evt.data);
-                //向表格中追加实时内容
-                appendTable(evt.data);
+                // console.log("后台传来的消息：" + evt.data);
+                // console.log("尝试取消息类型：" + JSON.parse(evt.data).messageType);
+                var jsonVar = JSON.parse(evt.data);
+                var mType = jsonVar.messageType;
+                var listOriginalRecord = jsonVar.listOriginalRecord;
+                if(2==mType){
+                    //向表格1中追加实时内容
+                    //alert("向表格1中加数据");
+                    appendTable(listOriginalRecord,"#tab1");
+                }else if(3==mType){
+                    //alert("向表格2中加数据");
+                    appendTable(listOriginalRecord,"#tab2");
+                }
+
             }
         };
         ws.onclose = function (evt) {
@@ -164,25 +142,6 @@ function startWebSocket() {
         logout("logout");
     }
 }
-
-/**
- * 时间戳 转 时间
- * @param timestamp
- * @returns {string}
- */
-/*function parseTime(timestamp) {
-    var datetime = new Date();
-    datetime.setTime(timestamp);
-    var year = datetime.getFullYear();
-    var month = datetime.getMonth()+1;
-    var date = datetime.getDate();
-    var hour = datetime.getHours();
-    var minute = datetime.getMinutes();
-    var second = datetime.getSeconds();
-    // var msecond = datetime.getMilliseconds();//+"  "+msecond
-    return year+"-"+month+"-"+date+" "+hour+":"+minute+":"+second;
-}*/
-
 
 /*
 时间戳 转 时间
@@ -251,33 +210,32 @@ function initTable() {
  * 更新表格数据
  * @param dataSS
  */
-function appendTable(dataSS) {
+function appendTable(doorIdArr,tableId) {
     // alert("准备追加到表格："+dataSS);
     var zTreeDoorData = [];
-    var doorIdArr = JSON.parse(dataSS);
-    $('#tab1').bootstrapTable('removeAll');
-    // zTreeDoorData.splice(0,zTreeDoorData.length);
+    //var doorIdArr = JSON.parse(dataSS);
+    $(tableId).bootstrapTable('removeAll');
 
     for(var i=0;i<doorIdArr.length;i++){
         var newData = [{
             scAddtime:doorIdArr[i].scAddtime,
-            scCardguidno:doorIdArr[i].scCardguidno,
-            scDepartmentid:doorIdArr[i].scDepartmentid,
+            // scCardguidno:doorIdArr[i].scCardguidno,
+            // scDepartmentid:doorIdArr[i].scDepartmentid,
             scDepartmentname:doorIdArr[i].scDepartmentname,
             scDeviceAreaName:doorIdArr[i].scDeviceAreaName,
             scDoorno:doorIdArr[i].scDoorno,
-            scEventtypeid:doorIdArr[i].scEventtypeid,
+            //scEventtypeid:doorIdArr[i].scEventtypeid,
             scCheckResultName:doorIdArr[i].scCheckResultName,
-            scIdtypeid:doorIdArr[i].scIdtypeid,
+            // scIdtypeid:doorIdArr[i].scIdtypeid,
             scInoutstatus:doorIdArr[i].scInoutstatus,
             scMobileno:doorIdArr[i].scMobileno,
             scName:doorIdArr[i].scName,
-            scRecordtime:doorIdArr[i].scRecordtime,
-            scSerierno:doorIdArr[i].scSerierno,
+            // scRecordtime:doorIdArr[i].scRecordtime,
+            // scSerierno:doorIdArr[i].scSerierno,
             scWorkerno:doorIdArr[i].scWorkerno
         }];
 
-        $('#tab1').bootstrapTable('append', newData);
+        $(tableId).bootstrapTable('append', newData);
     }
 }
 

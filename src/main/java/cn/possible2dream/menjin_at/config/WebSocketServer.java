@@ -3,8 +3,9 @@ package cn.possible2dream.menjin_at.config;
 
 import cn.hutool.log.Log;
 import cn.hutool.log.LogFactory;
-import cn.possible2dream.menjin_at.entity.AccessRecord;
 import cn.possible2dream.menjin_at.entity.EmployeeWithBLOBs;
+import cn.possible2dream.menjin_at.entity.OriginalRecord;
+import cn.possible2dream.menjin_at.entity.OriginalRecordToFore;
 import cn.possible2dream.menjin_at.service.EmployeeService;
 import cn.possible2dream.menjin_at.service.OriginalRecordService;
 import com.alibaba.fastjson.JSON;
@@ -42,7 +43,7 @@ public class WebSocketServer {
     //private static ConcurrentHashMap<String, Session> sessionPools = new ConcurrentHashMap<>();
     private static Hashtable<Long, WebSocketServer> connections = new Hashtable<>();
     //
-    public static List<AccessRecord> listAccessRecord = new ArrayList<AccessRecord>();//只用来记在里边的人，这样才有意义
+    public static List<OriginalRecord> listOriginalRecord = new ArrayList<OriginalRecord>();//只用来记在里边的人，这样才有意义
     //用来记录当前查到的最大的id值
     public static long scSeriernoMax;
     /**与某个客户端的连接会话，需要通过它来给客户端发送数据*/
@@ -88,7 +89,16 @@ public class WebSocketServer {
 
         //初次建立连接，从后台加载进出记录到当前连接对象
         try {
-            this.session.getBasicRemote().sendText(JSON.toJSONString(originalRecordService.getTop25()));
+            OriginalRecordToFore rtf1 = new OriginalRecordToFore(2,originalRecordService.getTop25());
+
+            String str01 = JSON.toJSONString(rtf1);
+            System.out.println("第一次传给前台的实时进出信息："+str01);
+            this.session.getBasicRemote().sendText(str01);
+
+            OriginalRecordToFore rtf2 = new OriginalRecordToFore(3,listOriginalRecord);
+            String str02 = JSON.toJSONString(rtf2);
+            System.out.println("第一次传给前台的室内人员："+str02);
+            this.session.getBasicRemote().sendText(str02);
         } catch (IOException e) {
             e.printStackTrace();
         }
