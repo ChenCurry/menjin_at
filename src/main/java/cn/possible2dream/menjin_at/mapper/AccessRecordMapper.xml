@@ -116,6 +116,22 @@
   </select>
 
 
+  <!--存储过程
+  <select id="selectRealTimeInner" resultMap="MyResultMap" >
+    SELECT a.* FROM SC_AccessRecord a where a.SC_AddTime>dateadd(hour,-12,GETDATE()) order by a.SC_CardGuidNO desc,a.SC_AddTime desc
+
+    SELECT a.* FROM PongeeESD6806_CN.dbo.SC_AccessRecord a
+    where a.SC_AddTime between dateadd(hour,-12,GETDATE()) and dateadd(hour,-11,GETDATE())
+
+    -- h.SC_AddTime
+    select h.SC_SerierNO,h.SC_DoorNO,h.SC_CardGuidNO,h.SC_InOutStatus,h.SC_EventTypeID,h.SC_RecordTime,max(h.SC_AddTime) from (
+    SELECT a.* FROM PongeeESD6806_CN.dbo.SC_AccessRecord a
+    where a.SC_AddTime between dateadd(hour,-12,GETDATE()) and dateadd(hour,-11,GETDATE())
+    ) h
+    group by h.SC_CardGuidNO
+
+  </select>-->
+
 
 
 
