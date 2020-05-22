@@ -3,14 +3,15 @@ package cn.possible2dream.menjin_at.entity;
 import java.util.Date;
 
 public class OriginalRecord {
+    //Byte 全部换成 Short
     //SC_AccessRecord 表
     private Long scSerierno;//记录号自增 百万级
     private Integer scDoorno;//设备号1-16
     private Long scCardguidno;//'%'+SC_CardGuidNO   卡号 10忆  不行的话换成Long
-    private Byte scEventtypeid;//事件类型 0  要确定哪些事件是正常出来了的 要容错
-    private Byte scInoutstatus;//进还是出
+    private Short scEventtypeid;//事件类型 0  要确定哪些事件是正常出来了的 要容错
+    private Short scInoutstatus;//进还是出
 //    private  SC_DeviceRecNO;//该设备记录总次数
-    private Date scRecordtime;//刷卡时间？
+//    private Date scRecordtime;//刷卡时间？
     private Date scAddtime;//记录时间？
 
     //SC_Employee 表
@@ -22,6 +23,28 @@ public class OriginalRecord {
 
     //SC_Department 表
     private String scDepartmentname;
+
+    //SC_ESDCheckResult 表 SC_AccessRecord.SC_EventTypeID = SC_ESDCheckResult.SC_CheckResultID
+    private String scCheckResultName;
+
+    /**
+     * scEventtypeid 实际出现的情况
+     0
+     95
+     98
+     90
+     99
+     102
+     94
+     103
+     91
+     select top 3000 * from PongeeESD6806_CN.dbo.SC_AccessRecord where 1=1 order by SC_SerierNO desc
+     select distinct SC_EventTypeID from PongeeESD6806_CN.dbo.SC_AccessRecord
+     select * from PongeeESD6806_CN.dbo.SC_EventType
+     select * from PongeeESD6806_CN.dbo.SC_ESDCheckResult
+     */
+
+
 
     //private int messageType;//后台传给前台的消息类型
 
@@ -41,6 +64,14 @@ public class OriginalRecord {
     //SC_OperateCardType 表 普通卡 管理卡
 //    private  SC_OperateCardTypeID;
 
+
+    public String getScCheckResultName() {
+        return scCheckResultName;
+    }
+
+    public void setScCheckResultName(String scCheckResultName) {
+        this.scCheckResultName = scCheckResultName;
+    }
 
     public Long getScSerierno() {
         return scSerierno;
@@ -66,28 +97,20 @@ public class OriginalRecord {
         this.scCardguidno = scCardguidno;
     }
 
-    public Byte getScEventtypeid() {
+    public Short getScEventtypeid() {
         return scEventtypeid;
     }
 
-    public void setScEventtypeid(Byte scEventtypeid) {
+    public void setScEventtypeid(Short scEventtypeid) {
         this.scEventtypeid = scEventtypeid;
     }
 
-    public Byte getScInoutstatus() {
+    public Short getScInoutstatus() {
         return scInoutstatus;
     }
 
-    public void setScInoutstatus(Byte scInoutstatus) {
+    public void setScInoutstatus(Short scInoutstatus) {
         this.scInoutstatus = scInoutstatus;
-    }
-
-    public Date getScRecordtime() {
-        return scRecordtime;
-    }
-
-    public void setScRecordtime(Date scRecordtime) {
-        this.scRecordtime = scRecordtime;
     }
 
     public Date getScAddtime() {
@@ -154,7 +177,6 @@ public class OriginalRecord {
                 ", scCardguidno=" + scCardguidno +
                 ", scEventtypeid=" + scEventtypeid +
                 ", scInoutstatus=" + scInoutstatus +
-                ", scRecordtime=" + scRecordtime +
                 ", scAddtime=" + scAddtime +
                 ", scWorkerno='" + scWorkerno + '\'' +
                 ", scName='" + scName + '\'' +
@@ -162,6 +184,7 @@ public class OriginalRecord {
                 ", scIdtypeid=" + scIdtypeid +
                 ", scDepartmentid=" + scDepartmentid +
                 ", scDepartmentname='" + scDepartmentname + '\'' +
+                ", scCheckResultName='" + scCheckResultName + '\'' +
                 '}';
     }
 }

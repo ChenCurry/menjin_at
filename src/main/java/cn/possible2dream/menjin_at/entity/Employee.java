@@ -13,7 +13,7 @@ public class Employee {
 
     private String scName;
 
-    private Byte scSexid;
+    private Short scSexid;
 
     private String scMobileno;
 
@@ -54,7 +54,7 @@ public class Employee {
     }
 
     public void setScWorkerno(String scWorkerno) {
-        this.scWorkerno = scWorkerno == null ? null : scWorkerno.trim();
+        this.scWorkerno = scWorkerno;
     }
 
     public Long getScEmpno() {
@@ -86,14 +86,14 @@ public class Employee {
     }
 
     public void setScName(String scName) {
-        this.scName = scName == null ? null : scName.trim();
+        this.scName = scName;
     }
 
-    public Byte getScSexid() {
+    public Short getScSexid() {
         return scSexid;
     }
 
-    public void setScSexid(Byte scSexid) {
+    public void setScSexid(Short scSexid) {
         this.scSexid = scSexid;
     }
 
@@ -102,7 +102,7 @@ public class Employee {
     }
 
     public void setScMobileno(String scMobileno) {
-        this.scMobileno = scMobileno == null ? null : scMobileno.trim();
+        this.scMobileno = scMobileno;
     }
 
     public String getScOfficetelno() {
@@ -110,7 +110,7 @@ public class Employee {
     }
 
     public void setScOfficetelno(String scOfficetelno) {
-        this.scOfficetelno = scOfficetelno == null ? null : scOfficetelno.trim();
+        this.scOfficetelno = scOfficetelno;
     }
 
     public String getScActualaddr() {
@@ -118,7 +118,7 @@ public class Employee {
     }
 
     public void setScActualaddr(String scActualaddr) {
-        this.scActualaddr = scActualaddr == null ? null : scActualaddr.trim();
+        this.scActualaddr = scActualaddr;
     }
 
     public String getScRegisteraddr() {
@@ -126,7 +126,7 @@ public class Employee {
     }
 
     public void setScRegisteraddr(String scRegisteraddr) {
-        this.scRegisteraddr = scRegisteraddr == null ? null : scRegisteraddr.trim();
+        this.scRegisteraddr = scRegisteraddr;
     }
 
     public Date getScBirthday() {
@@ -150,7 +150,7 @@ public class Employee {
     }
 
     public void setScIdno(String scIdno) {
-        this.scIdno = scIdno == null ? null : scIdno.trim();
+        this.scIdno = scIdno;
     }
 
     public String getScNativeid() {
@@ -158,7 +158,7 @@ public class Employee {
     }
 
     public void setScNativeid(String scNativeid) {
-        this.scNativeid = scNativeid == null ? null : scNativeid.trim();
+        this.scNativeid = scNativeid;
     }
 
     public Integer getScPoliticsstatusid() {

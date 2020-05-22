@@ -31,5 +31,8 @@
         </javaClientGenerator>
         <!--对应的数据库表及model中生成的类名-->
         <table tableName="SC_Department" domainObjectName="Department" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
+        <!--注意！！xxxMapper.xml 中的 TINYINT 全部换成 SMALLINT   TINYINT 全部换成 SMALLINT
+               127会超出   实体类 中的 Byte    全部换成 Short      Byte    全部换成 Short
+        -->
     </context>
 </generatorConfiguration>

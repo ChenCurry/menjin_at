@@ -33,10 +33,14 @@ var flag = 0;		//检查微信面板开闭状态
 }
 * */
 //设置需要显示的列
+
 var columns = [
     {
-        field: 'scRecordtime',
-        title: '记录时间'
+        field: 'scAddtime',
+        title: '记录时间',
+        formatter: function(value,row,index){
+            return parseTime(value);
+        }
     }, {
         field: 'scDoorno',
         title: '门号'
@@ -45,7 +49,16 @@ var columns = [
         title: '姓名'
     }, {
         field: 'scInoutstatus',
-        title: '进出'
+        title: '进出',
+        formatter: function(value,row,index){
+            if(value=="1"){
+                return "进";
+            }else if(value=="201"){
+                return "出";
+            }else{
+                return value;
+            }
+        }
     }, {
         field: 'scWorkerno',
         title: '工号'
@@ -56,10 +69,14 @@ var columns = [
         field: 'scMobileno',
         title: '卡号'
     }, {
-        field: 'scEventtypeid',
+        field: 'scCheckResultName',
         title: '事件类型'
     }, {
-        field: 'scAddtime',
+        field: 'scEventtypeid',
+        visible: false,
+        title: '事件类型'
+    }, {
+        field: 'scRecordtime',
         visible: false,
         title: '时间'
     }, {
@@ -146,6 +163,42 @@ function startWebSocket() {
 }
 
 /**
+ * 时间戳 转 时间
+ * @param timestamp
+ * @returns {string}
+ */
+/*function parseTime(timestamp) {
+    var datetime = new Date();
+    datetime.setTime(timestamp);
+    var year = datetime.getFullYear();
+    var month = datetime.getMonth()+1;
+    var date = datetime.getDate();
+    var hour = datetime.getHours();
+    var minute = datetime.getMinutes();
+    var second = datetime.getSeconds();
+    // var msecond = datetime.getMilliseconds();//+"  "+msecond
+    return year+"-"+month+"-"+date+" "+hour+":"+minute+":"+second;
+}*/
+
+
+/*
+时间戳 转 时间
+ */
+function parseTime(shijianchuo)
+{
+//shijianchuo是整数，否则要parseInt转换
+    var time = new Date(shijianchuo);
+    var y = time.getFullYear();
+    var m = time.getMonth()+1;
+    var d = time.getDate();
+    var h = time.getHours();
+    var mm = time.getMinutes();
+    var s = time.getSeconds();
+    return y+'-'+add0(m)+'-'+add0(d)+' '+add0(h)+':'+add0(mm)+':'+add0(s);
+}
+function add0(m){return m<10?'0'+m:m }
+
+/**
  * 导航切换
  * @param parm
  */
@@ -210,6 +263,7 @@ function appendTable(dataSS) {
             scDepartmentname:doorIdArr[i].scDepartmentname,
             scDoorno:doorIdArr[i].scDoorno,
             scEventtypeid:doorIdArr[i].scEventtypeid,
+            scCheckResultName:doorIdArr[i].scCheckResultName,
             scIdtypeid:doorIdArr[i].scIdtypeid,
             scInoutstatus:doorIdArr[i].scInoutstatus,
             scMobileno:doorIdArr[i].scMobileno,

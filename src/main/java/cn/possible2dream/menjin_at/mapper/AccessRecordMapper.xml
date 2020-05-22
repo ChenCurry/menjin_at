@@ -7,9 +7,9 @@
     <result column="SC_UserDefineCardNO" property="scUserdefinecardno" jdbcType="BIGINT" />
     <result column="SC_CardGuidNO" property="scCardguidno" jdbcType="BIGINT" />
     <result column="SC_EmpID" property="scEmpid" jdbcType="BIGINT" />
-    <result column="SC_OpenDoorTypeID" property="scOpendoortypeid" jdbcType="TINYINT" />
-    <result column="SC_EventTypeID" property="scEventtypeid" jdbcType="TINYINT" />
-    <result column="SC_InOutStatus" property="scInoutstatus" jdbcType="TINYINT" />
+    <result column="SC_OpenDoorTypeID" property="scOpendoortypeid" jdbcType="SMALLINT" /><!--TINYINT 全部换成 SMALLINT            -->
+    <result column="SC_EventTypeID" property="scEventtypeid" jdbcType="SMALLINT" />
+    <result column="SC_InOutStatus" property="scInoutstatus" jdbcType="SMALLINT" />
     <result column="SC_RecordTime" property="scRecordtime" jdbcType="TIMESTAMP" />
     <result column="SC_Reserve" property="scReserve" jdbcType="NVARCHAR" />
     <result column="SC_DeviceRecNO" property="scDevicerecno" jdbcType="INTEGER" />
@@ -24,9 +24,9 @@
     <id column="SC_SerierNO" property="scSerierno" jdbcType="BIGINT" />
     <result column="SC_DoorNO" property="scDoorno" jdbcType="INTEGER" />
     <result column="SC_CardGuidNO" property="scCardguidno" jdbcType="BIGINT" />
-    <result column="SC_EventTypeID" property="scEventtypeid" jdbcType="TINYINT" />
-    <result column="SC_InOutStatus" property="scInoutstatus" jdbcType="TINYINT" />
-    <result column="SC_RecordTime" property="scRecordtime" jdbcType="TIMESTAMP" />
+    <result column="SC_EventTypeID" property="scEventtypeid" jdbcType="SMALLINT" />
+    <result column="SC_InOutStatus" property="scInoutstatus" jdbcType="SMALLINT" />
+    <!--<result column="SC_RecordTime" property="scRecordtime" jdbcType="TIMESTAMP" />-->
     <result column="SC_AddTime" property="scAddtime" jdbcType="TIMESTAMP" />
     <!--SC_Employee 表-->
     <result column="SC_WorkerNO" property="scWorkerno" jdbcType="NVARCHAR" />
@@ -36,6 +36,8 @@
     <result column="SC_DepartmentID" property="scDepartmentid" jdbcType="INTEGER" />
     <!--SC_Department 表-->
     <result column="SC_DepartmentName" property="scDepartmentname" jdbcType="NVARCHAR" />
+    <!--SC_ESDCheckResult 表-->
+    <result column="SC_CheckResultName" property="scCheckResultName" jdbcType="NVARCHAR" />
   </resultMap>
 
   <sql id="Base_Column_List" >
@@ -56,18 +58,20 @@
 
   <select id="selectAllByMaxId" resultMap="MyResultMap" parameterType="java.lang.Long" >
     select a.SC_SerierNO,a.SC_DoorNO,a.SC_CardGuidNO,a.SC_EventTypeID
-    ,a.SC_InOutStatus,a.SC_RecordTime,a.SC_AddTime
+    ,a.SC_InOutStatus,a.SC_AddTime
 
     ,b.SC_WorkerNO,b.SC_Name,b.SC_MobileNO,b.SC_IDTypeID,b.SC_DepartmentID
 
     ,c.SC_DepartmentName
 
-    from SC_AccessRecord a,SC_Employee b,SC_Department c
+    ,d.SC_CheckResultName
+
+    from SC_AccessRecord a,SC_Employee b,SC_Department c,SC_ESDCheckResult d
     where a.SC_SerierNO > #{scSerierno,jdbcType=BIGINT}
     and b.SC_DepartmentID=c.SC_DepartmentID
     /*  测试处理而注释and b.SC_MobileNO like '%'+convert(varchar(20),a.SC_CardGuidNO)*/
     and b.SC_MobileNO like '%'+convert(varchar(20),a.SC_CardGuidNO)
-    /*and b.SC_MobileNO=convert(varchar(20),a.SC_CardGuidNO)*/
+    and a.SC_EventTypeID = d.SC_CheckResultID
     order by a.SC_SerierNO desc
   </select>
 
@@ -77,18 +81,20 @@
   </select>
 
   <select id="selectTop25" resultMap="MyResultMap" >
-    select top 25 a.SC_SerierNO,a.SC_DoorNO,a.SC_CardGuidNO,a.SC_EventTypeID
-    ,a.SC_InOutStatus,a.SC_RecordTime,a.SC_AddTime
+    select top 10 a.SC_SerierNO,a.SC_DoorNO,a.SC_CardGuidNO,a.SC_EventTypeID
+    ,a.SC_InOutStatus,a.SC_AddTime
 
     ,b.SC_WorkerNO,b.SC_Name,b.SC_MobileNO,b.SC_IDTypeID,b.SC_DepartmentID
 
     ,c.SC_DepartmentName
 
-    from SC_AccessRecord a,SC_Employee b,SC_Department c
+    ,d.SC_CheckResultName
+
+    from SC_AccessRecord a,SC_Employee b,SC_Department c,SC_ESDCheckResult d
     where b.SC_DepartmentID=c.SC_DepartmentID
     /*  测试处理而注释and b.SC_MobileNO like '%'+convert(varchar(20),a.SC_CardGuidNO)*/
     and b.SC_MobileNO like '%'+convert(varchar(20),a.SC_CardGuidNO)
-    /*and b.SC_MobileNO=convert(varchar(20),a.SC_CardGuidNO)*/
+    and a.SC_EventTypeID = d.SC_CheckResultID
     order by a.SC_SerierNO desc
   </select>
 
@@ -109,8 +115,8 @@
       SC_Reserve, SC_DeviceRecNO, SC_AddTime, 
       SC_TimeStamp)
     values (#{scSerierno,jdbcType=BIGINT}, #{scDoorno,jdbcType=INTEGER}, #{scUserdefinecardno,jdbcType=BIGINT}, 
-      #{scCardguidno,jdbcType=BIGINT}, #{scEmpid,jdbcType=BIGINT}, #{scOpendoortypeid,jdbcType=TINYINT}, 
-      #{scEventtypeid,jdbcType=TINYINT}, #{scInoutstatus,jdbcType=TINYINT}, #{scRecordtime,jdbcType=TIMESTAMP}, 
+      #{scCardguidno,jdbcType=BIGINT}, #{scEmpid,jdbcType=BIGINT}, #{scOpendoortypeid,jdbcType=SMALLINT},
+      #{scEventtypeid,jdbcType=SMALLINT}, #{scInoutstatus,jdbcType=SMALLINT}, #{scRecordtime,jdbcType=TIMESTAMP},
       #{scReserve,jdbcType=NVARCHAR}, #{scDevicerecno,jdbcType=INTEGER}, #{scAddtime,jdbcType=TIMESTAMP}, 
       #{scTimestamp,jdbcType=BINARY})
   </insert>
@@ -174,13 +180,13 @@
         #{scEmpid,jdbcType=BIGINT},
       </if>
       <if test="scOpendoortypeid != null" >
-        #{scOpendoortypeid,jdbcType=TINYINT},
+        #{scOpendoortypeid,jdbcType=SMALLINT},
       </if>
       <if test="scEventtypeid != null" >
-        #{scEventtypeid,jdbcType=TINYINT},
+        #{scEventtypeid,jdbcType=SMALLINT},
       </if>
       <if test="scInoutstatus != null" >
-        #{scInoutstatus,jdbcType=TINYINT},
+        #{scInoutstatus,jdbcType=SMALLINT},
       </if>
       <if test="scRecordtime != null" >
         #{scRecordtime,jdbcType=TIMESTAMP},
@@ -215,13 +221,13 @@
         SC_EmpID = #{scEmpid,jdbcType=BIGINT},
       </if>
       <if test="scOpendoortypeid != null" >
-        SC_OpenDoorTypeID = #{scOpendoortypeid,jdbcType=TINYINT},
+        SC_OpenDoorTypeID = #{scOpendoortypeid,jdbcType=SMALLINT},
       </if>
       <if test="scEventtypeid != null" >
-        SC_EventTypeID = #{scEventtypeid,jdbcType=TINYINT},
+        SC_EventTypeID = #{scEventtypeid,jdbcType=SMALLINT},
       </if>
       <if test="scInoutstatus != null" >
-        SC_InOutStatus = #{scInoutstatus,jdbcType=TINYINT},
+        SC_InOutStatus = #{scInoutstatus,jdbcType=SMALLINT},
       </if>
       <if test="scRecordtime != null" >
         SC_RecordTime = #{scRecordtime,jdbcType=TIMESTAMP},
@@ -247,9 +253,9 @@
       SC_UserDefineCardNO = #{scUserdefinecardno,jdbcType=BIGINT},
       SC_CardGuidNO = #{scCardguidno,jdbcType=BIGINT},
       SC_EmpID = #{scEmpid,jdbcType=BIGINT},
-      SC_OpenDoorTypeID = #{scOpendoortypeid,jdbcType=TINYINT},
-      SC_EventTypeID = #{scEventtypeid,jdbcType=TINYINT},
-      SC_InOutStatus = #{scInoutstatus,jdbcType=TINYINT},
+      SC_OpenDoorTypeID = #{scOpendoortypeid,jdbcType=SMALLINT},
+      SC_EventTypeID = #{scEventtypeid,jdbcType=SMALLINT},
+      SC_InOutStatus = #{scInoutstatus,jdbcType=SMALLINT},
       SC_RecordTime = #{scRecordtime,jdbcType=TIMESTAMP},
       SC_Reserve = #{scReserve,jdbcType=NVARCHAR},
       SC_DeviceRecNO = #{scDevicerecno,jdbcType=INTEGER},
@@ -263,9 +269,9 @@
       SC_UserDefineCardNO = #{scUserdefinecardno,jdbcType=BIGINT},
       SC_CardGuidNO = #{scCardguidno,jdbcType=BIGINT},
       SC_EmpID = #{scEmpid,jdbcType=BIGINT},
-      SC_OpenDoorTypeID = #{scOpendoortypeid,jdbcType=TINYINT},
-      SC_EventTypeID = #{scEventtypeid,jdbcType=TINYINT},
-      SC_InOutStatus = #{scInoutstatus,jdbcType=TINYINT},
+      SC_OpenDoorTypeID = #{scOpendoortypeid,jdbcType=SMALLINT},
+      SC_EventTypeID = #{scEventtypeid,jdbcType=SMALLINT},
+      SC_InOutStatus = #{scInoutstatus,jdbcType=SMALLINT},
       SC_RecordTime = #{scRecordtime,jdbcType=TIMESTAMP},
       SC_Reserve = #{scReserve,jdbcType=NVARCHAR},
       SC_DeviceRecNO = #{scDevicerecno,jdbcType=INTEGER},

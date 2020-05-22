@@ -14,11 +14,11 @@ public class AccessRecord {
 
     private Long scEmpid;
 
-    private Byte scOpendoortypeid;
+    private Short scOpendoortypeid;
 
-    private Byte scEventtypeid;
+    private Short scEventtypeid;
 
-    private Byte scInoutstatus;
+    private Short scInoutstatus;
 
     private Date scRecordtime;
 
@@ -70,27 +70,27 @@ public class AccessRecord {
         this.scEmpid = scEmpid;
     }
 
-    public Byte getScOpendoortypeid() {
+    public Short getScOpendoortypeid() {
         return scOpendoortypeid;
     }
 
-    public void setScOpendoortypeid(Byte scOpendoortypeid) {
+    public void setScOpendoortypeid(Short scOpendoortypeid) {
         this.scOpendoortypeid = scOpendoortypeid;
     }
 
-    public Byte getScEventtypeid() {
+    public Short getScEventtypeid() {
         return scEventtypeid;
     }
 
-    public void setScEventtypeid(Byte scEventtypeid) {
+    public void setScEventtypeid(Short scEventtypeid) {
         this.scEventtypeid = scEventtypeid;
     }
 
-    public Byte getScInoutstatus() {
+    public Short getScInoutstatus() {
         return scInoutstatus;
     }
 
-    public void setScInoutstatus(Byte scInoutstatus) {
+    public void setScInoutstatus(Short scInoutstatus) {
         this.scInoutstatus = scInoutstatus;
     }
 
@@ -107,7 +107,7 @@ public class AccessRecord {
     }
 
     public void setScReserve(String scReserve) {
-        this.scReserve = scReserve == null ? null : scReserve.trim();
+        this.scReserve = scReserve;
     }
 
     public Integer getScDevicerecno() {
@@ -133,7 +133,6 @@ public class AccessRecord {
     public void setScTimestamp(byte[] scTimestamp) {
         this.scTimestamp = scTimestamp;
     }
-
 
     @Override
     public String toString() {

@@ -7,7 +7,7 @@
     <result column="SC_SerierNO" property="scSerierno" jdbcType="BIGINT" />
     <result column="SC_AccountNO" property="scAccountno" jdbcType="BIGINT" />
     <result column="SC_Name" property="scName" jdbcType="NVARCHAR" />
-    <result column="SC_SexID" property="scSexid" jdbcType="TINYINT" />
+    <result column="SC_SexID" property="scSexid" jdbcType="SMALLINT" />
     <result column="SC_MobileNO" property="scMobileno" jdbcType="NVARCHAR" />
     <result column="SC_OfficeTelNO" property="scOfficetelno" jdbcType="NVARCHAR" />
     <result column="SC_ActualAddr" property="scActualaddr" jdbcType="NVARCHAR" />
@@ -97,7 +97,7 @@
       SC_WorkEndTime, SC_Power, SC_Photo, 
       SC_TimeStamp)
     values (#{scWorkerno,jdbcType=NVARCHAR}, #{scEmpno,jdbcType=BIGINT}, #{scSerierno,jdbcType=BIGINT}, 
-      #{scAccountno,jdbcType=BIGINT}, #{scName,jdbcType=NVARCHAR}, #{scSexid,jdbcType=TINYINT}, 
+      #{scAccountno,jdbcType=BIGINT}, #{scName,jdbcType=NVARCHAR}, #{scSexid,jdbcType=SMALLINT},
       #{scMobileno,jdbcType=NVARCHAR}, #{scOfficetelno,jdbcType=NVARCHAR}, #{scActualaddr,jdbcType=NVARCHAR}, 
       #{scRegisteraddr,jdbcType=NVARCHAR}, #{scBirthday,jdbcType=TIMESTAMP}, #{scIdtypeid,jdbcType=INTEGER}, 
       #{scIdno,jdbcType=NVARCHAR}, #{scNativeid,jdbcType=NVARCHAR}, #{scPoliticsstatusid,jdbcType=INTEGER}, 
@@ -202,7 +202,7 @@
         #{scName,jdbcType=NVARCHAR},
       </if>
       <if test="scSexid != null" >
-        #{scSexid,jdbcType=TINYINT},
+        #{scSexid,jdbcType=SMALLINT},
       </if>
       <if test="scMobileno != null" >
         #{scMobileno,jdbcType=NVARCHAR},
@@ -279,7 +279,7 @@
         SC_Name = #{scName,jdbcType=NVARCHAR},
       </if>
       <if test="scSexid != null" >
-        SC_SexID = #{scSexid,jdbcType=TINYINT},
+        SC_SexID = #{scSexid,jdbcType=SMALLINT},
       </if>
       <if test="scMobileno != null" >
         SC_MobileNO = #{scMobileno,jdbcType=NVARCHAR},
@@ -347,7 +347,7 @@
       SC_SerierNO = #{scSerierno,jdbcType=BIGINT},
       SC_AccountNO = #{scAccountno,jdbcType=BIGINT},
       SC_Name = #{scName,jdbcType=NVARCHAR},
-      SC_SexID = #{scSexid,jdbcType=TINYINT},
+      SC_SexID = #{scSexid,jdbcType=SMALLINT},
       SC_MobileNO = #{scMobileno,jdbcType=NVARCHAR},
       SC_OfficeTelNO = #{scOfficetelno,jdbcType=NVARCHAR},
       SC_ActualAddr = #{scActualaddr,jdbcType=NVARCHAR},
@@ -375,7 +375,7 @@
       SC_SerierNO = #{scSerierno,jdbcType=BIGINT},
       SC_AccountNO = #{scAccountno,jdbcType=BIGINT},
       SC_Name = #{scName,jdbcType=NVARCHAR},
-      SC_SexID = #{scSexid,jdbcType=TINYINT},
+      SC_SexID = #{scSexid,jdbcType=SMALLINT},
       SC_MobileNO = #{scMobileno,jdbcType=NVARCHAR},
       SC_OfficeTelNO = #{scOfficetelno,jdbcType=NVARCHAR},
       SC_ActualAddr = #{scActualaddr,jdbcType=NVARCHAR},

@@ -6,6 +6,8 @@ import cn.hutool.log.LogFactory;
 import cn.possible2dream.menjin_at.entity.AccessRecord;
 import cn.possible2dream.menjin_at.entity.EmployeeWithBLOBs;
 import cn.possible2dream.menjin_at.service.EmployeeService;
+import cn.possible2dream.menjin_at.service.OriginalRecordService;
+import com.alibaba.fastjson.JSON;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -50,13 +52,18 @@ public class WebSocketServer {
     /*连接时唯一对应一个员工*/
     private EmployeeWithBLOBs employee;
     //private static EmployeeService employeeService = EmployeeServiceImpl.getInstance();
-    //@Resource
     //  这里使用静态，让 service 属于类
     private static EmployeeService employeeService;
     // 注入的时候，给类的 service 注入
     @Autowired
     public void setChatService(EmployeeService employeeService) {
         WebSocketServer.employeeService = employeeService;
+    }
+
+    private static OriginalRecordService originalRecordService;
+    @Autowired
+    public void setChatService(OriginalRecordService originalRecordService) {
+        WebSocketServer.originalRecordService = originalRecordService;
     }
 
 
@@ -66,13 +73,10 @@ public class WebSocketServer {
     public void onOpen(Session session, EndpointConfig config) {//, @PathParam(value = "sid") String userName
         this.session = session;
         this.httpSession = (HttpSession) config.getUserProperties().get(HttpSession.class.getName());
-        System.out.println("获取完httpSession:"+httpSession);
 
         this.nickname = this.httpSession.getAttribute("name").toString();
         String staffId = this.httpSession.getAttribute("staffId").toString();
 
-        System.out.println("nickname："+this.nickname+",staffId:"+staffId);
-//        EmployeeService employeeService = new EmployeeServiceImpl();
         EmployeeWithBLOBs employeeWithBLOBs = employeeService.getEmployee(staffId);
         this.employee = employeeWithBLOBs;
 
@@ -81,6 +85,13 @@ public class WebSocketServer {
 //        System.out.println("校验登陆 完成");
         connections.put(this.employee.getScEmpno(), this);
 //        System.out.println("创建连接 完成");
+
+        //初次建立连接，从后台加载进出记录到当前连接对象
+        try {
+            this.session.getBasicRemote().sendText(JSON.toJSONString(originalRecordService.getTop25()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 //        try {
 //            this.session.getBasicRemote().sendText(JSON.toJSONString("websocket连接已经建立成功了，现在可以准备业务的事情了"));
 //        } catch (IOException e) {
