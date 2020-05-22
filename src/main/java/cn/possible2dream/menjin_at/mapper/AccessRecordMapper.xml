@@ -38,6 +38,8 @@
     <result column="SC_DepartmentName" property="scDepartmentname" jdbcType="NVARCHAR" />
     <!--SC_ESDCheckResult 表-->
     <result column="SC_CheckResultName" property="scCheckResultName" jdbcType="NVARCHAR" />
+    <!--SC_DeviceArea 表-->
+    <result column="SC_DeviceAreaName" property="scDeviceAreaName" jdbcType="NVARCHAR" />
   </resultMap>
 
   <sql id="Base_Column_List" >
@@ -57,22 +59,28 @@
   </select>
 
   <select id="selectAllByMaxId" resultMap="MyResultMap" parameterType="java.lang.Long" >
-    select a.SC_SerierNO,a.SC_DoorNO,a.SC_CardGuidNO,a.SC_EventTypeID
+    select g.*,f.SC_DeviceAreaName from (
+
+    select top 10 a.SC_SerierNO,a.SC_DoorNO,a.SC_CardGuidNO,a.SC_EventTypeID
     ,a.SC_InOutStatus,a.SC_AddTime
-
     ,b.SC_WorkerNO,b.SC_Name,b.SC_MobileNO,b.SC_IDTypeID,b.SC_DepartmentID
-
     ,c.SC_DepartmentName
-
     ,d.SC_CheckResultName
-
-    from SC_AccessRecord a,SC_Employee b,SC_Department c,SC_ESDCheckResult d
+    ,e.SC_DeviceAreaID
+    from SC_AccessRecord a
+    ,SC_Employee b
+    ,SC_Department c
+    ,SC_ESDCheckResult d
+    ,SC_Device e
     where a.SC_SerierNO > #{scSerierno,jdbcType=BIGINT}
     and b.SC_DepartmentID=c.SC_DepartmentID
-    /*  测试处理而注释and b.SC_MobileNO like '%'+convert(varchar(20),a.SC_CardGuidNO)*/
     and b.SC_MobileNO like '%'+convert(varchar(20),a.SC_CardGuidNO)
     and a.SC_EventTypeID = d.SC_CheckResultID
+    and a.SC_DoorNO=e.SC_SerierNO   --  SC_SerierNO   SC_DeviceSerierNO
     order by a.SC_SerierNO desc
+
+    ) g,SC_DeviceArea f
+    where g.SC_DeviceAreaID=f.SC_DeviceAreaID
   </select>
 
   <select id="selectMaxScSerierno" resultType="java.lang.Long"  >
@@ -81,22 +89,34 @@
   </select>
 
   <select id="selectTop25" resultMap="MyResultMap" >
+    select g.*,f.SC_DeviceAreaName from (
+
     select top 10 a.SC_SerierNO,a.SC_DoorNO,a.SC_CardGuidNO,a.SC_EventTypeID
     ,a.SC_InOutStatus,a.SC_AddTime
-
     ,b.SC_WorkerNO,b.SC_Name,b.SC_MobileNO,b.SC_IDTypeID,b.SC_DepartmentID
-
     ,c.SC_DepartmentName
-
     ,d.SC_CheckResultName
+    ,e.SC_DeviceAreaID
 
-    from SC_AccessRecord a,SC_Employee b,SC_Department c,SC_ESDCheckResult d
+    from SC_AccessRecord a
+    ,SC_Employee b
+    ,SC_Department c
+    ,SC_ESDCheckResult d
+    ,SC_Device e
+
     where b.SC_DepartmentID=c.SC_DepartmentID
     /*  测试处理而注释and b.SC_MobileNO like '%'+convert(varchar(20),a.SC_CardGuidNO)*/
     and b.SC_MobileNO like '%'+convert(varchar(20),a.SC_CardGuidNO)
     and a.SC_EventTypeID = d.SC_CheckResultID
+    and a.SC_DoorNO=e.SC_SerierNO   --  SC_SerierNO   SC_DeviceSerierNO
     order by a.SC_SerierNO desc
+
+    ) g,SC_DeviceArea f
+    where g.SC_DeviceAreaID=f.SC_DeviceAreaID
   </select>
+
+
+
 
 
 

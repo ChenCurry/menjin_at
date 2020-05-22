@@ -10,8 +10,6 @@ public class OriginalRecord {
     private Long scCardguidno;//'%'+SC_CardGuidNO   卡号 10忆  不行的话换成Long
     private Short scEventtypeid;//事件类型 0  要确定哪些事件是正常出来了的 要容错
     private Short scInoutstatus;//进还是出
-//    private  SC_DeviceRecNO;//该设备记录总次数
-//    private Date scRecordtime;//刷卡时间？
     private Date scAddtime;//记录时间？
 
     //SC_Employee 表
@@ -26,6 +24,8 @@ public class OriginalRecord {
 
     //SC_ESDCheckResult 表 SC_AccessRecord.SC_EventTypeID = SC_ESDCheckResult.SC_CheckResultID
     private String scCheckResultName;
+    //SC_DeviceArea 表
+    private String scDeviceAreaName;
 
     /**
      * scEventtypeid 实际出现的情况
@@ -40,8 +40,17 @@ public class OriginalRecord {
      91
      select top 3000 * from PongeeESD6806_CN.dbo.SC_AccessRecord where 1=1 order by SC_SerierNO desc
      select distinct SC_EventTypeID from PongeeESD6806_CN.dbo.SC_AccessRecord
+     select distinct SC_InOutStatus from PongeeESD6806_CN.dbo.SC_AccessRecord
+     select distinct SC_DoorNO from PongeeESD6806_CN.dbo.SC_AccessRecord order by SC_DoorNO desc
+
      select * from PongeeESD6806_CN.dbo.SC_EventType
-     select * from PongeeESD6806_CN.dbo.SC_ESDCheckResult
+     select d.SC_CheckResultID,d.SC_CheckResultName from PongeeESD6806_CN.dbo.SC_ESDCheckResult d
+
+     select top 3000 a.SC_DoorNO from PongeeESD6806_CN.dbo.SC_AccessRecord a
+     select e.SC_SerierNO,e.SC_DeviceSerierNO,e.SC_DeviceAreaID from PongeeESD6806_CN.dbo.SC_Device e    --
+     select f.SC_DeviceAreaID,f.SC_DeviceAreaName from PongeeESD6806_CN.dbo.SC_DeviceArea f    --
+     select top 300 f.SC_DeviceAreaName from PongeeESD6806_CN.dbo.SC_AccessRecord a,PongeeESD6806_CN.dbo.SC_Device e,PongeeESD6806_CN.dbo.SC_DeviceArea f
+     where a.SC_DoorNO=e.SC_DeviceSerierNO and e.SC_DeviceAreaID=f.SC_DeviceAreaID
      */
 
 
@@ -121,6 +130,14 @@ public class OriginalRecord {
         this.scAddtime = scAddtime;
     }
 
+    public String getScDeviceAreaName() {
+        return scDeviceAreaName;
+    }
+
+    public void setScDeviceAreaName(String scDeviceAreaName) {
+        this.scDeviceAreaName = scDeviceAreaName;
+    }
+
     public String getScWorkerno() {
         return scWorkerno;
     }
@@ -185,6 +202,7 @@ public class OriginalRecord {
                 ", scDepartmentid=" + scDepartmentid +
                 ", scDepartmentname='" + scDepartmentname + '\'' +
                 ", scCheckResultName='" + scCheckResultName + '\'' +
+                ", scDeviceAreaName='" + scDeviceAreaName + '\'' +
                 '}';
     }
 }

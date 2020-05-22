@@ -42,8 +42,11 @@ var columns = [
             return parseTime(value);
         }
     }, {
+        field: 'scDeviceAreaName',
+        title: '闸机位置'
+    }, {
         field: 'scDoorno',
-        title: '门号'
+        title: '闸机编号'
     }, {
         field: 'scName',
         title: '姓名'
@@ -261,6 +264,7 @@ function appendTable(dataSS) {
             scCardguidno:doorIdArr[i].scCardguidno,
             scDepartmentid:doorIdArr[i].scDepartmentid,
             scDepartmentname:doorIdArr[i].scDepartmentname,
+            scDeviceAreaName:doorIdArr[i].scDeviceAreaName,
             scDoorno:doorIdArr[i].scDoorno,
             scEventtypeid:doorIdArr[i].scEventtypeid,
             scCheckResultName:doorIdArr[i].scCheckResultName,
