@@ -279,23 +279,6 @@ function initTable3() {
         autoclose:true //选择日期后自动关闭
     });
 
-    /*var picker1 = $('#datetimepicker1').datetimepicker({
-        minView: "day",//设置只显示到月份
-        // format : "yyyy-mm-dd",//日期格式
-        autoclose:true,//选中关闭
-        todayBtn: true,//今日按钮
-        format: 'YYYY-MM-DD',
-        locale: moment.locale('zh-cn')
-        //minDate: '2016-7-1'
-    });
-    var picker2 = $('#datetimepicker2').datetimepicker({
-        minView: "day",//设置只显示到月份
-        autoclose:true,//选中关闭
-        todayBtn: true,//今日按钮
-        format: 'YYYY-MM-DD',
-        locale: moment.locale('zh-cn')
-    });*/
-
     // //动态设置最小值
     // picker1.on('dp.change', function (e) {
     //     picker2.data('DateTimePicker').minDate(e.date);
@@ -310,6 +293,23 @@ function initTable3() {
     //     locale: moment.locale('zh-cn'),
     //     defaultDate: "1990-1-1"
     // });
+}
+
+/**
+ * 查询进出记录
+ */
+function queryTab3(){
+
+    var time1 = $("#begin_time").val();
+    var time2 = $("#end_time").val();
+    var options=$("#floorX");
+    var floorx = options.val();
+    var options2=$("#departmentX");
+    var departmentx = options2.val();
+    var nameX = $("#nameX").val();
+    var jobX = $("#jobX").val();
+
+    alert("time1:"+time1+",time2:"+time2+",floorx:"+floorx+",departmentx:"+departmentx+",nameX:"+nameX+",jobX:"+jobX);
 }
 
 /**

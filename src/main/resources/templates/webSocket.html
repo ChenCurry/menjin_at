@@ -53,21 +53,25 @@
         <div id="div2_tab3_bar" class="form-inline row ">
 
             <label>选择条件进行查询</label>
-            <select class="form-control input-medium" name="product_line" id="productLine">
-                <option value="">请选择楼层</option>
-            </select>
 
             <input type="text"  class="form-control input-small" readonly style="background:#fff" placeholder="起始时间" id="begin_time"/>
             <input type="text"  class="form-control input-small" readonly style="background:#fff" placeholder="截止时间" id="end_time"/>
 
-            <select class="form-control input-medium" name="product_line" id="productLine1">
+            <select class="form-control input-medium" name="product_line" id="floorX">
+                <option value="">请选择楼层</option>
+                <option value="0">一楼</option>
+                <option value="1">二楼</option>
+                <option value="2">三楼</option>
+            </select>
+
+            <select class="form-control input-medium" name="product_line" id="departmentX">
                 <option value="">请选择部门</option>
             </select>
 
-            <input type="text" class="form-control input-mini" placeholder="姓名" />
-            <input type="text" class="form-control input-mini" placeholder="工号" />
-            <button class="btn btn-primary">查询</button>
-            <button class="btn btn-primary">导出</button>
+            <input id="nameX" type="text" class="form-control input-mini" placeholder="姓名" />
+            <input id="jobX" type="text" class="form-control input-mini" placeholder="工号" />
+            <button id="tab3query" onclick="queryTab3()" class="btn btn-primary">查询</button>
+            <button id="tab3excel" class="btn btn-primary">导出</button>
         </div>
 
         <table id="tab3" ></table>
