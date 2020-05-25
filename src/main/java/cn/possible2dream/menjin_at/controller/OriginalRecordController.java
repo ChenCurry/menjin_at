@@ -26,4 +26,12 @@ public class OriginalRecordController {
         return accessRecord;
     }
 
+    @RequestMapping("/getTab3Record")
+    @ResponseBody
+    public AccessRecord getTab3Record(HttpServletRequest request){
+//        long scSerierno = Integer.parseInt(request.getParameter("scSerierno"));
+//        AccessRecord accessRecord = originalRecordService.getAccessRecordByScSerierno(scSerierno);
+        return null;
+    }
+
 }

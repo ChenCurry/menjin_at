@@ -222,46 +222,13 @@ function initTable() {
 }
 
 /**
- * 初始化第一个页面的表格
+ * 初始化第2个页面的表格 和 条件控件
  */
 function initTable3() {
-    var queryUrl = '/TestUser/FindWithPager?rnd=' + Math.random();
-
     $('#tab3').bootstrapTable({
         toolbar:"#div2_tab3_bar",
-        //showLoading: false,
-        data: data2,
-        columns: columns,
-
-        // url: queryUrl,                      //请求后台的URL（*）
-        // method: 'GET',                      //请求方式（*）
-        cache: false,                       //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
-        pagination: true,                   //是否显示分页（*）
-        sidePagination: "server",           //分页方式：client客户端分页，server服务端分页（*）
-        pageNumber: 1,                      //初始化加载第一页，默认第一页,并记录
-        pageSize: 10,                     //每页的记录行数（*）
-        pageList: [10, 25, 50, 100],        //可供选择的每页的行数（*）
-        search: false,                      //是否显示表格搜索
-        clickToSelect: true,                //是否启用点击选中行
-        queryParams : function (params) {
-            //这里的键的名字和控制器的变量名必须一直，这边改动，控制器也需要改成一样的
-            var temp = {
-                rows: params.limit,                         //页面大小
-                page: (params.offset / params.limit) + 1,   //页码
-                sort: params.sort,      //排序列名
-                sortOrder: params.order //排位命令（desc，asc）
-            };
-            return temp;
-        },
-        onLoadSuccess: function () {
-        },
-        onLoadError: function () {
-            //showTips("数据加载失败！");
-        },
-        onDblClickRow: function (row, $element) {
-            var id = row.ID;
-            EditViewById(id, 'view');
-        }
+        data: data,
+        columns: columns
     });
     $('#tab3').bootstrapTable('hideLoading');
 
@@ -308,12 +275,50 @@ function queryTab3(){
     var departmentx = options2.val();
     var nameX = $("#nameX").val();
     var jobX = $("#jobX").val();
+    //alert("time1:"+time1+",time2:"+time2+",floorx:"+floorx+",departmentx:"+departmentx+",nameX:"+nameX+",jobX:"+jobX);
 
-    alert("time1:"+time1+",time2:"+time2+",floorx:"+floorx+",departmentx:"+departmentx+",nameX:"+nameX+",jobX:"+jobX);
+    var queryUrl = '/accessRecord/getTab3Record?rnd';
+
+    $('#tab3').bootstrapTable({
+        toolbar:"#div2_tab3_bar",
+        showLoading: true,
+        data: data2,
+        columns: columns,
+        url: queryUrl,                      //请求后台的URL（*）
+        method: 'GET',                      //请求方式（*）
+        cache: false,                       //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+        pagination: true,                   //是否显示分页（*）
+        sidePagination: "server",           //分页方式：client客户端分页，server服务端分页（*）
+        pageNumber: 1,                      //初始化加载第一页，默认第一页,并记录
+        pageSize: 10,                     //每页的记录行数（*）
+        pageList: [10, 25, 50, 100],        //可供选择的每页的行数（*）
+        search: false,                      //是否显示表格搜索
+        clickToSelect: true,                //是否启用点击选中行
+        queryParams : function (params) {
+            //这里的键的名字和控制器的变量名必须一直，这边改动，控制器也需要改成一样的
+            // var temp = {
+            //     rows: params.limit,                         //页面大小
+            //     page: (params.offset / params.limit) + 1,   //页码
+            //     sort: params.sort,      //排序列名
+            //     sortOrder: params.order //排位命令（desc，asc）
+            // };
+            // return temp;
+        },
+        onLoadSuccess: function () {
+        },
+        onLoadError: function () {
+            //showTips("数据加载失败！");
+        },
+        onDblClickRow: function (row, $element) {
+            var id = row.ID;
+            EditViewById(id, 'view');
+        }
+    });
+    $('#tab3').bootstrapTable('hideLoading');
 }
 
 /**
- * 更新表格数据
+ * 更新表格1,2数据
  * @param dataSS
  */
 function appendTable(doorIdArr,tableId) {
