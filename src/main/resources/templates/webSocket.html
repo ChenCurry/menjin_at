@@ -8,9 +8,13 @@
     <title>实时统计</title>
     <link rel="shortcut icon" href="img/favicon.ico">
     <link rel="stylesheet" href="bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" href="bootstrap/css/bootstrap-datetimepicker.min.css">
     <!--<link rel="stylesheet" href="css/webSocket.css">-->
     <script src="js/jquery.min.js"></script>
+    <script src="js/moment-with-locales.min.js"></script>
     <script type="text/javascript" src="bootstrap/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="bootstrap/js/bootstrap-datetimepicker.min.js"></script>
+    <script type="text/javascript" src="bootstrap/js/bootstrap-datetimepicker.zh-CN.js"></script>
     <script src="1.15.5/bootstrap-table.js"></script>
     <script src="js/webSocket.js"></script>
 </head>
@@ -46,9 +50,31 @@
     </div>
 
     <div id="div2" style="display:none;">
-        <p>第二个页面</p>
+        <div id="div2_tab3_bar" class="form-inline row ">
+
+            <label>选择条件进行查询</label>
+            <select class="form-control input-medium" name="product_line" id="productLine">
+                <option value="">请选择楼层</option>
+            </select>
+
+            <input type="text"  class="form-control input-small" readonly style="background:#fff" placeholder="起始时间" id="begin_time"/>
+            <input type="text"  class="form-control input-small" readonly style="background:#fff" placeholder="截止时间" id="end_time"/>
+
+            <select class="form-control input-medium" name="product_line" id="productLine1">
+                <option value="">请选择部门</option>
+            </select>
+
+            <input type="text" class="form-control input-mini" placeholder="姓名" />
+            <input type="text" class="form-control input-mini" placeholder="工号" />
+            <button class="btn btn-primary">查询</button>
+            <button class="btn btn-primary">导出</button>
+        </div>
+
         <table id="tab3" ></table>
+
     </div>
+
+
 
     <div id="div3" style="display:none;">
         <p>第三个页面</p>

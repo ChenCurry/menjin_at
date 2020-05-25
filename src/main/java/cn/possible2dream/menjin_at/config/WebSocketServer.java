@@ -97,8 +97,8 @@ public class WebSocketServer {
 
             OriginalRecordToFore rtf2 = new OriginalRecordToFore(3,listOriginalRecord);
             String str02 = JSON.toJSONString(rtf2);
-            System.out.println("第一次传给前台的室内人员："+str02);
-            this.session.getBasicRemote().sendText(str02);
+            //System.out.println("第一次传给前台的室内人员："+str02);
+            //this.session.getBasicRemote().sendText(str02);
         } catch (IOException e) {
             e.printStackTrace();
         }
