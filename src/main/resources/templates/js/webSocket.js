@@ -229,20 +229,20 @@ function initTable() {
 function initTable3() {
     $('#tab3').bootstrapTable({
         toolbar:"#div2_tab3_bar",
-        data: data,
+        // data: data,
         columns: columns,
-        url: '/menjin_at/accessRecord/getTab3Record',
-        method: 'get',                      //请求方式（*）
-        cache: false,                       //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
-        pagination: true,                   //是否显示分页（*）
-        sidePagination: "server",           //分页方式：client客户端分页，server服务端分页（*）
-        pageNumber: 1,                      //初始化加载第一页，默认第一页,并记录
-        pageSize: 10,                     //每页的记录行数（*）
-        pageList: [10, 25, 50, 100],        //可供选择的每页的行数（*）
-        search: false,                      //是否显示表格搜索
-        contentType: 'application/x-www-form-urlencoded',
-        clickToSelect: true                //是否启用点击选中行
-        ,queryParamsType : ""
+        // url: '/menjin_at/accessRecord/getTab3Record',
+        // method: 'get',                      //请求方式（*）
+        // cache: false,                       //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+        // pagination: true,                   //是否显示分页（*）
+        // sidePagination: "server",           //分页方式：client客户端分页，server服务端分页（*）
+        // pageNumber: 1,                      //初始化加载第一页，默认第一页,并记录
+        // pageSize: 10,                     //每页的记录行数（*）
+        // pageList: [10, 25, 50, 100],        //可供选择的每页的行数（*）
+        // search: false,                      //是否显示表格搜索
+        // contentType: 'application/x-www-form-urlencoded',
+        // clickToSelect: true                //是否启用点击选中行
+        // ,queryParamsType : ""
         // ,queryParams:queryParams
     });
     $('#tab3').bootstrapTable('hideLoading');
