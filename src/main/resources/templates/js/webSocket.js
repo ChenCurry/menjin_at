@@ -231,9 +231,8 @@ function initTable3() {
         toolbar:"#div2_tab3_bar",
         data: data,
         columns: columns,
-
         url: '/menjin_at/accessRecord/getTab3Record',
-        method: 'post',                      //请求方式（*）
+        method: 'get',                      //请求方式（*）
         cache: false,                       //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
         pagination: true,                   //是否显示分页（*）
         sidePagination: "server",           //分页方式：client客户端分页，server服务端分页（*）
@@ -241,8 +240,10 @@ function initTable3() {
         pageSize: 10,                     //每页的记录行数（*）
         pageList: [10, 25, 50, 100],        //可供选择的每页的行数（*）
         search: false,                      //是否显示表格搜索
-        clickToSelect: true,                //是否启用点击选中行
-        queryParamsType : ""
+        contentType: 'application/x-www-form-urlencoded',
+        clickToSelect: true                //是否启用点击选中行
+        ,queryParamsType : ""
+        // ,queryParams:queryParams
     });
     $('#tab3').bootstrapTable('hideLoading');
 
@@ -281,35 +282,7 @@ function initTable3() {
  */
 function queryTab3(){
 
-    var time1 = $("#begin_time").val();
-    var time2 = $("#end_time").val();
-    var options=$("#floorX");
-    var floorx = options.val();
-    var options2=$("#departmentX");
-    var departmentx = options2.val();
-    var nameX = $("#nameX").val();
-    var jobX = $("#jobX").val();
-    //alert("time1:"+time1+",time2:"+time2+",floorx:"+floorx+",departmentx:"+departmentx+",nameX:"+nameX+",jobX:"+jobX);
-
-    // var queryUrl = 'http://localhost:8080/menjin_at/accessRecord/getTab3Record?time1='+time1+'&time2='+time2+'&floorx='+floorx+'&departmentx='+departmentx+'&nameX='+nameX+'&jobX='+jobX;
-    // var queryUrl = '/menjin_at/accessRecord/getTab3Record?nameX='+nameX+'&jobX='+jobX;
     var queryUrl = '/menjin_at/accessRecord/getTab3Record';
-
-    //ws.send(JSON.stringify(jsonMsg));
-
-    // $('#tab3').bootstrapTable('load', data2);
-
-    // $.ajax({
-    //     type: "GET",
-    //     url: "/menjin_at/accessRecord/getTab3Record",
-    //     dataType: "json",
-    //     success: function (msg) {
-    //         $("#WorkTable").bootstrapTable('load', msg);
-    //     },
-    //     error: function () {
-    //         alert("错误");
-    //     }
-    // });
 
     $('#tab3').bootstrapTable({
 
@@ -318,7 +291,8 @@ function queryTab3(){
         //data: data2,
         columns: columns,
         url: queryUrl,                      //请求后台的URL（*）
-        method: 'post',                      //请求方式（*）
+        method: 'get',                      //请求方式（*）
+        contentType: 'application/x-www-form-urlencoded',
         cache: false,                       //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
         pagination: true,                   //是否显示分页（*）
         sidePagination: "server",           //分页方式：client客户端分页，server服务端分页（*）
@@ -328,7 +302,7 @@ function queryTab3(){
         search: false,                      //是否显示表格搜索
         clickToSelect: true,                //是否启用点击选中行
         queryParamsType : "",
-        queryParams : getParams,
+        queryParams : queryParams,
         onLoadSuccess: function () {
             alert("onLoadSuccess！");
         },
@@ -344,11 +318,43 @@ function queryTab3(){
     $('#tab3').bootstrapTable('hideLoading');
 }
 
+function exportExcelTab3(){
+    /*$.ajax({
+        type: "GET",
+        url: "/menjin_at/accessRecord/getTab3Record",
+        dataType: "json",
+        success: function (msg) {
+            $("#WorkTable").bootstrapTable('load', msg);
+        },
+        error: function () {
+            alert("错误");
+        }
+    });*/
+}
+
 //获取参数方法
-function getParams(params) {
+function queryParams(params) {
+    var time1 = $("#begin_time").val();
+    var time2 = $("#end_time").val();
+    var options=$("#floorX");
+    var floorx = options.val();
+    var options2=$("#departmentX");
+    var departmentx = options2.val();
+    var nameX = $("#nameX").val();
+    var jobX = $("#jobX").val();
+    //alert("time1:"+time1+",time2:"+time2+",floorx:"+floorx+",departmentx:"+departmentx+",nameX:"+nameX+",jobX:"+jobX);
     var temp = {
-        pageSize : params.limit,
-        offset: params.offset
+        offset: params.offset,  //页码
+        //pageSize : params.limit,
+        pageSize:params.pageSize,
+        pageNumber:params.pageNumber,//this  params
+        time1: "ddddd",
+        time2: "ddddd",
+        floorx: "ddddd",
+        departmentx: departmentx,
+        nameX: "ddddd",
+        jobX: "ddddd",
+        length: 6
     };
     return temp;
 }
