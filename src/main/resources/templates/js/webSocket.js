@@ -230,7 +230,7 @@ function initTable3() {
     $('#tab3').bootstrapTable({
         toolbar:"#div2_tab3_bar",
         // data: data,
-        columns: columns,
+        columns: columns
         // url: '/menjin_at/accessRecord/getTab3Record',
         // method: 'get',                      //请求方式（*）
         // cache: false,                       //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
@@ -348,12 +348,12 @@ function queryParams(params) {
         //pageSize : params.limit,
         pageSize:params.pageSize,
         pageNumber:params.pageNumber,//this  params
-        time1: "ddddd",
-        time2: "ddddd",
-        floorx: "ddddd",
+        time1: time1,
+        time2: time2,
+        floorx: floorx,
         departmentx: departmentx,
-        nameX: "ddddd",
-        jobX: "ddddd",
+        nameX: nameX,
+        jobX: jobX,
         length: 6
     };
     return temp;
