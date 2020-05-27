@@ -59,28 +59,32 @@
   </select>
 
   <select id="selectAllByMaxId" resultMap="MyResultMap" parameterType="java.lang.Long" >
-    select g.*,f.SC_DeviceAreaName from (
-
-    select top 10 a.SC_SerierNO,a.SC_DoorNO,a.SC_CardGuidNO,a.SC_EventTypeID
-    ,a.SC_InOutStatus,a.SC_AddTime
+    select g.SC_SerierNO,g.SC_DoorNO,g.SC_CardGuidNO,g.SC_EventTypeID
+    ,g.SC_InOutStatus,g.SC_AddTime
     ,b.SC_WorkerNO,b.SC_Name,b.SC_MobileNO,b.SC_IDTypeID,b.SC_DepartmentID
     ,c.SC_DepartmentName
     ,d.SC_CheckResultName
     ,e.SC_DeviceAreaID
-    from SC_AccessRecord a
-    ,SC_Employee b
-    ,SC_Department c
-    ,SC_ESDCheckResult d
-    ,SC_Device e
-    where a.SC_SerierNO > #{scSerierno,jdbcType=BIGINT}
-    and b.SC_DepartmentID=c.SC_DepartmentID
-    and b.SC_MobileNO like '%'+convert(varchar(20),a.SC_CardGuidNO)
-    and a.SC_EventTypeID = d.SC_CheckResultID
-    and a.SC_DoorNO=e.SC_SerierNO   --  SC_SerierNO   SC_DeviceSerierNO
-    order by a.SC_SerierNO desc
+	,f.SC_DeviceAreaName
+    from (
 
-    ) g,SC_DeviceArea f
-    where g.SC_DeviceAreaID=f.SC_DeviceAreaID
+    select a.SC_SerierNO,a.SC_DoorNO,a.SC_CardGuidNO,a.SC_EventTypeID
+        ,a.SC_InOutStatus,a.SC_AddTime
+    from SC_AccessRecord a
+	where a.SC_SerierNO>#{scSerierno,jdbcType=BIGINT}
+
+    ) g,SC_Employee b
+        ,SC_Department c
+        ,SC_ESDCheckResult d
+        ,SC_Device e
+        ,SC_DeviceArea f
+    where 1=1
+        and RIGHT('000'+convert(varchar(20),g.SC_CardGuidNO),10) = b.SC_MobileNO
+        and b.SC_DepartmentID=c.SC_DepartmentID
+        and g.SC_EventTypeID = d.SC_CheckResultID
+        and g.SC_DoorNO=e.SC_SerierNO
+        and e.SC_DeviceAreaID=f.SC_DeviceAreaID
+	order by g.SC_SerierNO desc
   </select>
 
   <select id="selectMaxScSerierno" resultType="java.lang.Long"  >
@@ -89,30 +93,31 @@
   </select>
 
   <select id="selectTop25" resultMap="MyResultMap" >
-    select g.*,f.SC_DeviceAreaName from (
-
-    select top 10 a.SC_SerierNO,a.SC_DoorNO,a.SC_CardGuidNO,a.SC_EventTypeID
-    ,a.SC_InOutStatus,a.SC_AddTime
+    select g.SC_SerierNO,g.SC_DoorNO,g.SC_CardGuidNO,g.SC_EventTypeID
+    ,g.SC_InOutStatus,g.SC_AddTime
     ,b.SC_WorkerNO,b.SC_Name,b.SC_MobileNO,b.SC_IDTypeID,b.SC_DepartmentID
     ,c.SC_DepartmentName
     ,d.SC_CheckResultName
     ,e.SC_DeviceAreaID
+	,f.SC_DeviceAreaName
+    from (
 
+    select top 10 a.SC_SerierNO,a.SC_DoorNO,a.SC_CardGuidNO,a.SC_EventTypeID
+        ,a.SC_InOutStatus,a.SC_AddTime
     from SC_AccessRecord a
-    ,SC_Employee b
-    ,SC_Department c
-    ,SC_ESDCheckResult d
-    ,SC_Device e
-
-    where b.SC_DepartmentID=c.SC_DepartmentID
-    /*  测试处理而注释and b.SC_MobileNO like '%'+convert(varchar(20),a.SC_CardGuidNO)*/
-    and b.SC_MobileNO like '%'+convert(varchar(20),a.SC_CardGuidNO)
-    and a.SC_EventTypeID = d.SC_CheckResultID
-    and a.SC_DoorNO=e.SC_SerierNO   --  SC_SerierNO   SC_DeviceSerierNO
     order by a.SC_SerierNO desc
 
-    ) g,SC_DeviceArea f
-    where g.SC_DeviceAreaID=f.SC_DeviceAreaID
+    ) g,SC_Employee b
+        ,SC_Department c
+        ,SC_ESDCheckResult d
+        ,SC_Device e
+        ,SC_DeviceArea f
+    where 1=1
+        and RIGHT('000'+convert(varchar(20),g.SC_CardGuidNO),10) = b.SC_MobileNO
+        and b.SC_DepartmentID=c.SC_DepartmentID
+        and g.SC_EventTypeID = d.SC_CheckResultID
+        and g.SC_DoorNO=e.SC_SerierNO
+        and e.SC_DeviceAreaID=f.SC_DeviceAreaID
   </select>
 
 
@@ -132,8 +137,8 @@ SELECT max(SC_AddTime)
 FROM SC_AccessRecord
 where SC_AddTime>dateadd(hour,-8,GETDATE())
 and s.SC_CardGuidNO=SC_CardGuidNO
-) 
-and b.SC_MobileNO like '%'+convert(varchar(20),s.SC_CardGuidNO)
+)
+and RIGHT('000'+convert(varchar(20),s.SC_CardGuidNO),10) = b.SC_MobileNO
     and b.SC_DepartmentID=c.SC_DepartmentID
     and s.SC_DoorNO=e.SC_SerierNO
 	and e.SC_DeviceAreaID=f.SC_DeviceAreaID
@@ -165,13 +170,51 @@ INNER JOIN SC_AccessRecord t
 ON t.SC_CardGuidNO = r.SC_CardGuidNO AND t.SC_AddTime = r.SC_AddTime
 
 ) a,SC_Employee b ,SC_Department c ,SC_ESDCheckResult d,SC_Device e,SC_DeviceArea f
-where b.SC_MobileNO like '%'+convert(varchar(20),a.SC_CardGuidNO)
+where RIGHT('000'+convert(varchar(20),a.SC_CardGuidNO),10) = b.SC_MobileNO
     and b.SC_DepartmentID=c.SC_DepartmentID
     and a.SC_DoorNO=e.SC_SerierNO
 	and e.SC_DeviceAreaID=f.SC_DeviceAreaID
 	and a.SC_EventTypeID = d.SC_CheckResultID
-
   </select>
+
+  <select id="selectPagesByConditions" resultMap="MyResultMap" >
+select g.SC_SerierNO,g.SC_DoorNO,g.SC_CardGuidNO,g.SC_EventTypeID
+    ,g.SC_InOutStatus,g.SC_AddTime
+    ,b.SC_WorkerNO,b.SC_Name,b.SC_MobileNO,b.SC_IDTypeID,b.SC_DepartmentID
+ --   ,c.SC_DepartmentName
+ --   ,d.SC_CheckResultName
+ --   ,e.SC_DeviceAreaID
+	--,f.SC_DeviceAreaName
+    from (
+
+    select a.SC_SerierNO,a.SC_DoorNO,a.SC_CardGuidNO,a.SC_EventTypeID
+        ,a.SC_InOutStatus,a.SC_AddTime
+    from PongeeESD6806_CN.dbo.SC_AccessRecord a
+	where 1=1
+	and a.SC_AddTime between '2020-05-26 21:26:02' and '2020-05-27 21:26:02'
+	-- and a.SC_DoorNO in (4,10)
+
+    ) g,PongeeESD6806_CN.dbo.SC_Employee b
+        ,PongeeESD6806_CN.dbo.SC_Department c
+        ,PongeeESD6806_CN.dbo.SC_ESDCheckResult d
+        --,PongeeESD6806_CN.dbo.SC_Device e
+        --,PongeeESD6806_CN.dbo.SC_DeviceArea f
+    where 1=1
+        and RIGHT('000'+convert(varchar(20),g.SC_CardGuidNO),10) = b.SC_MobileNO
+		--and b.SC_WorkerNO like '%CQ%'
+		--and b.SC_Name like '%红%'
+		-- and b.SC_DepartmentID =
+        and b.SC_DepartmentID=c.SC_DepartmentID
+        and g.SC_EventTypeID = d.SC_CheckResultID
+        --and g.SC_DoorNO=e.SC_SerierNO
+        --and e.SC_DeviceAreaID=f.SC_DeviceAreaID
+
+	-- order by g.SC_SerierNO desc
+  </select>
+
+
+
+
 
 
 

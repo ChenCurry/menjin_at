@@ -45,6 +45,12 @@ public interface AccessRecordMapper {
      */
     List<OriginalRecord> selectRealTimeInner2();
 
+    /**
+     * 分页查询
+     * @return
+     */
+    List<OriginalRecord> selectPagesByConditions();
+
 
     int updateByPrimaryKeySelective(AccessRecord record);
 
