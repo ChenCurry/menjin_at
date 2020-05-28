@@ -273,11 +273,12 @@ function initTable3() {
         queryParamsType : "",
         queryParams : queryParams,
         onLoadSuccess: function () {
-            alert("onLoadSuccess！");
+            console.log("onLoadSuccess！");
+            //alert("onLoadSuccess！");
         },
         onLoadError: function () {
-            //showTips("数据加载失败！");
-            alert("数据加载失败！");
+            console.log("数据加载失败！");
+            //alert("数据加载失败！");
         },
         onDblClickRow: function (row, $element) {
             // var id = row.ID;
@@ -326,12 +327,10 @@ function queryParams(params) {
     if(time2==today){
         var t = now.getTime() - 300000;//数据库时间慢5分钟，那么零点5分以内加载会有问题
         var d = new Date(t);
-        var str = d.getHours()+":"+d.getMinutes()+":"+d.getSeconds();
+        var str = add0(d.getHours())+":"+add0(d.getMinutes())+":"+add0(d.getSeconds());
         time2 = time2+" "+str;
     }
 
-alert("time1:"+time1)
-alert("time2:"+time2)
     //alert("time1:"+time1+",time2:"+time2+",floorx:"+floorx+",departmentx:"+departmentx+",nameX:"+nameX+",jobX:"+jobX);
     var temp = {
         offset: params.offset,  //页码

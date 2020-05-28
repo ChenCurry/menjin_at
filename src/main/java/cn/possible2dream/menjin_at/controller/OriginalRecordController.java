@@ -3,6 +3,7 @@ package cn.possible2dream.menjin_at.controller;
 import cn.possible2dream.menjin_at.entity.AccessRecord;
 import cn.possible2dream.menjin_at.entity.Conditions;
 import cn.possible2dream.menjin_at.entity.OriginalRecord;
+import cn.possible2dream.menjin_at.entity.TableSplitResult;
 import cn.possible2dream.menjin_at.service.OriginalRecordService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,7 +35,7 @@ public class OriginalRecordController {
 
     @RequestMapping(value = "/getTab3Record",method= RequestMethod.GET)
     //@ResponseBody
-    public @ResponseBody List<OriginalRecord> getTab3Record(String time1,String time2,String floorx,String departmentx,String nameX,String jobX,String pageSize,String pageNumber){
+    public @ResponseBody TableSplitResult<List<OriginalRecord>> getTab3Record(String time1,String time2,String floorx,String departmentx,String nameX,String jobX,String pageSize,String pageNumber){
 
         System.out.println(pageSize);
         System.out.println(pageNumber);
@@ -67,7 +68,7 @@ public class OriginalRecordController {
         conditions.setPageSize(Integer.valueOf(pageSize));
 
 
-        List<OriginalRecord> originalRecords= originalRecordService.getInOutRecordByConditions(conditions);
+        TableSplitResult<List<OriginalRecord>> originalRecords= originalRecordService.getInOutRecordByConditions(conditions);
         return originalRecords;
     }
 

@@ -3,6 +3,7 @@ package cn.possible2dream.menjin_at.service.impl;
 import cn.possible2dream.menjin_at.entity.AccessRecord;
 import cn.possible2dream.menjin_at.entity.Conditions;
 import cn.possible2dream.menjin_at.entity.OriginalRecord;
+import cn.possible2dream.menjin_at.entity.TableSplitResult;
 import cn.possible2dream.menjin_at.mapper.AccessRecordMapper;
 import cn.possible2dream.menjin_at.service.OriginalRecordService;
 import org.springframework.stereotype.Service;
@@ -49,10 +50,13 @@ public class OriginalRecordServiceImpl implements OriginalRecordService {
     }
 
     @Override
-    public List<OriginalRecord> getInOutRecordByConditions(Conditions conditions) {
-        Integer total = accessRecordMapper.selectGetInOutRecordByConditionsTotal(conditions);
+    public TableSplitResult<List<OriginalRecord>> getInOutRecordByConditions(Conditions conditions) {
+
+        Integer total = 0;
+        total = accessRecordMapper.selectGetInOutRecordByConditionsTotal(conditions);
         conditions.setTotal(total);
-        if(conditions.getPageNumber()==1){
+        int page = conditions.getPageNumber();
+        if(page==1){
             conditions.setMinRow(1);
             conditions.setMaxRow(conditions.getPageSize());
         }else{
@@ -63,7 +67,9 @@ public class OriginalRecordServiceImpl implements OriginalRecordService {
         if(null!=total&&total!=0){
             list = accessRecordMapper.selectGetInOutRecordByConditions(conditions);
         }
-        return list;
+        TableSplitResult<List<OriginalRecord>> fanhui = new TableSplitResult<List<OriginalRecord>>(page,total,list);
+
+        return fanhui;
     }
 
 }
