@@ -172,6 +172,12 @@ function parseTime(shijianchuo)
     var s = time.getSeconds();
     return y+'-'+add0(m)+'-'+add0(d)+' '+add0(h)+':'+add0(mm)+':'+add0(s);
 }
+
+/**
+ * 如果月份/日期是5 换成05
+ * @param m
+ * @returns {string}
+ */
 function add0(m){return m<10?'0'+m:m }
 
 /**
@@ -227,6 +233,27 @@ function initTable() {
  * 初始化第2个页面的表格 和 条件控件
  */
 function initTable3() {
+    $("#begin_time").datetimepicker({
+        minView: "month", //选择日期后，不会再跳转去选择时分秒
+        format: "yyyy-mm-dd", //选择日期后，文本框显示的日期格式
+        language: 'zh-CN', //汉化
+        weekStart: 1,
+        todayBtn: true,
+        todayHighlight: 1,
+        autoclose:true //选择日期后自动关闭
+    });
+    $("#begin_time").datetimepicker("setDate", new Date());
+    $("#end_time").datetimepicker({
+        minView: "month", //选择日期后，不会再跳转去选择时分秒
+        format: "yyyy-mm-dd", //选择日期后，文本框显示的日期格式
+        language: 'zh-CN', //汉化
+        weekStart: 1,
+        todayBtn: true,
+        todayHighlight: 1,
+        autoclose:true //选择日期后自动关闭
+    });
+    $("#end_time").datetimepicker("setDate", new Date());
+
     var queryUrl = '/menjin_at/accessRecord/getTab3Record';
     $('#tab3').bootstrapTable({
         toolbar:"#div2_tab3_bar",
@@ -257,36 +284,6 @@ function initTable3() {
             // EditViewById(id, 'view');
         }
     });
-    //$('#tab3').bootstrapTable('hideLoading');
-
-    $("#begin_time").datetimepicker({
-        minView: "month", //选择日期后，不会再跳转去选择时分秒
-        format: "yyyy-mm-dd", //选择日期后，文本框显示的日期格式
-        language: 'zh-CN', //汉化
-        autoclose:true //选择日期后自动关闭
-    });
-    //$("#begin_time").datetimepicker("setDate", new Date());
-    $("#end_time").datetimepicker({
-        minView: "month", //选择日期后，不会再跳转去选择时分秒
-        format: "yyyy-mm-dd", //选择日期后，文本框显示的日期格式
-        language: 'zh-CN', //汉化
-        autoclose:true //选择日期后自动关闭
-    });
-
-    // //动态设置最小值
-    // picker1.on('dp.change', function (e) {
-    //     picker2.data('DateTimePicker').minDate(e.date);
-    // });
-    // //动态设置最大值
-    // picker2.on('dp.change', function (e) {
-    //     picker1.data('DateTimePicker').maxDate(e.date);
-    // });
-    //设置默认值
-    // $('#datetimepicker1').datetimepicker({
-    //     format: 'YYYY-MM-DD',
-    //     locale: moment.locale('zh-cn'),
-    //     defaultDate: "1990-1-1"
-    // });
 }
 
 /**
@@ -315,6 +312,7 @@ function exportExcelTab3(){
 //获取参数方法
 function queryParams(params) {
     var time1 = $("#begin_time").val();
+    time1 = time1+" 00:00:00";
     var time2 = $("#end_time").val();
     var options=$("#floorX");
     var floorx = options.val();
@@ -322,14 +320,26 @@ function queryParams(params) {
     var departmentx = options2.val();
     var nameX = $("#nameX").val();
     var jobX = $("#jobX").val();
+
+    var now = new Date();
+    var today = now.getFullYear()+"-"+add0(now.getMonth()+1)+"-"+add0(now.getDate());
+    if(time2==today){
+        var t = now.getTime() - 300000;//数据库时间慢5分钟，那么零点5分以内加载会有问题
+        var d = new Date(t);
+        var str = d.getHours()+":"+d.getMinutes()+":"+d.getSeconds();
+        time2 = time2+" "+str;
+    }
+
+alert("time1:"+time1)
+alert("time2:"+time2)
     //alert("time1:"+time1+",time2:"+time2+",floorx:"+floorx+",departmentx:"+departmentx+",nameX:"+nameX+",jobX:"+jobX);
     var temp = {
         offset: params.offset,  //页码
         //pageSize : params.limit,
         pageSize:params.pageSize,
         pageNumber:params.pageNumber,//this  params
-        time1: '2020-05-26 00:00:00',
-        time2: '2020-05-27 00:00:00',
+        time1: time1,
+        time2: time2,
         floorx: floorx,
         departmentx: departmentx,
         nameX: nameX,
