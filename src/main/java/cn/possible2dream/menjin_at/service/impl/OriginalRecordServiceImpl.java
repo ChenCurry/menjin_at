@@ -1,12 +1,14 @@
 package cn.possible2dream.menjin_at.service.impl;
 
 import cn.possible2dream.menjin_at.entity.AccessRecord;
+import cn.possible2dream.menjin_at.entity.Conditions;
 import cn.possible2dream.menjin_at.entity.OriginalRecord;
 import cn.possible2dream.menjin_at.mapper.AccessRecordMapper;
 import cn.possible2dream.menjin_at.service.OriginalRecordService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service("originalRecordService")
@@ -47,9 +49,21 @@ public class OriginalRecordServiceImpl implements OriginalRecordService {
     }
 
     @Override
-    public List<OriginalRecord> getInOutRecordByConditions(String time1, String time2, String floorx, String departmentx, String nameX, String jobX, String offset, String pageSize, String pageNumber) {
-
-        //accessRecordMapper
-        return null;
+    public List<OriginalRecord> getInOutRecordByConditions(Conditions conditions) {
+        Integer total = accessRecordMapper.selectGetInOutRecordByConditionsTotal(conditions);
+        conditions.setTotal(total);
+        if(conditions.getPageNumber()==1){
+            conditions.setMinRow(1);
+            conditions.setMaxRow(conditions.getPageSize());
+        }else{
+            conditions.setMinRow((conditions.getPageNumber()-1)*conditions.getPageSize()+1);
+            conditions.setMaxRow(conditions.getPageNumber()*conditions.getPageSize());
+        }
+        List<OriginalRecord> list = new ArrayList<>();
+        if(null!=total&&total!=0){
+            list = accessRecordMapper.selectGetInOutRecordByConditions(conditions);
+        }
+        return list;
     }
+
 }

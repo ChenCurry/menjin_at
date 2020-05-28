@@ -52,6 +52,13 @@ public interface AccessRecordMapper {
      */
     List<OriginalRecord> selectGetInOutRecordByConditions(Conditions conditions);
 
+    /**
+     *  查询总条数
+     * @param conditions
+     * @return
+     */
+    Integer selectGetInOutRecordByConditionsTotal(Conditions conditions);
+
 
     int updateByPrimaryKeySelective(AccessRecord record);
 

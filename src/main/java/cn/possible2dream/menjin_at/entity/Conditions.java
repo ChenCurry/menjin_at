@@ -13,6 +13,8 @@ public class Conditions {
     private Integer pageSize;
     private Integer pageNumber;
     private Integer total;
+    private Integer minRow;
+    private Integer maxRow;
 
     public Date getTime1() {
         return time1;
@@ -86,6 +88,22 @@ public class Conditions {
         this.total = total;
     }
 
+    public Integer getMinRow() {
+        return minRow;
+    }
+
+    public void setMinRow(Integer minRow) {
+        this.minRow = minRow;
+    }
+
+    public Integer getMaxRow() {
+        return maxRow;
+    }
+
+    public void setMaxRow(Integer maxRow) {
+        this.maxRow = maxRow;
+    }
+
     @Override
     public String toString() {
         return "Conditions{" +
@@ -98,6 +116,8 @@ public class Conditions {
                 ", pageSize=" + pageSize +
                 ", pageNumber=" + pageNumber +
                 ", total=" + total +
+                ", minRow=" + minRow +
+                ", maxRow=" + maxRow +
                 '}';
     }
 }

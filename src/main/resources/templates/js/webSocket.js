@@ -227,25 +227,37 @@ function initTable() {
  * 初始化第2个页面的表格 和 条件控件
  */
 function initTable3() {
+    var queryUrl = '/menjin_at/accessRecord/getTab3Record';
     $('#tab3').bootstrapTable({
         toolbar:"#div2_tab3_bar",
-        // data: data,
-        columns: columns
-        // url: '/menjin_at/accessRecord/getTab3Record',
-        // method: 'get',                      //请求方式（*）
-        // cache: false,                       //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
-        // pagination: true,                   //是否显示分页（*）
-        // sidePagination: "server",           //分页方式：client客户端分页，server服务端分页（*）
-        // pageNumber: 1,                      //初始化加载第一页，默认第一页,并记录
-        // pageSize: 10,                     //每页的记录行数（*）
-        // pageList: [10, 25, 50, 100],        //可供选择的每页的行数（*）
-        // search: false,                      //是否显示表格搜索
-        // contentType: 'application/x-www-form-urlencoded',
-        // clickToSelect: true                //是否启用点击选中行
-        // ,queryParamsType : ""
-        // ,queryParams:queryParams
+        showLoading: true,
+        columns: columns,
+        url: queryUrl,                      //请求后台的URL（*）
+        method: 'get',                      //请求方式（*）
+        contentType: 'application/x-www-form-urlencoded',
+        cache: false,                       //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+        pagination: true,                   //是否显示分页（*）
+        sidePagination: "server",           //分页方式：client客户端分页，server服务端分页（*）
+        pageNumber: 1,                      //初始化加载第一页，默认第一页,并记录
+        pageSize: 10,                     //每页的记录行数（*）
+        pageList: [10, 25, 50, 100],        //可供选择的每页的行数（*）
+        search: false,                      //是否显示表格搜索
+        clickToSelect: true,                //是否启用点击选中行
+        queryParamsType : "",
+        queryParams : queryParams,
+        onLoadSuccess: function () {
+            alert("onLoadSuccess！");
+        },
+        onLoadError: function () {
+            //showTips("数据加载失败！");
+            alert("数据加载失败！");
+        },
+        onDblClickRow: function (row, $element) {
+            // var id = row.ID;
+            // EditViewById(id, 'view');
+        }
     });
-    $('#tab3').bootstrapTable('hideLoading');
+    //$('#tab3').bootstrapTable('hideLoading');
 
     $("#begin_time").datetimepicker({
         minView: "month", //选择日期后，不会再跳转去选择时分秒
@@ -253,7 +265,7 @@ function initTable3() {
         language: 'zh-CN', //汉化
         autoclose:true //选择日期后自动关闭
     });
-
+    //$("#begin_time").datetimepicker("setDate", new Date());
     $("#end_time").datetimepicker({
         minView: "month", //选择日期后，不会再跳转去选择时分秒
         format: "yyyy-mm-dd", //选择日期后，文本框显示的日期格式
@@ -282,40 +294,8 @@ function initTable3() {
  */
 function queryTab3(){
 
-    var queryUrl = '/menjin_at/accessRecord/getTab3Record';
+    $('#tab3').bootstrapTable('refreshOptions',{pageNumber:1,pageSize:10});
 
-    $('#tab3').bootstrapTable({
-
-        toolbar:"#div2_tab3_bar",
-        showLoading: true,
-        //data: data2,
-        columns: columns,
-        url: queryUrl,                      //请求后台的URL（*）
-        method: 'get',                      //请求方式（*）
-        contentType: 'application/x-www-form-urlencoded',
-        cache: false,                       //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
-        pagination: true,                   //是否显示分页（*）
-        sidePagination: "server",           //分页方式：client客户端分页，server服务端分页（*）
-        pageNumber: 1,                      //初始化加载第一页，默认第一页,并记录
-        pageSize: 10,                     //每页的记录行数（*）
-        pageList: [10, 25, 50, 100],        //可供选择的每页的行数（*）
-        search: false,                      //是否显示表格搜索
-        clickToSelect: true,                //是否启用点击选中行
-        queryParamsType : "",
-        queryParams : queryParams,
-        onLoadSuccess: function () {
-            alert("onLoadSuccess！");
-        },
-        onLoadError: function () {
-            //showTips("数据加载失败！");
-            alert("数据加载失败！");
-        },
-        onDblClickRow: function (row, $element) {
-            // var id = row.ID;
-            // EditViewById(id, 'view');
-        }
-    });
-    $('#tab3').bootstrapTable('hideLoading');
 }
 
 function exportExcelTab3(){
@@ -348,8 +328,8 @@ function queryParams(params) {
         //pageSize : params.limit,
         pageSize:params.pageSize,
         pageNumber:params.pageNumber,//this  params
-        time1: time1,
-        time2: time2,
+        time1: '2020-05-26 00:00:00',
+        time2: '2020-05-27 00:00:00',
         floorx: floorx,
         departmentx: departmentx,
         nameX: nameX,
