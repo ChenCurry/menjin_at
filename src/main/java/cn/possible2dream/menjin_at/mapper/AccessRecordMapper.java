@@ -1,6 +1,7 @@
 package cn.possible2dream.menjin_at.mapper;
 
 import cn.possible2dream.menjin_at.entity.AccessRecord;
+import cn.possible2dream.menjin_at.entity.Conditions;
 import cn.possible2dream.menjin_at.entity.OriginalRecord;
 
 import java.util.List;
@@ -46,10 +47,10 @@ public interface AccessRecordMapper {
     List<OriginalRecord> selectRealTimeInner2();
 
     /**
-     * 分页查询
+     * 根据条件分页查询 进出记录   top 20
      * @return
      */
-    List<OriginalRecord> selectPagesByConditions();
+    List<OriginalRecord> selectGetInOutRecordByConditions(Conditions conditions);
 
 
     int updateByPrimaryKeySelective(AccessRecord record);

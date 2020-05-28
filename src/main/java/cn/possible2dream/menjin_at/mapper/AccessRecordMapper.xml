@@ -177,7 +177,7 @@ where RIGHT('000'+convert(varchar(20),a.SC_CardGuidNO),10) = b.SC_MobileNO
 	and a.SC_EventTypeID = d.SC_CheckResultID
   </select>
 
-  <select id="selectPagesByConditions" resultMap="MyResultMap" >
+  <select id="selectGetInOutRecordByConditions" resultMap="MyResultMap" parameterType="cn.possible2dream.menjin_at.entity.Conditions">
 select g.SC_SerierNO,g.SC_DoorNO,g.SC_CardGuidNO,g.SC_EventTypeID
     ,g.SC_InOutStatus,g.SC_AddTime
     ,b.SC_WorkerNO,b.SC_Name,b.SC_MobileNO,b.SC_IDTypeID,b.SC_DepartmentID

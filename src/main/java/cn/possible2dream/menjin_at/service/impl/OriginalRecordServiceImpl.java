@@ -45,4 +45,11 @@ public class OriginalRecordServiceImpl implements OriginalRecordService {
         }
         return list;
     }
+
+    @Override
+    public List<OriginalRecord> getInOutRecordByConditions(String time1, String time2, String floorx, String departmentx, String nameX, String jobX, String offset, String pageSize, String pageNumber) {
+
+        //accessRecordMapper
+        return null;
+    }
 }
