@@ -353,6 +353,10 @@ function exportExcelTab3(){
     });*/
 }
 
+function exportExcelTab2(){
+
+}
+
 //获取参数方法
 function queryParams(params) {
     var time1 = $("#begin_time").val();
