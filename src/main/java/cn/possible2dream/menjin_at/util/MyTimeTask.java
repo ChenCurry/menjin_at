@@ -56,15 +56,27 @@ public class MyTimeTask extends TimerTask {
         }*/
 
         // 固定查询25条，有变化值则进行广播
-        List<OriginalRecord> list = originalRecordService.getTop25();
-        long ssss = list.get(0).getScSerierno();
-        System.out.println("新最大值-->"+ssss+"<>"+WebSocketServer.scSeriernoMax+"<--原最大值");
-        if(ssss!=WebSocketServer.scSeriernoMax){
+        List<OriginalRecord> list = originalRecordService.getOriginalRecordListByMaxId(WebSocketServer.scSeriernoMax);
+        if(null!=list&&0!=list.size()){
             OriginalRecordToFore rtf1 = new OriginalRecordToFore(2,list);
             String str = JSON.toJSONString(rtf1);
             WebSocketServer.broadCast(str);
             System.out.println("不等，进行广播:"+str);
+            long ssss = list.get(0).getScSerierno();
             WebSocketServer.scSeriernoMax = ssss;//iSize-1
+            for(OriginalRecord single:list){
+                if(201==single.getScInoutstatus()){
+                    int iSize = WebSocketServer.listOriginalRecord.size();
+                    for(int j=0;j<iSize;j++){//OriginalRecord shinei :WebSocketServer.listOriginalRecord
+                        if(single.getScCardguidno()==WebSocketServer.listOriginalRecord.get(j).getScCardguidno()){
+                            WebSocketServer.listOriginalRecord.remove(j);
+                            break;
+                        }
+                    }
+                }else if(1==single.getScInoutstatus()){
+                    WebSocketServer.listOriginalRecord.add(single);
+                }
+            }
         }else{
             System.out.println("无变化，不需要进行广播");
         }

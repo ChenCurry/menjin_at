@@ -23,6 +23,26 @@
     from SC_Department
     where SC_DepartmentID = #{scDepartmentid,jdbcType=INTEGER}
   </select>
+
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select
+    <include refid="Base_Column_List" />
+    from SC_Department
+  </select>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from SC_Department
     where SC_DepartmentID = #{scDepartmentid,jdbcType=INTEGER}

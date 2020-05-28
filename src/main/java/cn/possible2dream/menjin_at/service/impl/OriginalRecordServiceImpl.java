@@ -1,10 +1,8 @@
 package cn.possible2dream.menjin_at.service.impl;
 
-import cn.possible2dream.menjin_at.entity.AccessRecord;
-import cn.possible2dream.menjin_at.entity.Conditions;
-import cn.possible2dream.menjin_at.entity.OriginalRecord;
-import cn.possible2dream.menjin_at.entity.TableSplitResult;
+import cn.possible2dream.menjin_at.entity.*;
 import cn.possible2dream.menjin_at.mapper.AccessRecordMapper;
+import cn.possible2dream.menjin_at.mapper.DepartmentMapper;
 import cn.possible2dream.menjin_at.service.OriginalRecordService;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +15,9 @@ public class OriginalRecordServiceImpl implements OriginalRecordService {
 
     @Resource
     private AccessRecordMapper accessRecordMapper;
+
+    @Resource
+    private DepartmentMapper departmentMapper;
 
     @Override
     public Long selectMaxScSerierno() {
@@ -70,6 +71,11 @@ public class OriginalRecordServiceImpl implements OriginalRecordService {
         TableSplitResult<List<OriginalRecord>> fanhui = new TableSplitResult<List<OriginalRecord>>(page,total,list);
 
         return fanhui;
+    }
+
+    @Override
+    public List<Department> getAllDepartment() {
+        return departmentMapper.selectAll();
     }
 
 }

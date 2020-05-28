@@ -25,12 +25,13 @@ public class MyTimer {
         MyTimeTask myTimeTask = new MyTimeTask("No.1");
         System.out.println("程序启动后，初始化的工作姑且就写在这里吧。");
         WebSocketServer.scSeriernoMax = originalRecordService.selectMaxScSerierno();
+        WebSocketServer.listDepartment = originalRecordService.getAllDepartment();
         //getMaxAddTime8h
-        //WebSocketServer.listOriginalRecord = originalRecordService.getMaxAddTime8h();
+        WebSocketServer.listOriginalRecord = originalRecordService.getMaxAddTime8h();
 
         //3.通过timer定时定频率调用myTimerTask的业务逻辑
         // 即 第一次执行是在当前时间的两秒之后，之后每隔一秒钟执行一次\
-        //timer.schedule(myTimeTask,20000L,1000L);
+        timer.schedule(myTimeTask,20000L,1000L);
 
     }
 }

@@ -128,18 +128,26 @@ function startWebSocket() {
                 logout("othersLogin");
             } else {
                 //alert(evt.data);
-                // console.log("后台传来的消息：" + evt.data);
+                console.log("后台传来的消息：" + evt.data);
                 // console.log("尝试取消息类型：" + JSON.parse(evt.data).messageType);
                 var jsonVar = JSON.parse(evt.data);
                 var mType = jsonVar.messageType;
-                var listOriginalRecord = jsonVar.listOriginalRecord;
+                var tData = jsonVar.t;
                 if(2==mType){
                     //向表格1中追加实时内容
                     //alert("向表格1中加数据");
-                    appendTable(listOriginalRecord,"#tab1");
+                    appendTable(tData,"#tab1");
                 }else if(3==mType){
                     //alert("向表格2中加数据");
-                    appendTable(listOriginalRecord,"#tab2");
+                    appendTable(tData,"#tab2");
+                }else if(4==mType){
+
+                    for (var i = 0; i < tData.length; i++) {
+                        $("#departmentX").append("<option value='"+tData[i].scDepartmentid+"'>"+tData[i].scDepartmentname+"</option>");
+                    }
+                }else if(5==mType){
+
+                    appendTable(tData,"#tab2");
                 }
 
             }
@@ -150,11 +158,13 @@ function startWebSocket() {
         };
         ws.onopen = function (evt) {
             onOpen(evt);
+            loadDepartment();//是否需要放到首页加载时
         };
     }
     else {
         logout("logout");
     }
+
 }
 
 /*
@@ -288,10 +298,43 @@ function initTable3() {
 }
 
 /**
+ * 向后台websocket请求加载部门控件
+ */
+function loadDepartment(){
+    // departmentX
+    var jsonMsg = {
+        "targetType":"initDepartment",
+        "targetId":"1"
+    };
+    ws.send(JSON.stringify(jsonMsg));
+}
+
+/**
+ * 刷新室内人员
+ */
+function shuaxin(){
+    var jsonMsg = {
+        "targetType":"shuaxin",
+        "targetId":"2"
+    };
+    ws.send(JSON.stringify(jsonMsg));
+}
+
+/**
  * 查询进出记录
  */
 function queryTab3(){
+    var time1 = $("#begin_time").val();
+    var time2 = $("#end_time").val();
 
+    var day1 = new Date(time1);
+    var day2 = new Date(time2);
+    var time_diff =day2.getTime() - day1.getTime(); //时间差的毫秒数
+    var days = Math.floor(time_diff / (24 * 3600 * 1000));
+    if(days>31){
+        alert("查询时间跨度请勿超过一个月！")
+        return;
+    }
     $('#tab3').bootstrapTable('refreshOptions',{pageNumber:1,pageSize:10});
 
 }
@@ -313,15 +356,15 @@ function exportExcelTab3(){
 //获取参数方法
 function queryParams(params) {
     var time1 = $("#begin_time").val();
-    time1 = time1+" 00:00:00";
     var time2 = $("#end_time").val();
     var options=$("#floorX");
     var floorx = options.val();
     var options2=$("#departmentX");
     var departmentx = options2.val();
-    var nameX = $("#nameX").val();
-    var jobX = $("#jobX").val();
+    var nameX = $("#nameX").val().trim();
+    var jobX = $("#jobX").val().trim();
 
+    time1 = time1+" 00:00:00";
     var now = new Date();
     var today = now.getFullYear()+"-"+add0(now.getMonth()+1)+"-"+add0(now.getDate());
     if(time2==today){
@@ -329,6 +372,8 @@ function queryParams(params) {
         var d = new Date(t);
         var str = add0(d.getHours())+":"+add0(d.getMinutes())+":"+add0(d.getSeconds());
         time2 = time2+" "+str;
+    }else{
+        time2 += " 23:59:59";
     }
 
     //alert("time1:"+time1+",time2:"+time2+",floorx:"+floorx+",departmentx:"+departmentx+",nameX:"+nameX+",jobX:"+jobX);

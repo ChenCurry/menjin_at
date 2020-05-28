@@ -1,12 +1,11 @@
 package cn.possible2dream.menjin_at.entity;
 
-import java.util.List;
-
-public class OriginalRecordToFore {
+public class OriginalRecordToFore<T> {
 
     private int messageType;
 
-    private List<OriginalRecord> listOriginalRecord;
+    private T t;
+
 
     public int getMessageType() {
         return messageType;
@@ -16,20 +15,20 @@ public class OriginalRecordToFore {
         this.messageType = messageType;
     }
 
-    public List<OriginalRecord> getListOriginalRecord() {
-        return listOriginalRecord;
+    public T getT() {
+        return t;
     }
 
-    public void setListOriginalRecord(List<OriginalRecord> listOriginalRecord) {
-        this.listOriginalRecord = listOriginalRecord;
+    public void setT(T t) {
+        this.t = t;
     }
 
     public OriginalRecordToFore() {
 
     }
 
-    public OriginalRecordToFore(int messageType, List<OriginalRecord> listOriginalRecord) {
+    public OriginalRecordToFore(int messageType, T t) {
         this.messageType = messageType;
-        this.listOriginalRecord = listOriginalRecord;
+        this.t = t;
     }
 }

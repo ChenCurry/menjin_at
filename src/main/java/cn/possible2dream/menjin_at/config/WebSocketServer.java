@@ -3,12 +3,15 @@ package cn.possible2dream.menjin_at.config;
 
 import cn.hutool.log.Log;
 import cn.hutool.log.LogFactory;
+import cn.possible2dream.menjin_at.entity.Department;
 import cn.possible2dream.menjin_at.entity.EmployeeWithBLOBs;
 import cn.possible2dream.menjin_at.entity.OriginalRecord;
 import cn.possible2dream.menjin_at.entity.OriginalRecordToFore;
 import cn.possible2dream.menjin_at.service.EmployeeService;
 import cn.possible2dream.menjin_at.service.OriginalRecordService;
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -44,6 +47,7 @@ public class WebSocketServer {
     private static Hashtable<Long, WebSocketServer> connections = new Hashtable<>();
     //
     public static List<OriginalRecord> listOriginalRecord = new ArrayList<OriginalRecord>();//只用来记在里边的人，这样才有意义
+    public static List<Department> listDepartment = new ArrayList<Department>();//放部门信息
     //用来记录当前查到的最大的id值
     public static long scSeriernoMax;
     /**与某个客户端的连接会话，需要通过它来给客户端发送数据*/
@@ -98,7 +102,7 @@ public class WebSocketServer {
             OriginalRecordToFore rtf2 = new OriginalRecordToFore(3,listOriginalRecord);
             String str02 = JSON.toJSONString(rtf2);
             //System.out.println("第一次传给前台的室内人员："+str02);
-            //this.session.getBasicRemote().sendText(str02);
+            this.session.getBasicRemote().sendText(str02);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -164,27 +168,28 @@ public class WebSocketServer {
      * @param message 客户端发送过来的消息*/
     @OnMessage
     public void onMessage(String message, Session session) {
-//        log.info("用户消息:"+userId+",报文:"+message);
+        log.info("用户消息:"+nickname+",报文:"+message);
 //        //可以群发消息
 //        //消息保存到数据库、redis
-//        if(StringUtils.isNotBlank(message)){
-//            try {
-//                //解析发送的报文
-//                JSONObject jsonObject = JSON.parseObject(message);
-//                //追加发送人(防止串改)
-//                jsonObject.put("fromUserId",this.userId);
-//                String toUserId=jsonObject.getString("toUserId");
-//                //传送给对应toUserId用户的websocket
-//                if(StringUtils.isNotBlank(toUserId)&&webSocketMap.containsKey(toUserId)){
-//                    webSocketMap.get(toUserId).sendMessage(jsonObject.toJSONString());
-//                }else{
-//                    log.error("请求的userId:"+toUserId+"不在该服务器上");
-//                    //否则不在这个服务器上，发送到mysql或者redis
-//                }
-//            }catch (Exception e){
-//                e.printStackTrace();
-//            }
-//        }
+        if(StringUtils.isNotBlank(message)){
+            try {
+                //解析发送的报文
+                JSONObject jsonObject = JSON.parseObject(message);
+                String stt = jsonObject.getString("targetId");
+                if("1".equals(stt)){
+                    OriginalRecordToFore rtf1 = new OriginalRecordToFore(4,listDepartment);
+                    String listDepartmentx = JSON.toJSONString(rtf1);
+                    //System.out.println("部门数据："+listDepartmentx);
+                    this.session.getBasicRemote().sendText(listDepartmentx);
+                }else if("2".equals(stt)){
+                    OriginalRecordToFore rtf1 = new OriginalRecordToFore(5,listOriginalRecord);
+                    String listShiNei = JSON.toJSONString(rtf1);
+                    this.session.getBasicRemote().sendText(listShiNei);
+                }
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }
     }
 
 

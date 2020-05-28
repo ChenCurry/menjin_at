@@ -198,13 +198,13 @@ where RIGHT('000'+convert(varchar(20),a.SC_CardGuidNO),10) = b.SC_MobileNO
       <if test="time1!=null and time2!=null">
           and a.SC_AddTime between #{time1,jdbcType=TIMESTAMP} and #{time2,jdbcType=TIMESTAMP}
       </if >
-      <if test="floorx != null and floorx != '' and floorx ==1 ">
+      <if test="floorx != null and floorx != '' and floorx ==0 ">
           and a.SC_DoorNO in (1,5,6,13,15,7,16)
       </if >
-      <if test="floorx != null and floorx != '' and floorx ==2 ">
+      <if test="floorx != null and floorx != '' and floorx ==1 ">
           and a.SC_DoorNO in (2,3,8,12,14,9)
       </if >
-      <if test="floorx != null and floorx != '' and floorx ==3 ">
+      <if test="floorx != null and floorx != '' and floorx ==2 ">
           and a.SC_DoorNO in (4,10,11)
       </if >
 
@@ -245,13 +245,13 @@ where RIGHT('000'+convert(varchar(20),a.SC_CardGuidNO),10) = b.SC_MobileNO
         <if test="time1!=null and time2!=null">
             and a.SC_AddTime between #{time1,jdbcType=TIMESTAMP} and #{time2,jdbcType=TIMESTAMP}
         </if >
-        <if test="floorx != null and floorx != '' and floorx ==1 ">
+        <if test="floorx != null and floorx != '' and floorx ==0 ">
             and a.SC_DoorNO in (1,5,6,13,15,7,16)
         </if >
-        <if test="floorx != null and floorx != '' and floorx ==2 ">
+        <if test="floorx != null and floorx != '' and floorx ==1 ">
             and a.SC_DoorNO in (2,3,8,12,14,9)
         </if >
-        <if test="floorx != null and floorx != '' and floorx ==3 ">
+        <if test="floorx != null and floorx != '' and floorx ==2 ">
             and a.SC_DoorNO in (4,10,11)
         </if >
 
