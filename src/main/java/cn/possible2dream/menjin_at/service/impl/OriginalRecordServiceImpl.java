@@ -74,6 +74,13 @@ public class OriginalRecordServiceImpl implements OriginalRecordService {
     }
 
     @Override
+    public List<OriginalRecord> getInOutRecordByConditionsWithoutPages(Conditions conditions) {
+        List<OriginalRecord> list = new ArrayList<>();
+        list = accessRecordMapper.selectGetInOutRecordByConditionsConditionsWithoutPages(conditions);
+        return list;
+    }
+
+    @Override
     public List<Department> getAllDepartment() {
         return departmentMapper.selectAll();
     }

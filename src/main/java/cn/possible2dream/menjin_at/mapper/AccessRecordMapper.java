@@ -53,6 +53,13 @@ public interface AccessRecordMapper {
     List<OriginalRecord> selectGetInOutRecordByConditions(Conditions conditions);
 
     /**
+     * 导出所有 进出记录
+     * @param conditions
+     * @return
+     */
+    List<OriginalRecord> selectGetInOutRecordByConditionsConditionsWithoutPages(Conditions conditions);
+
+    /**
      *  查询总条数
      * @param conditions
      * @return

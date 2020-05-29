@@ -16,6 +16,13 @@ public interface OriginalRecordService {
     public TableSplitResult<List<OriginalRecord>> getInOutRecordByConditions(Conditions conditions);
 
     /**
+     * 不分页导出进出记录
+     * @param conditions
+     * @return
+     */
+    public List<OriginalRecord> getInOutRecordByConditionsWithoutPages(Conditions conditions);
+
+    /**
      * 获取所有的部门信息
      * @return
      */

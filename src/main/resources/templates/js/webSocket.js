@@ -14,6 +14,7 @@ var cc = new Array(0, 0);	//私聊未查看的消息数目
 var recentMsg = new Array("", "");	//最近微信消息
 var state = "A";	//用户状态
 var flag = 0;		//检查微信面板开闭状态
+var urlHost = "http://172.30.34.96:8080";
 
 // var queryUrl = '/accessRecord/getTab3Record';
 
@@ -128,7 +129,7 @@ function startWebSocket() {
                 logout("othersLogin");
             } else {
                 //alert(evt.data);
-                console.log("后台传来的消息：" + evt.data);
+                // console.log("后台传来的消息：" + evt.data);
                 // console.log("尝试取消息类型：" + JSON.parse(evt.data).messageType);
                 var jsonVar = JSON.parse(evt.data);
                 var mType = jsonVar.messageType;
@@ -340,17 +341,62 @@ function queryTab3(){
 }
 
 function exportExcelTab3(){
-    /*$.ajax({
-        type: "GET",
-        url: "/menjin_at/accessRecord/getTab3Record",
-        dataType: "json",
-        success: function (msg) {
-            $("#WorkTable").bootstrapTable('load', msg);
+    var time1 = $("#begin_time").val();
+    var time2 = $("#end_time").val();
+    var options=$("#floorX");
+    var floorx = options.val();
+    var options2=$("#departmentX");
+    var departmentx = options2.val();
+    var nameX = $("#nameX").val().trim();
+    var jobX = $("#jobX").val().trim();
+    time1 = time1+" 00:00:00";
+    var now = new Date();
+    var today = now.getFullYear()+"-"+add0(now.getMonth()+1)+"-"+add0(now.getDate());
+    if(time2==today){
+        var t = now.getTime() - 300000;//数据库时间慢5分钟，那么零点5分以内加载会有问题
+        var d = new Date(t);
+        var str = add0(d.getHours())+":"+add0(d.getMinutes())+":"+add0(d.getSeconds());
+        time2 = time2+" "+str;
+    }else{
+        time2 += " 23:59:59";
+    }
+
+    // var data3 = '{"time1":"'+time1+'","time2":"'+time2+'","floorx":"'+floorx+'","departmentx":"'+departmentx+'","nameX":"'+nameX+'","jobX":"'+jobX+'"}';
+    // var data4 = JSON.parse(data3);
+
+    var url3 = "/menjin_at/out/excel";
+    var url2 = urlHost+url3;
+    /*var params2 = {
+        time1: time1,
+        time2: time2,
+        floorx: floorx,
+        departmentx: departmentx,
+        nameX: nameX,
+        jobX: jobX
+    };
+    $.ajax({
+        type:'POST',
+        url: url2,
+        data: params2,
+        beforeSend: function(request) {
+            //request.setRequestHeader("Authorization", "token信息，验证身份");
+        },
+        success: function(redata) {
+
+            // 创建a标签，设置属性，并触发点击下载
+            // var $a = $("<a>");
+            // $a.attr("href", redata.data.file);
+            // $a.attr("download", redata.data.filename);
+            // $("body").append($a);
+            // $a[0].click();
+            // $a.remove();
         },
         error: function () {
             alert("错误");
         }
     });*/
+    var export_path = url2 + "?time1="+time1+"&time2=" + time2 + "&floorx=" + floorx + "&departmentx=" + departmentx + "&nameX=" + nameX + "&jobX=" + jobX;
+    window.open(export_path);
 }
 
 function exportExcelTab2(){
