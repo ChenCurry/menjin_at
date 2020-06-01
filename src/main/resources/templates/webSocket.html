@@ -29,9 +29,9 @@
     <li id="li01" class="active" onclick="loadK(1)"><a href="#">实时</a></li>
     <li id="li02" onclick="loadK(2)"><a href="#">进出记录</a></li>
     <li id="li03" onclick="loadK(3)"><a href="#">室内时长</a></li>
-    <li id="li04" onclick="loadK(4)"><a href="#">扩展</a></li>
-    <li id="li05" onclick="loadK(5)"><a href="#">扩展</a></li>
-    <li id="li06" onclick="loadK(6)"><a href="#">扩展</a></li>
+    <!--<li id="li04" onclick="loadK(4)"><a href="#">扩展</a></li>-->
+    <!--<li id="li05" onclick="loadK(5)"><a href="#">扩展</a></li>-->
+    <!--<li id="li06" onclick="loadK(6)"><a href="#">扩展</a></li>-->
 </ul>
 
 <div>
@@ -83,11 +83,34 @@
 
 
     <div id="div3" style="display:none;">
-        <p>第三个页面</p>
+        <div id="div3_tab4_bar" class="form-inline row ">
+
+            <label>选择条件进行查询</label>
+
+            <input type="text" class="form-control input-small" readonly style="background:#fff" placeholder="起始时间" id="div3_begin_time"/>
+            <input type="text" class="form-control input-small" readonly style="background:#fff" placeholder="截止时间" id="div3_end_time"/>
+
+            <select class="form-control input-medium" name="product_line" id="div3_floorX">
+                <option value="">请选择楼层</option>
+                <option value="0">一楼</option>
+                <option value="1">二楼</option>
+                <option value="2">三楼</option>
+            </select>
+
+            <select class="form-control input-medium" name="product_line" id="div3_departmentX">
+                <option value="">请选择部门</option>
+            </select>
+
+            <input id="div3_nameX" type="text" class="form-control input-mini" placeholder="姓名" />
+            <input id="div3_jobX" type="text" class="form-control input-mini" placeholder="工号" />
+            <button id="div3_tab3query" onclick="queryTab4()" class="btn btn-primary">查询</button>
+            <button id="div3_tab3excel" onclick="exportExcelTab4()" class="btn btn-primary">导出</button>
+        </div>
+
         <table id="tab4" ></table>
     </div>
 
-    <div id="div4" style="display:none;">
+    <!--<div id="div4" style="display:none;">
         <p>第四个页面</p>
         <table id="tab5" ></table>
     </div>
@@ -100,7 +123,7 @@
     <div id="div6" style="display:none;">
         <p>第六个页面</p>
         <table id="tab7" ></table>
-    </div>
+    </div>-->
 
 </div>
 

@@ -14,7 +14,8 @@ var cc = new Array(0, 0);	//私聊未查看的消息数目
 var recentMsg = new Array("", "");	//最近微信消息
 var state = "A";	//用户状态
 var flag = 0;		//检查微信面板开闭状态
-var urlHost = "http://172.30.34.96:8080";
+// var urlHost = "http://172.30.34.96:8080";
+var urlHost = "http://localhost:8080";
 
 // var queryUrl = '/accessRecord/getTab3Record';
 
@@ -197,11 +198,14 @@ function add0(m){return m<10?'0'+m:m }
  */
 function loadK(parm) {
     //alert("切换到页面:"+parm);
-    for (var i = 1; i <= 6; i++) {
+    for (var i = 1; i <= 3; i++) {
         var p1 = '#div' + i;
         var p2 = '#li0' + i;
         if(2==i){
             initTable3();
+        }
+        if(3==i){
+            initTable4();
         }
         if (parm == i) {
             $(p1).show();
@@ -333,7 +337,7 @@ function queryTab3(){
     var time_diff =day2.getTime() - day1.getTime(); //时间差的毫秒数
     var days = Math.floor(time_diff / (24 * 3600 * 1000));
     if(days>31){
-        alert("查询时间跨度请勿超过一个月！")
+        alert("查询时间跨度请勿超过一个月！");
         return;
     }
     $('#tab3').bootstrapTable('refreshOptions',{pageNumber:1,pageSize:10});
@@ -552,3 +556,144 @@ Date.prototype.pattern = function (fmt) {
     }
     return fmt;
 };
+
+
+function exportExcelTab4(){
+    var time1 = $("#div3_begin_time").val();
+    var time2 = $("#div3_end_time").val();
+    var options=$("#div3_floorX");
+    var floorx = options.val();
+    var options2=$("#div3_departmentX");
+    var departmentx = options2.val();
+    var nameX = $("#div3_nameX").val().trim();
+    var jobX = $("#div3_jobX").val().trim();
+    time1 = time1+" 00:00:00";
+    var now = new Date();
+    var today = now.getFullYear()+"-"+add0(now.getMonth()+1)+"-"+add0(now.getDate());
+    if(time2==today){
+        var t = now.getTime() - 300000;//数据库时间慢5分钟，那么零点5分以内加载会有问题
+        var d = new Date(t);
+        var str = add0(d.getHours())+":"+add0(d.getMinutes())+":"+add0(d.getSeconds());
+        time2 = time2+" "+str;
+    }else{
+        time2 += " 23:59:59";
+    }
+
+    // var data3 = '{"time1":"'+time1+'","time2":"'+time2+'","floorx":"'+floorx+'","departmentx":"'+departmentx+'","nameX":"'+nameX+'","jobX":"'+jobX+'"}';
+    // var data4 = JSON.parse(data3);
+
+    var url3 = "/menjin_at/out/excel2";
+    var url2 = urlHost+url3;
+    var export_path = url2 + "?time1="+time1+"&time2=" + time2 + "&floorx=" + floorx + "&departmentx=" + departmentx + "&nameX=" + nameX + "&jobX=" + jobX;
+    window.open(export_path);
+}
+
+function queryTab4(){
+    var time1 = $("#div3_begin_time").val();
+    var time2 = $("#div3_end_time").val();
+
+    var day1 = new Date(time1);
+    var day2 = new Date(time2);
+    var time_diff =day2.getTime() - day1.getTime(); //时间差的毫秒数
+    var days = Math.floor(time_diff / (24 * 3600 * 1000));
+    if(days>31){
+        alert("查询时间跨度请勿超过一个月！");
+        return;
+    }
+    $('#tab4').bootstrapTable('refreshOptions',{pageNumber:1,pageSize:10});
+
+}
+
+function initTable4() {
+    $("#div3_begin_time").datetimepicker({
+        minView: "month", //选择日期后，不会再跳转去选择时分秒
+        format: "yyyy-mm-dd", //选择日期后，文本框显示的日期格式
+        language: 'zh-CN', //汉化
+        weekStart: 1,
+        todayBtn: true,
+        todayHighlight: 1,
+        autoclose:true //选择日期后自动关闭
+    });
+    $("#div3_begin_time").datetimepicker("setDate", new Date());
+    $("#div3_end_time").datetimepicker({
+        minView: "month", //选择日期后，不会再跳转去选择时分秒
+        format: "yyyy-mm-dd", //选择日期后，文本框显示的日期格式
+        language: 'zh-CN', //汉化
+        weekStart: 1,
+        todayBtn: true,
+        todayHighlight: 1,
+        autoclose:true //选择日期后自动关闭
+    });
+    $("#div3_end_time").datetimepicker("setDate", new Date());
+
+    var queryUrl = '/menjin_at/accessRecord/getTab4Record';
+    $('#tab4').bootstrapTable({
+        toolbar:"#div3_tab4_bar",
+        showLoading: true,
+        columns: columns,
+        url: queryUrl,                      //请求后台的URL（*）
+        method: 'get',                      //请求方式（*）
+        contentType: 'application/x-www-form-urlencoded',
+        cache: false,                       //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+        pagination: true,                   //是否显示分页（*）
+        sidePagination: "server",           //分页方式：client客户端分页，server服务端分页（*）
+        pageNumber: 1,                      //初始化加载第一页，默认第一页,并记录
+        pageSize: 10,                     //每页的记录行数（*）
+        pageList: [10, 25, 50, 100],        //可供选择的每页的行数（*）
+        search: false,                      //是否显示表格搜索
+        clickToSelect: true,                //是否启用点击选中行
+        queryParamsType : "",
+        queryParams : queryParams2,
+        onLoadSuccess: function () {
+            console.log("onLoadSuccess！");
+            //alert("onLoadSuccess！");
+        },
+        onLoadError: function () {
+            console.log("数据加载失败！");
+            //alert("数据加载失败！");
+        },
+        onDblClickRow: function (row, $element) {
+            // var id = row.ID;
+            // EditViewById(id, 'view');
+        }
+    });
+}
+
+function queryParams2(params) {
+    var time1 = $("#div3_begin_time").val();
+    var time2 = $("#div3_end_time").val();
+    var options=$("#div3_floorX");
+    var floorx = options.val();
+    var options2=$("#div3_departmentX");
+    var departmentx = options2.val();
+    var nameX = $("#div3_nameX").val().trim();
+    var jobX = $("#div3_jobX").val().trim();
+
+    time1 = time1+" 00:00:00";
+    var now = new Date();
+    var today = now.getFullYear()+"-"+add0(now.getMonth()+1)+"-"+add0(now.getDate());
+    if(time2==today){
+        var t = now.getTime() - 300000;//数据库时间慢5分钟，那么零点5分以内加载会有问题
+        var d = new Date(t);
+        var str = add0(d.getHours())+":"+add0(d.getMinutes())+":"+add0(d.getSeconds());
+        time2 = time2+" "+str;
+    }else{
+        time2 += " 23:59:59";
+    }
+
+    //alert("time1:"+time1+",time2:"+time2+",floorx:"+floorx+",departmentx:"+departmentx+",nameX:"+nameX+",jobX:"+jobX);
+    var temp = {
+        offset: params.offset,  //页码
+        //pageSize : params.limit,
+        pageSize:params.pageSize,
+        pageNumber:params.pageNumber,//this  params
+        time1: time1,
+        time2: time2,
+        floorx: floorx,
+        departmentx: departmentx,
+        nameX: nameX,
+        jobX: jobX,
+        length: 6
+    };
+    return temp;
+}

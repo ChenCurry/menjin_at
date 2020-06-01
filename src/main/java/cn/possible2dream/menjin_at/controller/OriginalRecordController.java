@@ -72,4 +72,42 @@ public class OriginalRecordController {
         return originalRecords;
     }
 
+    @RequestMapping(value = "/getTab4Record",method= RequestMethod.GET)
+    //@ResponseBody
+    public @ResponseBody TableSplitResult<List<OriginalRecord>> getTab4Record(String time1,String time2,String floorx,String departmentx,String nameX,String jobX,String pageSize,String pageNumber){
+
+        System.out.println(pageSize);
+        System.out.println(pageNumber);
+        System.out.println(time1);
+        System.out.println(time2);
+        System.out.println(floorx);
+        System.out.println(departmentx);
+        System.out.println(nameX);
+        System.out.println(jobX);
+
+        Conditions conditions = new Conditions();
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        if(null!=time1&&!"".equals(time1)){
+            try {
+                conditions.setTime1(formatter.parse(time1));
+                conditions.setTime2(formatter.parse(time2));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+        if(null!=floorx&&!"".equals(floorx)){
+            conditions.setFloorx(Integer.valueOf(floorx));
+        }
+        if(null!=departmentx&&!"".equals(departmentx)){
+            conditions.setDepartmentx(Integer.valueOf(departmentx));
+        }
+        conditions.setNameX(nameX);
+        conditions.setJobX(jobX);
+        conditions.setPageNumber(Integer.valueOf(pageNumber));
+        conditions.setPageSize(Integer.valueOf(pageSize));
+
+
+        TableSplitResult<List<OriginalRecord>> originalRecords= originalRecordService.getInOutRecordByConditions(conditions);
+        return originalRecords;
+    }
 }
