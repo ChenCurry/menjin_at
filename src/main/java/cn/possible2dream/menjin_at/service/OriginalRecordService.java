@@ -27,4 +27,9 @@ public interface OriginalRecordService {
      * @return
      */
     public List<Department> getAllDepartment();
+
+    /**
+     *  根据条件 分页查询室内时长记录
+     */
+    public TableSplitResult<List<OriginalRecordInner>> getInnerTimeByConditions(Conditions conditions);
 }

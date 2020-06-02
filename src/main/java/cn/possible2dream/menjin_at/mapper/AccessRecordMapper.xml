@@ -331,6 +331,45 @@ where RIGHT('000'+convert(varchar(20),a.SC_CardGuidNO),10) = b.SC_MobileNO
         and e.SC_DeviceAreaID=f.SC_DeviceAreaID
     </select>
 
+<!--PongeeESD6806_CN.dbo.-->
+
+    <select id="selectInnerTime" resultMap="MyResultMap" parameterType="cn.possible2dream.menjin_at.entity.Conditions">
+        select a.SC_SerierNO,a.SC_DoorNO,a.SC_CardGuidNO,a.SC_EventTypeID
+        ,a.SC_InOutStatus,a.SC_AddTime
+        ,b.SC_WorkerNO,b.SC_Name,b.SC_MobileNO,b.SC_IDTypeID,b.SC_DepartmentID
+        ,c.SC_DepartmentName
+        from SC_AccessRecord a,SC_Employee b,SC_Department c
+        where 1=1
+
+        <if test="time1!=null and time2!=null">
+            and a.SC_AddTime between #{time1,jdbcType=TIMESTAMP} and #{time2,jdbcType=TIMESTAMP}
+        </if >
+        <if test="floorx != null and floorx != '' and floorx ==0 ">
+            and a.SC_DoorNO in (1,5,6,13,15,7,16)
+        </if >
+        <if test="floorx != null and floorx != '' and floorx ==1 ">
+            and a.SC_DoorNO in (2,3,8,12,14,9)
+        </if >
+        <if test="floorx != null and floorx != '' and floorx ==2 ">
+            and a.SC_DoorNO in (4,10,11)
+        </if >
+
+        and b.SC_DepartmentID=c.SC_DepartmentID
+        and RIGHT('000'+convert(varchar(20),a.SC_CardGuidNO),10) = b.SC_MobileNO
+
+        <if test="jobX!=null and jobX!=''">
+            and b.SC_WorkerNO like '%'+#{jobX,jdbcType=NVARCHAR}+'%'
+        </if >
+        <if test="nameX!=null and nameX!=''">
+            and b.SC_Name like '%'+ #{nameX,jdbcType=NVARCHAR} +'%'
+        </if >
+        <if test="departmentx!=null">
+            and b.SC_DepartmentID = #{departmentx,jdbcType=INTEGER}
+        </if >
+
+        order by a.SC_CardGuidNO,a.SC_SerierNO
+    </select>
+
 
 
 

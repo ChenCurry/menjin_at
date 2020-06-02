@@ -66,6 +66,13 @@ public interface AccessRecordMapper {
      */
     Integer selectGetInOutRecordByConditionsTotal(Conditions conditions);
 
+    /**
+     * 查询室内时长
+     * @param conditions
+     * @return
+     */
+    List<OriginalRecord> selectInnerTime(Conditions conditions);
+
 
     int updateByPrimaryKeySelective(AccessRecord record);
 

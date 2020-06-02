@@ -14,10 +14,8 @@ var cc = new Array(0, 0);	//私聊未查看的消息数目
 var recentMsg = new Array("", "");	//最近微信消息
 var state = "A";	//用户状态
 var flag = 0;		//检查微信面板开闭状态
-// var urlHost = "http://172.30.34.96:8080";
-var urlHost = "http://localhost:8080";
-
-// var queryUrl = '/accessRecord/getTab3Record';
+var urlHost = "172.30.34.162:8080";
+// var urlHost = "localhost:8080";
 
 //设置需要显示的列
 var columns = [
@@ -109,18 +107,15 @@ function startWebSocket() {
     var usercookie = getCookie("username");
     //alert("usercookie为"+usercookie);
     if (null != usercookie && "\"\"" != usercookie) {
-        var localhost = "localhost:8080";
-        // var localhost = "106.75.32.166:8080";
-//         var localhost = "possible2dream.cn";//nginx
         if ('WebSocket' in window) {
             try {
-                ws = new WebSocket("ws://" + localhost + "/menjin_at/webSocket");
+                ws = new WebSocket("ws://" + urlHost + "/menjin_at/webSocket");
             } catch (e) {
                 $("#tipsContent").text("建立连接失败");
                 $("#tips").modal('show');
             }
         } else if ('MozWebSocket' in window) {
-            ws = new MozWebSocket("ws://" + localhost + "/menjin_at/webSocket");
+            ws = new MozWebSocket("ws://" + urlHost + "/menjin_at/webSocket");
         } else {
             $("#tipsContent").text("抱歉，您的浏览器不支持WebSocket");
             $("#tips").modal('show');
@@ -143,12 +138,10 @@ function startWebSocket() {
                     //alert("向表格2中加数据");
                     appendTable(tData,"#tab2");
                 }else if(4==mType){
-
                     for (var i = 0; i < tData.length; i++) {
                         $("#departmentX").append("<option value='"+tData[i].scDepartmentid+"'>"+tData[i].scDepartmentname+"</option>");
                     }
                 }else if(5==mType){
-
                     appendTable(tData,"#tab2");
                 }
 
@@ -166,7 +159,6 @@ function startWebSocket() {
     else {
         logout("logout");
     }
-
 }
 
 /*
@@ -365,40 +357,8 @@ function exportExcelTab3(){
         time2 += " 23:59:59";
     }
 
-    // var data3 = '{"time1":"'+time1+'","time2":"'+time2+'","floorx":"'+floorx+'","departmentx":"'+departmentx+'","nameX":"'+nameX+'","jobX":"'+jobX+'"}';
-    // var data4 = JSON.parse(data3);
-
     var url3 = "/menjin_at/out/excel";
-    var url2 = urlHost+url3;
-    /*var params2 = {
-        time1: time1,
-        time2: time2,
-        floorx: floorx,
-        departmentx: departmentx,
-        nameX: nameX,
-        jobX: jobX
-    };
-    $.ajax({
-        type:'POST',
-        url: url2,
-        data: params2,
-        beforeSend: function(request) {
-            //request.setRequestHeader("Authorization", "token信息，验证身份");
-        },
-        success: function(redata) {
-
-            // 创建a标签，设置属性，并触发点击下载
-            // var $a = $("<a>");
-            // $a.attr("href", redata.data.file);
-            // $a.attr("download", redata.data.filename);
-            // $("body").append($a);
-            // $a[0].click();
-            // $a.remove();
-        },
-        error: function () {
-            alert("错误");
-        }
-    });*/
+    var url2 = "http://"+urlHost+url3;
     var export_path = url2 + "?time1="+time1+"&time2=" + time2 + "&floorx=" + floorx + "&departmentx=" + departmentx + "&nameX=" + nameX + "&jobX=" + jobX;
     window.open(export_path);
 }
@@ -510,54 +470,6 @@ function logout(reason) {
     window.location.href = url;
 }
 
-
-//转换时间格式
-/**
- * 对Date的扩展，将 Date 转化为指定格式的String
- * 月(M)、日(d)、12小时(h)、24小时(H)、分(m)、秒(s)、周(E)、季度(q) 可以用 1-2 个占位符
- * 年(y)可以用 1-4 个占位符，毫秒(S)只能用 1 个占位符(是 1-3 位的数字)
- * eg:
- * (new Date()).pattern("yyyy-MM-dd hh:mm:ss.S") ==> 2006-07-02 08:09:04.423
- * (new Date()).pattern("yyyy-MM-dd E HH:mm:ss") ==> 2009-03-10 二 20:09:04
- * (new Date()).pattern("yyyy-MM-dd EE hh:mm:ss") ==> 2009-03-10 周二 08:09:04
- * (new Date()).pattern("yyyy-MM-dd EEE hh:mm:ss") ==> 2009-03-10 星期二 08:09:04
- * (new Date()).pattern("yyyy-M-d h:m:s.S") ==> 2006-7-2 8:9:4.18
- */
-Date.prototype.pattern = function (fmt) {
-    var o = {
-        "M+": this.getMonth() + 1, //月份
-        "d+": this.getDate(), //日
-        "h+": this.getHours() % 12 == 0 ? 12 : this.getHours() % 12, //小时
-        "H+": this.getHours(), //小时
-        "m+": this.getMinutes(), //分
-        "s+": this.getSeconds(), //秒
-        "q+": Math.floor((this.getMonth() + 3) / 3), //季度
-        "S": this.getMilliseconds() //毫秒
-    };
-    var week = {
-        "0": "日",
-        "1": "一",
-        "2": "二",
-        "3": "三",
-        "4": "四",
-        "5": "五",
-        "6": "六"
-    };
-    if (/(y+)/.test(fmt)) {
-        fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
-    }
-    if (/(E+)/.test(fmt)) {
-        fmt = fmt.replace(RegExp.$1, ((RegExp.$1.length > 1) ? (RegExp.$1.length > 2 ? "星期" : "") : "") + week[this.getDay() + ""]);
-    }
-    for (var k in o) {
-        if (new RegExp("(" + k + ")").test(fmt)) {
-            fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
-        }
-    }
-    return fmt;
-};
-
-
 function exportExcelTab4(){
     var time1 = $("#div3_begin_time").val();
     var time2 = $("#div3_end_time").val();
@@ -583,12 +495,17 @@ function exportExcelTab4(){
     // var data4 = JSON.parse(data3);
 
     var url3 = "/menjin_at/out/excel2";
-    var url2 = urlHost+url3;
+    var url2 = "http://"+urlHost+url3;
     var export_path = url2 + "?time1="+time1+"&time2=" + time2 + "&floorx=" + floorx + "&departmentx=" + departmentx + "&nameX=" + nameX + "&jobX=" + jobX;
     window.open(export_path);
 }
 
 function queryTab4(){
+    /*$("#div3_tab3query").click(function () {
+        $(this).button('loading');//禁用按钮并显示提交中
+        //$(this).button('reset');//重置按钮
+    });*/
+
     var time1 = $("#div3_begin_time").val();
     var time2 = $("#div3_end_time").val();
 
