@@ -20,7 +20,7 @@ public class MyTimer {
         Timer timer = new Timer();
         //2.创建一个MyTimerTask实例
         MyTimeTask myTimeTask = new MyTimeTask("No.1");
-        System.out.println("程序启动后，初始化的工作姑且就写在这里吧。");
+//        System.out.println("程序启动后，初始化的工作姑且就写在这里吧。");
 //        WebSocketServer.scSeriernoMax = originalRecordService.selectMaxScSerierno();
 //        WebSocketServer.listDepartment = originalRecordService.getAllDepartment();
 //        //getMaxAddTime8h

@@ -1,11 +1,9 @@
 package cn.possible2dream.menjin_at.entity;
 
-import java.util.Date;
+public class OriginalRecordInner {
 
-public class OriginalRecordInner extends OriginalRecord {
-
-    private Date zuizaojinru;
-    private Date zuihouchuqu;
+    private String zuizaojinru;
+    private String zuihouchuqu;
     private Integer times;//次数
     private String innerTime;//室内时长
 
@@ -20,19 +18,19 @@ public class OriginalRecordInner extends OriginalRecord {
     //SC_Department 表
     private String scDepartmentname;
 
-    public Date getZuizaojinru() {
+    public String getZuizaojinru() {
         return zuizaojinru;
     }
 
-    public void setZuizaojinru(Date zuizaojinru) {
+    public void setZuizaojinru(String zuizaojinru) {
         this.zuizaojinru = zuizaojinru;
     }
 
-    public Date getZuihouchuqu() {
+    public String getZuihouchuqu() {
         return zuihouchuqu;
     }
 
-    public void setZuihouchuqu(Date zuihouchuqu) {
+    public void setZuihouchuqu(String zuihouchuqu) {
         this.zuihouchuqu = zuihouchuqu;
     }
 
@@ -52,81 +50,82 @@ public class OriginalRecordInner extends OriginalRecord {
         this.innerTime = innerTime;
     }
 
-    @Override
+
     public Long getScCardguidno() {
         return scCardguidno;
     }
 
-    @Override
+
     public void setScCardguidno(Long scCardguidno) {
         this.scCardguidno = scCardguidno;
     }
 
-    @Override
+
     public String getScWorkerno() {
         return scWorkerno;
     }
 
-    @Override
+
     public void setScWorkerno(String scWorkerno) {
         this.scWorkerno = scWorkerno;
     }
 
-    @Override
+
     public String getScName() {
         return scName;
     }
 
-    @Override
+
     public void setScName(String scName) {
         this.scName = scName;
     }
 
-    @Override
+
     public String getScMobileno() {
         return scMobileno;
     }
 
-    @Override
+
     public void setScMobileno(String scMobileno) {
         this.scMobileno = scMobileno;
     }
 
-    @Override
+
     public Integer getScIdtypeid() {
         return scIdtypeid;
     }
 
-    @Override
+
     public void setScIdtypeid(Integer scIdtypeid) {
         this.scIdtypeid = scIdtypeid;
     }
 
-    @Override
+
     public Integer getScDepartmentid() {
         return scDepartmentid;
     }
 
-    @Override
+
     public void setScDepartmentid(Integer scDepartmentid) {
         this.scDepartmentid = scDepartmentid;
     }
 
-    @Override
+
     public String getScDepartmentname() {
         return scDepartmentname;
     }
 
-    @Override
+
     public void setScDepartmentname(String scDepartmentname) {
         this.scDepartmentname = scDepartmentname;
     }
 
+
     @Override
     public String toString() {
         return "OriginalRecordInner{" +
-                "zuizaojinru=" + zuizaojinru +
-                ", zuihouchuqu=" + zuihouchuqu +
+                "zuizaojinru='" + zuizaojinru + '\'' +
+                ", zuihouchuqu='" + zuihouchuqu + '\'' +
                 ", times=" + times +
                 ", innerTime='" + innerTime + '\'' +
                 ", scCardguidno=" + scCardguidno +

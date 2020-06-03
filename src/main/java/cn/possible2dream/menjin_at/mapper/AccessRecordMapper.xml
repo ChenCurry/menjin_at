@@ -215,10 +215,10 @@ where RIGHT('000'+convert(varchar(20),a.SC_CardGuidNO),10) = b.SC_MobileNO
         where 1=1
         and RIGHT('000'+convert(varchar(20),g.SC_CardGuidNO),10) = b.SC_MobileNO
         <if test="jobX!=null and jobX!=''">
-            and b.SC_WorkerNO like '%'+#{jobX,jdbcType=NVARCHAR}+'%'
+            and b.SC_WorkerNO = #{jobX,jdbcType=NVARCHAR}
         </if >
         <if test="nameX!=null and nameX!=''">
-            and b.SC_Name like '%'+ #{nameX,jdbcType=NVARCHAR} +'%'
+            and b.SC_Name = #{nameX,jdbcType=NVARCHAR}
         </if >
         <if test="departmentx!=null">
             and b.SC_DepartmentID = #{departmentx,jdbcType=INTEGER}
@@ -270,10 +270,10 @@ where RIGHT('000'+convert(varchar(20),a.SC_CardGuidNO),10) = b.SC_MobileNO
       where 1=1
       and RIGHT('000'+convert(varchar(20),g.SC_CardGuidNO),10) = b.SC_MobileNO
       <if test="jobX!=null and jobX!=''">
-          and b.SC_WorkerNO like '%'+#{jobX,jdbcType=NVARCHAR}+'%'
+          and b.SC_WorkerNO = #{jobX,jdbcType=NVARCHAR}
       </if >
       <if test="nameX!=null and nameX!=''">
-          and b.SC_Name like '%'+ #{nameX,jdbcType=NVARCHAR} +'%'
+          and b.SC_Name = #{nameX,jdbcType=NVARCHAR}
       </if >
       <if test="departmentx!=null">
           and b.SC_DepartmentID = #{departmentx,jdbcType=INTEGER}
@@ -317,10 +317,10 @@ where RIGHT('000'+convert(varchar(20),a.SC_CardGuidNO),10) = b.SC_MobileNO
         where 1=1
         and RIGHT('000'+convert(varchar(20),g.SC_CardGuidNO),10) = b.SC_MobileNO
         <if test="jobX!=null and jobX!=''">
-            and b.SC_WorkerNO like '%'+#{jobX,jdbcType=NVARCHAR}+'%'
+            and b.SC_WorkerNO = #{jobX,jdbcType=NVARCHAR}
         </if >
         <if test="nameX!=null and nameX!=''">
-            and b.SC_Name like '%'+ #{nameX,jdbcType=NVARCHAR} +'%'
+            and b.SC_Name = #{nameX,jdbcType=NVARCHAR}
         </if >
         <if test="departmentx!=null">
             and b.SC_DepartmentID = #{departmentx,jdbcType=INTEGER}
@@ -358,10 +358,10 @@ where RIGHT('000'+convert(varchar(20),a.SC_CardGuidNO),10) = b.SC_MobileNO
         and RIGHT('000'+convert(varchar(20),a.SC_CardGuidNO),10) = b.SC_MobileNO
 
         <if test="jobX!=null and jobX!=''">
-            and b.SC_WorkerNO like '%'+#{jobX,jdbcType=NVARCHAR}+'%'
+            and b.SC_WorkerNO = #{jobX,jdbcType=NVARCHAR}
         </if >
         <if test="nameX!=null and nameX!=''">
-            and b.SC_Name like '%'+ #{nameX,jdbcType=NVARCHAR} +'%'
+            and b.SC_Name = #{nameX,jdbcType=NVARCHAR}
         </if >
         <if test="departmentx!=null">
             and b.SC_DepartmentID = #{departmentx,jdbcType=INTEGER}

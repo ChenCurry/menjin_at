@@ -22,6 +22,14 @@ public interface OriginalRecordService {
      */
     public List<OriginalRecord> getInOutRecordByConditionsWithoutPages(Conditions conditions);
 
+
+    /**
+     * 不分页 导出 室内时长
+     * @param conditions
+     * @return
+     */
+    public List<OriginalRecordInner> getInnerTimeByConditionsWithoutPages(Conditions conditions);
+
     /**
      * 获取所有的部门信息
      * @return

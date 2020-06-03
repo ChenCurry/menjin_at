@@ -1,6 +1,5 @@
 package cn.possible2dream.menjin_at.config;
 
-
 import cn.hutool.log.Log;
 import cn.hutool.log.LogFactory;
 import cn.possible2dream.menjin_at.entity.Department;
@@ -58,7 +57,7 @@ public class WebSocketServer {
     private EmployeeWithBLOBs employee;
     //private static EmployeeService employeeService = EmployeeServiceImpl.getInstance();
     //  这里使用静态，让 service 属于类
-    private static EmployeeService employeeService;
+    private static EmployeeService employeeService;// @Autowired  @Resource
     // 注入的时候，给类的 service 注入
     @Autowired
     public void setChatService(EmployeeService employeeService) {

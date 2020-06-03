@@ -13,8 +13,8 @@ public class Conditions {
     private Integer pageSize;
     private Integer pageNumber;
     private Integer total;
-    private Integer minRow;
-    private Integer maxRow;
+    private Integer minRow;//数据库查询用
+    private Integer maxRow;//数据库查询用
 
     public Date getTime1() {
         return time1;

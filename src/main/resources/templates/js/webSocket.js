@@ -14,7 +14,7 @@ var cc = new Array(0, 0);	//私聊未查看的消息数目
 var recentMsg = new Array("", "");	//最近微信消息
 var state = "A";	//用户状态
 var flag = 0;		//检查微信面板开闭状态
-var urlHost = "172.30.34.162:8080";
+var urlHost = "172.30.34.108:8080";
 // var urlHost = "localhost:8080";
 
 //设置需要显示的列
@@ -36,8 +36,8 @@ var columns = [
         title: '姓名'
     }, {
         field: 'scInoutstatus',
-        title: '进出',
-        formatter: function(value,row,index){
+        title: '进出'
+        /*,formatter: function(value,row,index){
             if(value=="1"){
                 return "进";
             }else if(value=="201"){
@@ -45,7 +45,7 @@ var columns = [
             }else{
                 return value;
             }
-        }
+        }*/
     }, {
         field: 'scWorkerno',
         title: '工号'
@@ -84,6 +84,33 @@ var columns = [
         visible: false,
         title: 'ID'
     }*/];
+
+var columns2 = [
+    {
+        field: 'scDepartmentname',
+        title: '部门'
+    }, {
+        field: 'scMobileno',
+        title: '卡号'
+    }, {
+        field: 'scWorkerno',
+        title: '工号'
+    }, {
+        field: 'scName',
+        title: '姓名'
+    }, {
+        field: 'zuizaojinru',
+        title: '最早进入'
+    }, {
+        field: 'zuihouchuqu',
+        title: '最后出去'
+    }, {
+        field: 'times',
+        title: '进入次数'
+    }, {
+        field: 'innerTime',
+        title: '室内时长'
+    }];
 
 //初始化表格数据
 var data = [];
@@ -140,6 +167,7 @@ function startWebSocket() {
                 }else if(4==mType){
                     for (var i = 0; i < tData.length; i++) {
                         $("#departmentX").append("<option value='"+tData[i].scDepartmentid+"'>"+tData[i].scDepartmentname+"</option>");
+                        $("#div3_departmentX").append("<option value='"+tData[i].scDepartmentid+"'>"+tData[i].scDepartmentname+"</option>");
                     }
                 }else if(5==mType){
                     appendTable(tData,"#tab2");
@@ -473,8 +501,8 @@ function logout(reason) {
 function exportExcelTab4(){
     var time1 = $("#div3_begin_time").val();
     var time2 = $("#div3_end_time").val();
-    var options=$("#div3_floorX");
-    var floorx = options.val();
+    /*var options=$("#div3_floorX");
+    var floorx = options.val();*/
     var options2=$("#div3_departmentX");
     var departmentx = options2.val();
     var nameX = $("#div3_nameX").val().trim();
@@ -496,7 +524,7 @@ function exportExcelTab4(){
 
     var url3 = "/menjin_at/out/excel2";
     var url2 = "http://"+urlHost+url3;
-    var export_path = url2 + "?time1="+time1+"&time2=" + time2 + "&floorx=" + floorx + "&departmentx=" + departmentx + "&nameX=" + nameX + "&jobX=" + jobX;
+    var export_path = url2 + "?time1="+time1+"&time2=" + time2 + "&departmentx=" + departmentx + "&nameX=" + nameX + "&jobX=" + jobX;
     window.open(export_path);
 }
 
@@ -517,6 +545,7 @@ function queryTab4(){
         alert("查询时间跨度请勿超过一个月！");
         return;
     }
+    $("#tab4").bootstrapTable('removeAll');
     $('#tab4').bootstrapTable('refreshOptions',{pageNumber:1,pageSize:10});
 
 }
@@ -547,7 +576,7 @@ function initTable4() {
     $('#tab4').bootstrapTable({
         toolbar:"#div3_tab4_bar",
         showLoading: true,
-        columns: columns,
+        columns: columns2,
         url: queryUrl,                      //请求后台的URL（*）
         method: 'get',                      //请求方式（*）
         contentType: 'application/x-www-form-urlencoded',
@@ -579,8 +608,8 @@ function initTable4() {
 function queryParams2(params) {
     var time1 = $("#div3_begin_time").val();
     var time2 = $("#div3_end_time").val();
-    var options=$("#div3_floorX");
-    var floorx = options.val();
+    /*var options=$("#div3_floorX");
+    var floorx = options.val();*/
     var options2=$("#div3_departmentX");
     var departmentx = options2.val();
     var nameX = $("#div3_nameX").val().trim();
@@ -606,7 +635,7 @@ function queryParams2(params) {
         pageNumber:params.pageNumber,//this  params
         time1: time1,
         time2: time2,
-        floorx: floorx,
+        //floorx: floorx,
         departmentx: departmentx,
         nameX: nameX,
         jobX: jobX,
