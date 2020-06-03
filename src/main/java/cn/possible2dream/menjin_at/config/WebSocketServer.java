@@ -11,7 +11,6 @@ import cn.possible2dream.menjin_at.service.OriginalRecordService;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpSession;
@@ -57,18 +56,17 @@ public class WebSocketServer {
     private EmployeeWithBLOBs employee;
     //private static EmployeeService employeeService = EmployeeServiceImpl.getInstance();
     //  这里使用静态，让 service 属于类
-    private static EmployeeService employeeService;// @Autowired  @Resource
-    // 注入的时候，给类的 service 注入
-    @Autowired
-    public void setChatService(EmployeeService employeeService) {
-        WebSocketServer.employeeService = employeeService;
-    }
+//    private static EmployeeService employeeService;
+//    // 注入的时候，给类的 service 注入
+//    @Autowired
+//    public void setChatService(EmployeeService employeeService) {
+//        WebSocketServer.employeeService = employeeService;
+//    }
 
-    private static OriginalRecordService originalRecordService;
-    @Autowired
-    public void setChatService(OriginalRecordService originalRecordService) {
-        WebSocketServer.originalRecordService = originalRecordService;
-    }
+    public static EmployeeService employeeService;
+
+    public static OriginalRecordService originalRecordService;
+
 
 
     /**
