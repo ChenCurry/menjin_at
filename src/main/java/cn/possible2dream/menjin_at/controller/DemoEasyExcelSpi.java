@@ -19,11 +19,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 /**
- * @author quaint
- * @date 2020-01-14 11:13
  */
 @Controller
 public class DemoEasyExcelSpi implements ApplicationContextAware {
@@ -115,5 +114,15 @@ public class DemoEasyExcelSpi implements ApplicationContextAware {
         List<DemoUserDto2> userDto = DemoUserDto2.getUserDtoTest6(originalRecordInners);
         // 创建web文件
         EasyExcelUtils.exportWebExcel(response,userDto,DemoUserDto2.class,"jinchujilu",null);
+    }
+
+    @RequestMapping("/out/excelPeople")
+    public void excelPeople(HttpServletRequest request,HttpServletResponse response){
+
+        Date date = new Date();
+        long timestamp = date.getTime();
+        List<OriginalRecord> listOriginalRecords = originalRecordService.getMaxAddTime8h();
+        List<DemoUserDto> userDto = DemoUserDto.getUserDtoTest6(listOriginalRecords);
+        EasyExcelUtils.exportWebExcel(response,userDto,DemoUserDto.class,"室内人员-"+timestamp,null);
     }
 }

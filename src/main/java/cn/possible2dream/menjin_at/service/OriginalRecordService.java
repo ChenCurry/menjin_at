@@ -9,6 +9,11 @@ public interface OriginalRecordService {
     Long selectMaxScSerierno();
     public List<OriginalRecord> getOriginalRecordListByMaxId(Long scSerierno);
     public List<OriginalRecord> getTop25();
+
+    /**
+     * 查询所有室内人员
+     * @return
+     */
     public List<OriginalRecord> getMaxAddTime8h();
     /**
      *  根据条件 分页查询进出记录

@@ -4,7 +4,6 @@ import cn.hutool.log.Log;
 import cn.hutool.log.LogFactory;
 import cn.possible2dream.menjin_at.entity.Department;
 import cn.possible2dream.menjin_at.entity.EmployeeWithBLOBs;
-import cn.possible2dream.menjin_at.entity.OriginalRecord;
 import cn.possible2dream.menjin_at.entity.OriginalRecordToFore;
 import cn.possible2dream.menjin_at.service.EmployeeService;
 import cn.possible2dream.menjin_at.service.OriginalRecordService;
@@ -25,9 +24,6 @@ import java.util.List;
 
 /**
  * WebSocketServer
- * https://www.cnblogs.com/JohanChan/p/12522001.html
- * https://blog.csdn.net/qq_33171970/article/details/55001587
- * https://blog.csdn.net/m0_37202351/article/details/86255132
  */
 
     //http://localhost:8080/menjin_at/websocket.html
@@ -44,7 +40,7 @@ public class WebSocketServer {
     //private static ConcurrentHashMap<String, Session> sessionPools = new ConcurrentHashMap<>();
     private static Hashtable<Long, WebSocketServer> connections = new Hashtable<>();
     //
-    public static List<OriginalRecord> listOriginalRecord = new ArrayList<OriginalRecord>();//只用来记在里边的人，这样才有意义
+    //public static List<OriginalRecord> listOriginalRecord = new ArrayList<OriginalRecord>();//在里边的人
     public static List<Department> listDepartment = new ArrayList<Department>();//放部门信息
     //用来记录当前查到的最大的id值
     public static long scSeriernoMax;
@@ -55,13 +51,6 @@ public class WebSocketServer {
     /*连接时唯一对应一个员工*/
     private EmployeeWithBLOBs employee;
     //private static EmployeeService employeeService = EmployeeServiceImpl.getInstance();
-    //  这里使用静态，让 service 属于类
-//    private static EmployeeService employeeService;
-//    // 注入的时候，给类的 service 注入
-//    @Autowired
-//    public void setChatService(EmployeeService employeeService) {
-//        WebSocketServer.employeeService = employeeService;
-//    }
 
     public static EmployeeService employeeService;
 
@@ -179,17 +168,19 @@ public class WebSocketServer {
                     //System.out.println("部门数据："+listDepartmentx);
                     this.session.getBasicRemote().sendText(listDepartmentx);
                 }else if("2".equals(stt)){
-                    OriginalRecordToFore rtf1 = new OriginalRecordToFore(5,listOriginalRecord);
+                    OriginalRecordToFore rtf1 = new OriginalRecordToFore(5,originalRecordService.getMaxAddTime8h());
                     String listShiNei = JSON.toJSONString(rtf1);
                     this.session.getBasicRemote().sendText(listShiNei);
+                }else if("3".equals(stt)){
+                    OriginalRecordToFore rtf1 = new OriginalRecordToFore(2,originalRecordService.getTop25());
+                    String shishi = JSON.toJSONString(rtf1);
+                    this.session.getBasicRemote().sendText(shishi);
                 }
             }catch (Exception e){
                 e.printStackTrace();
             }
         }
     }
-
-
 
     /**
      * 实现服务器主动推送

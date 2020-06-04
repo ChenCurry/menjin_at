@@ -118,6 +118,7 @@
         and g.SC_EventTypeID = d.SC_CheckResultID
         and g.SC_DoorNO=e.SC_SerierNO
         and e.SC_DeviceAreaID=f.SC_DeviceAreaID
+        order by g.SC_SerierNO desc
   </select>
 
 

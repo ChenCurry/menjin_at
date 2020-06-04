@@ -345,6 +345,14 @@ function shuaxin(){
     ws.send(JSON.stringify(jsonMsg));
 }
 
+function shuaxin0(){
+    var jsonMsg = {
+        "targetType":"shuaxin0",
+        "targetId":"3"
+    };
+    ws.send(JSON.stringify(jsonMsg));
+}
+
 /**
  * 查询进出记录
  */
@@ -392,6 +400,10 @@ function exportExcelTab3(){
 }
 
 function exportExcelTab2(){
+
+    var url3 = "/menjin_at/out/excelPeople";
+    var url2 = "http://"+urlHost+url3;
+    window.open(url2);
 
 }
 

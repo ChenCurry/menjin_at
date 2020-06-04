@@ -23,7 +23,6 @@ public class PostConstructTest {
         System.out.println("程序启动后，初始化的工作写在这里。");
         WebSocketServer.scSeriernoMax = originalRecordService.selectMaxScSerierno();
         WebSocketServer.listDepartment = originalRecordService.getAllDepartment();
-        //getMaxAddTime8h
-        WebSocketServer.listOriginalRecord = originalRecordService.getMaxAddTime8h();
+        //WebSocketServer.listOriginalRecord = originalRecordService.getMaxAddTime8h();
     }
 }
