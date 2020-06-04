@@ -3,7 +3,6 @@ package cn.possible2dream.menjin_at.dto;
 import cn.possible2dream.menjin_at.entity.OriginalRecord;
 import com.alibaba.excel.annotation.ExcelProperty;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -11,14 +10,12 @@ import java.util.List;
 
 /**
  * 子类 一般业务一个子类即可
- * @author quaint
- * @date 2020-01-14 11:20
  */
-@EqualsAndHashCode(callSuper = true)
+//@EqualsAndHashCode(callSuper = true)
 //@AllArgsConstructor
 //@NoArgsConstructor
 @Data
-public class DemoUserDto extends DemoParentDto{
+public class DemoUserDto {//extends DemoParentDto
 
     @ExcelProperty(value = {"流水"})
     private Long scSerierno;//记录号自增 百万级

@@ -3,17 +3,6 @@
  */
 
 var ws = null;	//websocket对象
-var targetId = 0;	//聊天对象ID
-var staffId = 0;	//当前用户ID
-var staffName = "";	//当前用户姓名
-var power = "N";	//当前用户权限
-var userCount = 0;	//当前在线用户数
-var headUrl = "";	//当前用户头像
-var count = 0;		//消息板消息数量
-var cc = new Array(0, 0);	//私聊未查看的消息数目
-var recentMsg = new Array("", "");	//最近微信消息
-var state = "A";	//用户状态
-var flag = 0;		//检查微信面板开闭状态
 var urlHost = "172.30.34.108:8080";
 // var urlHost = "localhost:8080";
 
@@ -37,15 +26,6 @@ var columns = [
     }, {
         field: 'scInoutstatus',
         title: '进出'
-        /*,formatter: function(value,row,index){
-            if(value=="1"){
-                return "进";
-            }else if(value=="201"){
-                return "出";
-            }else{
-                return value;
-            }
-        }*/
     }, {
         field: 'scWorkerno',
         title: '工号'
@@ -90,6 +70,10 @@ var columns2 = [
         field: 'scDepartmentname',
         title: '部门'
     }, {
+        field: 'scDepartmentid',
+        visible: false,
+        title: '部门号'
+    }, {
         field: 'scMobileno',
         title: '卡号'
     }, {
@@ -109,7 +93,17 @@ var columns2 = [
         title: '进入次数'
     }, {
         field: 'innerTime',
-        title: '室内时长'
+        title: '室内时长',
+        formatter: function(value,row,index){
+            return "<a href='javascript:;' onclick='inoutdetail(\""
+                +row.zuizaojinru+"\",\""
+                +row.zuihouchuqu+"\",\""
+                +row.scDepartmentname+"\",\""
+                +row.scDepartmentid+"\",\""
+                +row.scMobileno+"\",\""
+                +row.scWorkerno+"\",\""
+                +row.scName+"\")'>"+value+"</a>";
+            }
     }];
 
 //初始化表格数据
@@ -262,12 +256,7 @@ function initTable() {
         pagination: false
     });
     $('#tab2').bootstrapTable('hideLoading');
-}
 
-/**
- * 初始化第2个页面的表格 和 条件控件
- */
-function initTable3() {
     $("#begin_time").datetimepicker({
         minView: "month", //选择日期后，不会再跳转去选择时分秒
         format: "yyyy-mm-dd", //选择日期后，文本框显示的日期格式
@@ -288,6 +277,55 @@ function initTable3() {
         autoclose:true //选择日期后自动关闭
     });
     $("#end_time").datetimepicker("setDate", new Date());
+
+    $("#div3_begin_time").datetimepicker({
+        minView: "month", //选择日期后，不会再跳转去选择时分秒
+        format: "yyyy-mm-dd", //选择日期后，文本框显示的日期格式
+        language: 'zh-CN', //汉化
+        weekStart: 1,
+        todayBtn: true,
+        todayHighlight: 1,
+        autoclose:true //选择日期后自动关闭
+    });
+    $("#div3_begin_time").datetimepicker("setDate", new Date());
+    $("#div3_end_time").datetimepicker({
+        minView: "month", //选择日期后，不会再跳转去选择时分秒
+        format: "yyyy-mm-dd", //选择日期后，文本框显示的日期格式
+        language: 'zh-CN', //汉化
+        weekStart: 1,
+        todayBtn: true,
+        todayHighlight: 1,
+        autoclose:true //选择日期后自动关闭
+    });
+    $("#div3_end_time").datetimepicker("setDate", new Date());
+}
+
+/**
+ * 初始化第2个页面的表格 和 条件控件
+ */
+function initTable3() {
+
+    /*$("#begin_time").datetimepicker({
+        minView: "month", //选择日期后，不会再跳转去选择时分秒
+        format: "yyyy-mm-dd", //选择日期后，文本框显示的日期格式
+        language: 'zh-CN', //汉化
+        weekStart: 1,
+        todayBtn: true,
+        todayHighlight: 1,
+        autoclose:true //选择日期后自动关闭
+    });
+    $("#begin_time").datetimepicker("setDate", new Date());
+    $("#end_time").datetimepicker({
+        minView: "month", //选择日期后，不会再跳转去选择时分秒
+        format: "yyyy-mm-dd", //选择日期后，文本框显示的日期格式
+        language: 'zh-CN', //汉化
+        weekStart: 1,
+        todayBtn: true,
+        todayHighlight: 1,
+        autoclose:true //选择日期后自动关闭
+    });
+    $("#end_time").datetimepicker("setDate", new Date());*/
+
 
     var queryUrl = '/menjin_at/accessRecord/getTab3Record';
     $('#tab3').bootstrapTable({
@@ -418,16 +456,22 @@ function queryParams(params) {
     var nameX = $("#nameX").val().trim();
     var jobX = $("#jobX").val().trim();
 
-    time1 = time1+" 00:00:00";
-    var now = new Date();
-    var today = now.getFullYear()+"-"+add0(now.getMonth()+1)+"-"+add0(now.getDate());
-    if(time2==today){
-        var t = now.getTime() - 300000;//数据库时间慢5分钟，那么零点5分以内加载会有问题
-        var d = new Date(t);
-        var str = add0(d.getHours())+":"+add0(d.getMinutes())+":"+add0(d.getSeconds());
-        time2 = time2+" "+str;
+    //alert(time1.length);
+
+    if(time1.length>10){
+
     }else{
-        time2 += " 23:59:59";
+        time1 = time1+" 00:00:00";
+        var now = new Date();
+        var today = now.getFullYear()+"-"+add0(now.getMonth()+1)+"-"+add0(now.getDate());
+        if(time2==today){
+            var t = now.getTime() - 300000;//数据库时间慢5分钟，那么零点5分以内加载会有问题
+            var d = new Date(t);
+            var str = add0(d.getHours())+":"+add0(d.getMinutes())+":"+add0(d.getSeconds());
+            time2 = time2+" "+str;
+        }else{
+            time2 += " 23:59:59";
+        }
     }
 
     //alert("time1:"+time1+",time2:"+time2+",floorx:"+floorx+",departmentx:"+departmentx+",nameX:"+nameX+",jobX:"+jobX);
@@ -563,26 +607,26 @@ function queryTab4(){
 }
 
 function initTable4() {
-    $("#div3_begin_time").datetimepicker({
-        minView: "month", //选择日期后，不会再跳转去选择时分秒
-        format: "yyyy-mm-dd", //选择日期后，文本框显示的日期格式
-        language: 'zh-CN', //汉化
-        weekStart: 1,
-        todayBtn: true,
-        todayHighlight: 1,
-        autoclose:true //选择日期后自动关闭
-    });
-    $("#div3_begin_time").datetimepicker("setDate", new Date());
-    $("#div3_end_time").datetimepicker({
-        minView: "month", //选择日期后，不会再跳转去选择时分秒
-        format: "yyyy-mm-dd", //选择日期后，文本框显示的日期格式
-        language: 'zh-CN', //汉化
-        weekStart: 1,
-        todayBtn: true,
-        todayHighlight: 1,
-        autoclose:true //选择日期后自动关闭
-    });
-    $("#div3_end_time").datetimepicker("setDate", new Date());
+    // $("#div3_begin_time").datetimepicker({
+    //     minView: "month", //选择日期后，不会再跳转去选择时分秒
+    //     format: "yyyy-mm-dd", //选择日期后，文本框显示的日期格式
+    //     language: 'zh-CN', //汉化
+    //     weekStart: 1,
+    //     todayBtn: true,
+    //     todayHighlight: 1,
+    //     autoclose:true //选择日期后自动关闭
+    // });
+    // $("#div3_begin_time").datetimepicker("setDate", new Date());
+    // $("#div3_end_time").datetimepicker({
+    //     minView: "month", //选择日期后，不会再跳转去选择时分秒
+    //     format: "yyyy-mm-dd", //选择日期后，文本框显示的日期格式
+    //     language: 'zh-CN', //汉化
+    //     weekStart: 1,
+    //     todayBtn: true,
+    //     todayHighlight: 1,
+    //     autoclose:true //选择日期后自动关闭
+    // });
+    // $("#div3_end_time").datetimepicker("setDate", new Date());
 
     var queryUrl = '/menjin_at/accessRecord/getTab4Record';
     $('#tab4').bootstrapTable({
@@ -654,4 +698,30 @@ function queryParams2(params) {
         length: 6
     };
     return temp;
+}
+
+function inoutdetail(zuizaojinru,zuihouchuqu,scDepartmentname,scDepartmentid,scMobileno,scWorkerno,scName){
+    /*alert("部门："+scDepartmentname
+        +"，卡号："+scMobileno
+        +"，工号："+scWorkerno
+        +"，姓名："+scName
+        +"，最早进入："+zuizaojinru
+        +"，最后出去："+zuihouchuqu
+    );*/
+
+    $('#div3').hide();
+    $('#li03').removeClass('active');
+    $('#div2').show();
+    $('#li02').addClass('active');
+
+    var sdtime3 = new Date(new Date(zuizaojinru).getTime()-1000*60*60*4);
+    var sdtime4 = new Date(new Date(zuihouchuqu).getTime()+1000*60*60*4);//前后推4个小时
+
+    $("#begin_time").val(parseTime(sdtime3));
+    $("#end_time").val(parseTime(sdtime4));
+    $("#departmentX").val(scDepartmentid);
+    $("#nameX").val(scName);
+    $("#jobX").val(scWorkerno);
+
+    queryTab3();
 }

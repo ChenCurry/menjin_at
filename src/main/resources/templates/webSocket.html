@@ -9,7 +9,6 @@
     <link rel="shortcut icon" href="img/favicon.ico">
     <link rel="stylesheet" href="bootstrap/css/bootstrap.css">
     <link rel="stylesheet" href="bootstrap/css/bootstrap-datetimepicker.min.css">
-    <!--<link rel="stylesheet" href="css/webSocket.css">-->
     <script src="js/jquery.min.js"></script>
     <script src="js/moment-with-locales.min.js"></script>
     <script src="js/popper.js"></script>
@@ -20,18 +19,12 @@
     <script src="js/webSocket.js"></script>
 </head>
 <body onLoad="startWebSocket()">
-<!--
-
--->
 
 <!--<p>AT门禁闸机实时数据统计</p>-->
 <ul class="nav nav-pills">
     <li id="li01" class="active" onclick="loadK(1)"><a href="#">实时</a></li>
     <li id="li02" onclick="loadK(2)"><a href="#">进出记录</a></li>
     <li id="li03" onclick="loadK(3)"><a href="#">室内时长</a></li>
-    <!--<li id="li04" onclick="loadK(4)"><a href="#">扩展</a></li>-->
-    <!--<li id="li05" onclick="loadK(5)"><a href="#">扩展</a></li>-->
-    <!--<li id="li06" onclick="loadK(6)"><a href="#">扩展</a></li>-->
 </ul>
 
 <div>
@@ -43,7 +36,7 @@
             </div>
         </div>
         <div id="tab2_div" >
-            <p onclick="shuaxin()">室内人员<span style="color:#3f9337;">(刷新)</span></p>
+            <p onclick="shuaxin()">室内人员(部分以201进出的人可能未统计进来)<span style="color:#3f9337;">(刷新)</span></p>
             <div class="table-responsive">
                 <table class="table table-bordered table-hover" id="tab2" ></table>
             </div>
@@ -56,8 +49,8 @@
 
             <label>选择条件进行查询</label>
 
-            <input type="text" class="form-control input-small" readonly style="background:#fff" placeholder="起始时间" id="begin_time"/>
-            <input type="text" class="form-control input-small" readonly style="background:#fff" placeholder="截止时间" id="end_time"/>
+            <input type="text" class="form-control input-medium" readonly style="background:#fff" placeholder="起始时间" id="begin_time"/>
+            <input type="text" class="form-control input-medium" readonly style="background:#fff" placeholder="截止时间" id="end_time"/>
 
             <select class="form-control input-medium" name="product_line" id="floorX">
                 <option value="">请选择楼层</option>
@@ -80,8 +73,6 @@
 
     </div>
 
-
-
     <div id="div3" style="display:none;">
         <div id="div3_tab4_bar" class="form-inline row ">
 
@@ -89,13 +80,6 @@
 
             <input type="text" class="form-control input-small" readonly style="background:#fff" placeholder="起始时间" id="div3_begin_time"/>
             <input type="text" class="form-control input-small" readonly style="background:#fff" placeholder="截止时间" id="div3_end_time"/>
-
-            <!--<select class="form-control input-medium" name="product_line" id="div3_floorX">
-                <option value="">请选择楼层</option>
-                <option value="0">一楼</option>
-                <option value="1">二楼</option>
-                <option value="2">三楼</option>
-            </select>-->
 
             <select class="form-control input-medium" name="product_line" id="div3_departmentX">
                 <option value="">请选择部门</option>
@@ -109,21 +93,6 @@
 
         <table id="tab4" ></table>
     </div>
-
-    <!--<div id="div4" style="display:none;">
-        <p>第四个页面</p>
-        <table id="tab5" ></table>
-    </div>
-
-    <div id="div5" style="display:none;">
-        <p>第五个页面</p>
-        <table id="tab6" ></table>
-    </div>
-
-    <div id="div6" style="display:none;">
-        <p>第六个页面</p>
-        <table id="tab7" ></table>
-    </div>-->
 
 </div>
 

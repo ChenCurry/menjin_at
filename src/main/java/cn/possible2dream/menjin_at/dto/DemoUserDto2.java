@@ -3,21 +3,18 @@ package cn.possible2dream.menjin_at.dto;
 import cn.possible2dream.menjin_at.entity.OriginalRecordInner;
 import com.alibaba.excel.annotation.ExcelProperty;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * 子类 一般业务一个子类即可
- * @author quaint
- * @date 2020-01-14 11:20
  */
-@EqualsAndHashCode(callSuper = true)
+//@EqualsAndHashCode(callSuper = true)
 //@AllArgsConstructor
 //@NoArgsConstructor
 @Data
-public class DemoUserDto2 extends DemoParentDto{
+public class DemoUserDto2 {//extends DemoParentDto
 
     @ExcelProperty(value = {"部门"})
     private String scDepartmentname;

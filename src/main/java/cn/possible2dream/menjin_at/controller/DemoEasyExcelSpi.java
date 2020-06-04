@@ -69,11 +69,14 @@ public class DemoEasyExcelSpi implements ApplicationContextAware {
             conditions.setJobX(jobX);
         }
 
+        Date date = new Date();
+        long timestamp = date.getTime();
+
         List<OriginalRecord> originalRecords= originalRecordService.getInOutRecordByConditionsWithoutPages(conditions);
 
         List<DemoUserDto> userDto = DemoUserDto.getUserDtoTest6(originalRecords);
         // 创建web文件
-        EasyExcelUtils.exportWebExcel(response,userDto,DemoUserDto.class,"jinchujilu",null);
+        EasyExcelUtils.exportWebExcel(response,userDto,DemoUserDto.class,"进出记录-"+timestamp,null);
     }
 
     @RequestMapping("/out/excel2")
@@ -109,11 +112,14 @@ public class DemoEasyExcelSpi implements ApplicationContextAware {
             conditions.setJobX(jobX);
         }
 
+        Date date = new Date();
+        long timestamp = date.getTime();
+
         List<OriginalRecordInner> originalRecordInners= originalRecordService.getInnerTimeByConditionsWithoutPages(conditions);
 
         List<DemoUserDto2> userDto = DemoUserDto2.getUserDtoTest6(originalRecordInners);
         // 创建web文件
-        EasyExcelUtils.exportWebExcel(response,userDto,DemoUserDto2.class,"jinchujilu",null);
+        EasyExcelUtils.exportWebExcel(response,userDto,DemoUserDto2.class,"室内时长-"+timestamp,null);
     }
 
     @RequestMapping("/out/excelPeople")
