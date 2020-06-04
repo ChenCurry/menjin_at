@@ -56,9 +56,5 @@ public class TestDb2JController {
                 e.printStackTrace();
             }
         }
-
-        //      ?SC_SerierNO=192  本机用IP访问会执行两遍，用localhost正常
-        //http://localhost:8080/menjin_at/test/TestDb2J
-        //http://172.30.34.126:8080/menjin_at/test/TestDb2J
     }
 }

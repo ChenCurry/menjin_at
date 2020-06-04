@@ -11,29 +11,24 @@ import java.util.List;
 /**
  * 子类 一般业务一个子类即可
  */
-//@EqualsAndHashCode(callSuper = true)
-//@AllArgsConstructor
-//@NoArgsConstructor
 @Data
-public class DemoUserDto {//extends DemoParentDto
+public class DemoUserDto {
 
     @ExcelProperty(value = {"流水"})
-    private Long scSerierno;//记录号自增 百万级
+    private Long scSerierno;
     @ExcelProperty(value = {"门号"})
-    private Integer scDoorno;//设备号1-16
+    private Integer scDoorno;
     @ExcelProperty(value = {"进出"})
-    private Short scInoutstatus;//进还是出
+    private Short scInoutstatus;
 
     @ExcelProperty(value = {"时间"})
-    //@DateTimeFormat("yyyy-MM-dd HH:mm:ss")
     private Date scAddtime;
-    //private Date scAddtime;//记录时间  LocalDate  Date
     @ExcelProperty(value = {"工号"})
-    private String scWorkerno;//工号
+    private String scWorkerno;
     @ExcelProperty(value = {"姓名"})
-    private String scName;//姓名
+    private String scName;
     @ExcelProperty(value = {"卡号"})
-    private String scMobileno;//完整卡号
+    private String scMobileno;
     @ExcelProperty(value = {"部门"})
     private String scDepartmentname;
     @ExcelProperty(value = {"事件类型"})

@@ -10,11 +10,8 @@ import java.util.List;
 /**
  * 子类 一般业务一个子类即可
  */
-//@EqualsAndHashCode(callSuper = true)
-//@AllArgsConstructor
-//@NoArgsConstructor
 @Data
-public class DemoUserDto2 {//extends DemoParentDto
+public class DemoUserDto2 {
 
     @ExcelProperty(value = {"部门"})
     private String scDepartmentname;

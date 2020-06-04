@@ -20,7 +20,6 @@ public class HelloController {
 
     @RequestMapping("/welcome")
     public String welcome(Map<String,Object> map){
-
         //给thymeleaf准备数据
         map.put("welcome","welcome thymeleaf!");
         return "result";

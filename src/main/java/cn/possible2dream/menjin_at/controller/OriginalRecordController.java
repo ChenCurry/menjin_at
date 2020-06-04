@@ -34,14 +34,14 @@ public class OriginalRecordController {
     //@ResponseBody
     public @ResponseBody TableSplitResult<List<OriginalRecord>> getTab3Record(String time1,String time2,String floorx,String departmentx,String nameX,String jobX,String pageSize,String pageNumber){
 
-        System.out.println(pageSize);
-        System.out.println(pageNumber);
-        System.out.println(time1);
-        System.out.println(time2);
-        System.out.println(floorx);
-        System.out.println(departmentx);
-        System.out.println(nameX);
-        System.out.println(jobX);
+//        System.out.println(pageSize);
+//        System.out.println(pageNumber);
+//        System.out.println(time1);
+//        System.out.println(time2);
+//        System.out.println(floorx);
+//        System.out.println(departmentx);
+//        System.out.println(nameX);
+//        System.out.println(jobX);
 
         Conditions conditions = new Conditions();
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -73,14 +73,14 @@ public class OriginalRecordController {
     //@ResponseBody
     public @ResponseBody TableSplitResult<List<OriginalRecordInner>> getTab4Record(String time1,String time2,String floorx,String departmentx,String nameX,String jobX,String pageSize,String pageNumber){
 
-        System.out.println(pageSize);
-        System.out.println(pageNumber);
-        System.out.println(time1);
-        System.out.println(time2);
-        System.out.println(floorx);
-        System.out.println(departmentx);
-        System.out.println(nameX);
-        System.out.println(jobX);
+//        System.out.println(pageSize);
+//        System.out.println(pageNumber);
+//        System.out.println(time1);
+//        System.out.println(time2);
+//        System.out.println(floorx);
+//        System.out.println(departmentx);
+//        System.out.println(nameX);
+//        System.out.println(jobX);
 
         Conditions conditions = new Conditions();
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");

@@ -8,6 +8,9 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 
+/**
+ * 需要初始化的一些内容放到这里来
+ */
 @Component
 public class PostConstructTest {
 

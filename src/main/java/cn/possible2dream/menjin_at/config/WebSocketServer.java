@@ -26,9 +26,7 @@ import java.util.List;
  * WebSocketServer
  */
 
-    //http://localhost:8080/menjin_at/websocket.html
-    //ws://localhost:8080/menjin_at/imserver/10
-@ServerEndpoint(value="/webSocket",configurator=GetHttpSessionConfigurator.class)//     /websocket/{sid}   ,configurator=GetHttpSessionConfigurator.class
+@ServerEndpoint(value="/webSocket",configurator=GetHttpSessionConfigurator.class)//
 @Component
 public class WebSocketServer {
 
@@ -50,7 +48,6 @@ public class WebSocketServer {
     private String nickname;
     /*连接时唯一对应一个员工*/
     private EmployeeWithBLOBs employee;
-    //private static EmployeeService employeeService = EmployeeServiceImpl.getInstance();
 
     public static EmployeeService employeeService;
 
@@ -85,49 +82,11 @@ public class WebSocketServer {
             System.out.println("第一次传给前台的实时进出信息："+str01);
             this.session.getBasicRemote().sendText(str01);
 
-//            OriginalRecordToFore rtf2 = new OriginalRecordToFore(3,listOriginalRecord);
-//            String str02 = JSON.toJSONString(rtf2);
-            //System.out.println("第一次传给前台的室内人员："+str02);
-            //this.session.getBasicRemote().sendText(str02);
         } catch (IOException e) {
             e.printStackTrace();
         }
-//        try {
-//            this.session.getBasicRemote().sendText(JSON.toJSONString("websocket连接已经建立成功了，现在可以准备业务的事情了"));
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-        //List<MessageToFore> msgs = msgQue.getMessages();
-        //将消息缓存传给前台
-//        for(int i=0; i<msgs.size(); i++){
-//            msgs.get(i).setMessageType(Constant.MESSAGE_HISTORY);
-//        }
-//        try {
-//            this.session.getBasicRemote().sendText(JSON.toJSONString(msgs));
-//            System.out.println("已将消息缓存传给前台");
-//        } catch (IOException e) {
-//            // TODO Auto-generated catch block
-//            //e.printStackTrace();
-//            LogManager.getLogger(getClass()).log(Level.SEVERE, "客户端打开时消息缓存发送至客户端失败", e);
-//        }
 
 
-//        try {
-//            this.session.getBasicRemote().sendText(JSON.toJSONString(this.employee));
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//        StaffToFore initMsg = new StaffToFore(this.staff.getId(), this.staff.getName(), this.staff.getHeadUrl(), this.staff.getPower(),this.staff.getState(), Constant.MESSAGE_SIGNAL);
-//        try {
-//            //将用户信息和用户列表传给前台
-//            this.session.getBasicRemote().sendText(jsonUtil.toJson(initMsg));
-//            System.out.println("已将用户信息传给前台");
-//            this.session.getBasicRemote().sendText(jsonUtil.toJson(getConnectionStaff(Constant.MESSAGE_OPEN)));
-//            System.out.println("已将用户列表传给前台");
-//        } catch (IOException e) {
-//            //e.printStackTrace();
-//            LogManager.getLogger(getClass()).log(Level.SEVERE, "用户信息或用户列表发送至客户端失败", e);
-//        }
     }
 
     @OnError

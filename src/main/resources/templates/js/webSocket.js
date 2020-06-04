@@ -305,28 +305,6 @@ function initTable() {
  */
 function initTable3() {
 
-    /*$("#begin_time").datetimepicker({
-        minView: "month", //选择日期后，不会再跳转去选择时分秒
-        format: "yyyy-mm-dd", //选择日期后，文本框显示的日期格式
-        language: 'zh-CN', //汉化
-        weekStart: 1,
-        todayBtn: true,
-        todayHighlight: 1,
-        autoclose:true //选择日期后自动关闭
-    });
-    $("#begin_time").datetimepicker("setDate", new Date());
-    $("#end_time").datetimepicker({
-        minView: "month", //选择日期后，不会再跳转去选择时分秒
-        format: "yyyy-mm-dd", //选择日期后，文本框显示的日期格式
-        language: 'zh-CN', //汉化
-        weekStart: 1,
-        todayBtn: true,
-        todayHighlight: 1,
-        autoclose:true //选择日期后自动关闭
-    });
-    $("#end_time").datetimepicker("setDate", new Date());*/
-
-
     var queryUrl = '/menjin_at/accessRecord/getTab3Record';
     $('#tab3').bootstrapTable({
         toolbar:"#div2_tab3_bar",
@@ -585,10 +563,6 @@ function exportExcelTab4(){
 }
 
 function queryTab4(){
-    /*$("#div3_tab3query").click(function () {
-        $(this).button('loading');//禁用按钮并显示提交中
-        //$(this).button('reset');//重置按钮
-    });*/
 
     var time1 = $("#div3_begin_time").val();
     var time2 = $("#div3_end_time").val();
@@ -607,27 +581,6 @@ function queryTab4(){
 }
 
 function initTable4() {
-    // $("#div3_begin_time").datetimepicker({
-    //     minView: "month", //选择日期后，不会再跳转去选择时分秒
-    //     format: "yyyy-mm-dd", //选择日期后，文本框显示的日期格式
-    //     language: 'zh-CN', //汉化
-    //     weekStart: 1,
-    //     todayBtn: true,
-    //     todayHighlight: 1,
-    //     autoclose:true //选择日期后自动关闭
-    // });
-    // $("#div3_begin_time").datetimepicker("setDate", new Date());
-    // $("#div3_end_time").datetimepicker({
-    //     minView: "month", //选择日期后，不会再跳转去选择时分秒
-    //     format: "yyyy-mm-dd", //选择日期后，文本框显示的日期格式
-    //     language: 'zh-CN', //汉化
-    //     weekStart: 1,
-    //     todayBtn: true,
-    //     todayHighlight: 1,
-    //     autoclose:true //选择日期后自动关闭
-    // });
-    // $("#div3_end_time").datetimepicker("setDate", new Date());
-
     var queryUrl = '/menjin_at/accessRecord/getTab4Record';
     $('#tab4').bootstrapTable({
         toolbar:"#div3_tab4_bar",
@@ -701,13 +654,6 @@ function queryParams2(params) {
 }
 
 function inoutdetail(zuizaojinru,zuihouchuqu,scDepartmentname,scDepartmentid,scMobileno,scWorkerno,scName){
-    /*alert("部门："+scDepartmentname
-        +"，卡号："+scMobileno
-        +"，工号："+scWorkerno
-        +"，姓名："+scName
-        +"，最早进入："+zuizaojinru
-        +"，最后出去："+zuihouchuqu
-    );*/
 
     $('#div3').hide();
     $('#li03').removeClass('active');

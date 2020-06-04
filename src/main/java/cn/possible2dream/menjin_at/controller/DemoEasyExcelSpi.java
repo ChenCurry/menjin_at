@@ -23,6 +23,7 @@ import java.util.Date;
 import java.util.List;
 
 /**
+ * 导出excel
  */
 @Controller
 public class DemoEasyExcelSpi implements ApplicationContextAware {
@@ -84,7 +85,6 @@ public class DemoEasyExcelSpi implements ApplicationContextAware {
 
         String time1 = request.getParameter("time1");
         String time2 = request.getParameter("time2");
-//        String floorx = request.getParameter("floorx");
         String departmentx = request.getParameter("departmentx");
         String nameX = request.getParameter("nameX");
         String jobX = request.getParameter("jobX");
@@ -99,9 +99,6 @@ public class DemoEasyExcelSpi implements ApplicationContextAware {
                 e.printStackTrace();
             }
         }
-//        if(null!=floorx&&!"".equals(floorx)){
-//            conditions.setFloorx(Integer.valueOf(floorx));
-//        }
         if(null!=departmentx&&!"".equals(departmentx)){
             conditions.setDepartmentx(Integer.valueOf(departmentx));
         }
