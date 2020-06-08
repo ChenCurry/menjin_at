@@ -8,8 +8,8 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 
 @Service("originalRecordService")
@@ -66,7 +66,7 @@ public class OriginalRecordServiceImpl implements OriginalRecordService {
             conditions.setMinRow((conditions.getPageNumber()-1)*conditions.getPageSize()+1);
             conditions.setMaxRow(conditions.getPageNumber()*conditions.getPageSize());
         }
-        List<OriginalRecord> list = new ArrayList<>();
+        List<OriginalRecord> list = new LinkedList<>();
         if(null!=total&&total!=0){
             list = accessRecordMapper.selectGetInOutRecordByConditions(conditions);
         }
@@ -77,15 +77,15 @@ public class OriginalRecordServiceImpl implements OriginalRecordService {
 
     @Override
     public List<OriginalRecord> getInOutRecordByConditionsWithoutPages(Conditions conditions) {
-        List<OriginalRecord> list = new ArrayList<>();
+        List<OriginalRecord> list = new LinkedList<>();
         list = accessRecordMapper.selectGetInOutRecordByConditionsConditionsWithoutPages(conditions);
         return list;
     }
 
     @Override
     public List<OriginalRecordInner> getInnerTimeByConditionsWithoutPages(Conditions conditions) {
-        List<OriginalRecord> list = new ArrayList<>();
-        List<OriginalRecordInner> listInner = new ArrayList<>();//返回前台
+        List<OriginalRecord> list = new LinkedList<>();
+        List<OriginalRecordInner> listInner = new LinkedList<>();//返回前台
         list = accessRecordMapper.selectInnerTime(conditions);
         int size = list.size();
         if (0!=size) {
@@ -106,7 +106,7 @@ public class OriginalRecordServiceImpl implements OriginalRecordService {
                     if(hours>10){//表示此人已是第二天上班了，对前一组数据进行阶段统计
                         jieshu = i-1;
                         //阶段统计 输入list qishi jieshu  返回List<OriginalRecordInner>
-                        List<OriginalRecord> list2 = new ArrayList<>();//要处理的部分单独拿出来
+                        List<OriginalRecord> list2 = new LinkedList<>();//要处理的部分单独拿出来
                         for(int j=qishi;j<=jieshu;j++){
                             list2.add(list.get(j));
                         }
@@ -124,7 +124,7 @@ public class OriginalRecordServiceImpl implements OriginalRecordService {
                             continue;
                         }else{
                             jieshu = i-1;
-                            List<OriginalRecord> list2 = new ArrayList<>();//要处理的部分单独拿出来
+                            List<OriginalRecord> list2 = new LinkedList<>();//要处理的部分单独拿出来
                             for(int j=qishi;j<=jieshu;j++){
                                 list2.add(list.get(j));
                             }
@@ -139,7 +139,7 @@ public class OriginalRecordServiceImpl implements OriginalRecordService {
 //                    if(i!=size-1){
 //                    }
                     jieshu = i-1;
-                    List<OriginalRecord> list2 = new ArrayList<>();
+                    List<OriginalRecord> list2 = new LinkedList<>();
                     for(int j=qishi;j<=jieshu;j++){
                         list2.add(list.get(j));
                     }
@@ -167,8 +167,8 @@ public class OriginalRecordServiceImpl implements OriginalRecordService {
     @Override
     public TableSplitResult<List<OriginalRecordInner>> getInnerTimeByConditions(Conditions conditions) {
 
-        List<OriginalRecord> list = new ArrayList<>();
-        List<OriginalRecordInner> listInner = new ArrayList<>();//返回前台
+        List<OriginalRecord> list = new LinkedList<>();
+        List<OriginalRecordInner> listInner = new LinkedList<>();//返回前台
         list = accessRecordMapper.selectInnerTime(conditions);
         int size = list.size();
         if (0!=size) {
@@ -189,7 +189,7 @@ public class OriginalRecordServiceImpl implements OriginalRecordService {
                     if(hours>10){//表示此人已是第二天上班了，对前一组数据进行阶段统计
                         jieshu = i-1;
                         //阶段统计 输入list qishi jieshu  返回List<OriginalRecordInner>
-                        List<OriginalRecord> list2 = new ArrayList<>();//要处理的部分单独拿出来
+                        List<OriginalRecord> list2 = new LinkedList<>();//要处理的部分单独拿出来
                         for(int j=qishi;j<=jieshu;j++){
                             list2.add(list.get(j));
                         }
@@ -207,7 +207,7 @@ public class OriginalRecordServiceImpl implements OriginalRecordService {
                             continue;
                         }else{
                             jieshu = i-1;
-                            List<OriginalRecord> list2 = new ArrayList<>();//要处理的部分单独拿出来
+                            List<OriginalRecord> list2 = new LinkedList<>();//要处理的部分单独拿出来
                             for(int j=qishi;j<=jieshu;j++){
                                 list2.add(list.get(j));
                             }
@@ -222,7 +222,7 @@ public class OriginalRecordServiceImpl implements OriginalRecordService {
 //                    if(i!=size-1){
 //                    }
                     jieshu = i-1;
-                    List<OriginalRecord> list2 = new ArrayList<>();
+                    List<OriginalRecord> list2 = new LinkedList<>();
                     for(int j=qishi;j<=jieshu;j++){
                         list2.add(list.get(j));
                     }
@@ -241,7 +241,7 @@ public class OriginalRecordServiceImpl implements OriginalRecordService {
 
         int page = conditions.getPageNumber();//第几页
         int pageSize = conditions.getPageSize();//每页条数
-        List<OriginalRecordInner> listInner2 = new ArrayList<>();
+        List<OriginalRecordInner> listInner2 = new LinkedList<>();
         int yubeiListSize = listInner.size();
 
         for(int i=(page-1)*pageSize+1;i<=Math.min((page)*pageSize,yubeiListSize);i++){

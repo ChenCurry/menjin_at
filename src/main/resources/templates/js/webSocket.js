@@ -3,7 +3,7 @@
  */
 
 var ws = null;	//websocket对象
-var urlHost = "172.30.34.102:8085";
+var urlHost = "172.30.34.102:8083";
 // var urlHost = "localhost:8080";
 
 //设置需要显示的列
