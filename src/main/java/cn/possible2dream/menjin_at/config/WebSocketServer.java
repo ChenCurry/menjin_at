@@ -79,7 +79,7 @@ public class WebSocketServer {
             OriginalRecordToFore rtf1 = new OriginalRecordToFore(2,originalRecordService.getTop25());
 
             String str01 = JSON.toJSONString(rtf1);
-            System.out.println("第一次传给前台的实时进出信息："+str01);
+//            System.out.println("第一次传给前台的实时进出信息："+str01);
             this.session.getBasicRemote().sendText(str01);
 
         } catch (IOException e) {
@@ -164,7 +164,8 @@ public class WebSocketServer {
                 }
             } catch (IOException e) {
                 //LogManager.getLogger(getClass()).log(Level.SEVERE, "广播消息发送至id为"+client.staff.getId()+"的前台失败", e);
-                System.out.println("Chat Error: Failed to send message to client");
+//                System.out.println("Chat Error: Failed to send message to client");
+                log.info("Chat Error: Failed to send message to client");
                 connections.remove(client.employee.getScEmpno(), client);
             }
         }

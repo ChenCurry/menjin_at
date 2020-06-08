@@ -14,11 +14,11 @@ public class LogoutController {
     @RequestMapping("/logout")
     @ResponseBody
     public void logout(HttpServletRequest request, HttpServletResponse response){
-        System.out.println("进入登出后台（这里只是做一个转发，到登录页面）");
+//        System.out.println("进入登出后台（这里只是做一个转发，到登录页面）");
         Cookie[] cookies = request.getCookies();
         if(null != cookies && 0 != cookies.length){
             for(int i=0; i<cookies.length; i++){
-                System.out.println("客户端带上来的cookies："+cookies[i].getName());
+//                System.out.println("客户端带上来的cookies："+cookies[i].getName());
                 if(cookies[i].getName().equals("username")){
                     cookies[i].setMaxAge(-1);
                     cookies[i].setValue(null);
