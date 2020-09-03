@@ -113,13 +113,13 @@
         ,SC_Device e
         ,SC_DeviceArea f
     where 1=1
-        and RIGHT('000'+convert(varchar(20),g.SC_CardGuidNO),10) = b.SC_MobileNO
-        and b.SC_DepartmentID=c.SC_DepartmentID
-        and g.SC_EventTypeID = d.SC_CheckResultID
-        and g.SC_DoorNO=e.SC_SerierNO
-        and e.SC_DeviceAreaID=f.SC_DeviceAreaID
-        order by g.SC_SerierNO desc
-  </select>
+    and RIGHT('000'+convert(varchar(20),g.SC_CardGuidNO),10) = b.SC_MobileNO
+    and b.SC_DepartmentID=c.SC_DepartmentID
+    and g.SC_EventTypeID = d.SC_CheckResultID
+    and g.SC_DoorNO=e.SC_SerierNO
+    and e.SC_DeviceAreaID=f.SC_DeviceAreaID
+    order by g.SC_SerierNO desc
+</select>
 
 
   <!-- 两种方式，未筛选SC_InOutStatus=1 -->
